@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Painel Inteligente de Estratégia de Investimentos</title>
+<title>Bolão Federal — Painel de Investidores · SBC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -13,6 +13,7 @@
   --bg:#0e1410;--bg-elev:#141c17;--bg-card:#182019;--line:#263128;
   --green:#2bb673;--green-soft:#1d6b46;--gold:#e8b94f;--gold-soft:#6b5421;
   --text:#eef3ee;--text-dim:#8fa097;--text-faint:#5e6e64;--red:#d9694f;
+  --blue:#4a9eff;--blue-soft:#1a3a5c;
   --radius:14px;
   --font-display:'Space Grotesk',sans-serif;
   --font-body:'Inter',sans-serif;
@@ -22,11 +23,10 @@
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;
   background-image:radial-gradient(circle at 85% -10%,rgba(43,182,115,.10),transparent 40%),
   radial-gradient(circle at 10% 110%,rgba(232,185,79,.06),transparent 45%);}
-
 /* TOPBAR */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;
   border-bottom:1px solid var(--line);position:sticky;top:0;
-  background:rgba(14,20,16,.85);backdrop-filter:blur(10px);z-index:50;flex-wrap:wrap;gap:12px;}
+  background:rgba(14,20,16,.92);backdrop-filter:blur(10px);z-index:50;flex-wrap:wrap;gap:12px;}
 .brand{display:flex;align-items:center;gap:12px;}
 .brand-mark{width:38px;height:38px;border-radius:10px;
   background:linear-gradient(135deg,var(--green),var(--green-soft));
@@ -39,10 +39,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .meta-item b{color:var(--text);font-family:var(--font-mono);font-weight:500;}
 .pill{font-size:11px;font-family:var(--font-mono);padding:4px 10px;border-radius:99px;
   border:1px solid var(--green-soft);color:var(--green);background:rgba(43,182,115,.08);letter-spacing:.5px;}
-
 /* LAYOUT */
 .container{max-width:1400px;margin:0 auto;padding:28px 32px 60px;}
-
 /* HERO */
 .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-bottom:28px;}
 @media(max-width:980px){.hero{grid-template-columns:1fr;}}
@@ -68,15 +66,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .mini-card .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
 .mini-card .value{font-family:var(--font-display);font-size:26px;font-weight:700;}
 .mini-card .sub{font-size:12px;color:var(--text-dim);margin-top:6px;font-family:var(--font-mono);}
-.sub.up{color:var(--green);}
 .icon-green{background:rgba(43,182,115,.12);color:var(--green);}
 .icon-gold{background:rgba(232,185,79,.12);color:var(--gold);}
-
+.icon-blue{background:rgba(74,158,255,.12);color:var(--blue);}
 /* SECTION TITLES */
 .section-title{display:flex;align-items:baseline;justify-content:space-between;margin:36px 0 16px;flex-wrap:wrap;gap:8px;}
 .section-title h2{font-family:var(--font-display);font-size:20px;font-weight:600;}
 .section-title .desc{font-size:12px;color:var(--text-faint);font-family:var(--font-mono);}
-
 /* PERFIL CARDS */
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 @media(max-width:980px){.grid-3{grid-template-columns:1fr 1fr;}}
@@ -91,7 +87,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .conservador{border-color:rgba(43,182,115,.35);}
 .moderado{border-color:rgba(232,185,79,.35);}
 .arrojado{border-color:rgba(217,105,79,.35);}
-
 /* PANELS */
 .grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
 @media(max-width:980px){.grid-2{grid-template-columns:1fr;}}
@@ -101,7 +96,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .panel-head .tag{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
 .chart-wrap{position:relative;height:280px;}
 .chart-wrap.tall{height:340px;}
-
 /* SECTOR GRID */
 .sector-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
 @media(max-width:980px){.sector-grid{grid-template-columns:repeat(3,1fr);}}
@@ -112,7 +106,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .sector-card .meta{font-size:11px;color:var(--text-faint);}
 .sector-card .mini-bar{height:4px;border-radius:99px;background:var(--bg-card);overflow:hidden;margin-top:2px;}
 .sector-card .mini-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-soft),var(--green));border-radius:99px;}
-
 /* FORM */
 .form-grid{display:grid;grid-template-columns:1.8fr 1.1fr 1.3fr 0.9fr 0.9fr auto;gap:14px;align-items:end;}
 @media(max-width:1300px){.form-grid{grid-template-columns:repeat(3,1fr);}}
@@ -134,7 +127,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .btn-primary:active{transform:translateY(1px);}
 .form-msg{font-family:var(--font-mono);font-size:12px;margin-top:12px;color:var(--green);min-height:16px;}
 .form-msg.error{color:var(--red);}
-
 /* TABLE */
 .table-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -150,21 +142,78 @@ td.num,th.num{text-align:right;font-family:var(--font-mono);}
 .profile-chip.conservador{color:var(--green);border-color:var(--green-soft);background:rgba(43,182,115,.08);}
 .profile-chip.moderado{color:var(--gold);border-color:var(--gold-soft);background:rgba(232,185,79,.08);}
 .profile-chip.arrojado{color:var(--red);border-color:rgba(217,105,79,.4);background:rgba(217,105,79,.08);}
-.btn-remove{background:transparent;border:1px solid var(--line);color:var(--text-faint);border-radius:8px;
-  width:30px;height:30px;cursor:pointer;font-size:14px;transition:border-color .15s,color .15s;}
-.btn-remove:hover{border-color:var(--red);color:var(--red);}
-
-/* LEGEND */
-.legend-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:14px;}
-.legend-list li{display:flex;align-items:center;justify-content:space-between;font-size:13px;}
-.legend-list .lk{display:flex;align-items:center;gap:8px;color:var(--text-dim);}
-.legend-list .dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
-.legend-list .lv{font-family:var(--font-mono);font-weight:600;}
-
+/* ══════════════════════════════════════════════
+   SEÇÃO: INTELIGÊNCIA DE APOSTAS
+══════════════════════════════════════════════ */
+.intel-panel{background:linear-gradient(135deg,#101e14 0%,#0e1c1a 100%);
+  border:1px solid var(--green-soft);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
+.intel-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
+.intel-header h2{font-family:var(--font-display);font-size:22px;font-weight:700;}
+.intel-badge{font-family:var(--font-mono);font-size:11px;padding:4px 12px;border-radius:99px;
+  background:rgba(43,182,115,.12);border:1px solid var(--green-soft);color:var(--green);}
+/* seletor de modalidade */
+.modal-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.modal-tab{background:var(--bg-elev);border:1px solid var(--line);border-radius:8px;
+  padding:8px 16px;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);
+  cursor:pointer;transition:all .15s;}
+.modal-tab:hover{border-color:var(--green-soft);color:var(--text);}
+.modal-tab.active{background:rgba(43,182,115,.12);border-color:var(--green);color:var(--green);font-weight:700;}
+/* grid 3 colunas para as 3 sub-seções */
+.intel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+@media(max-width:1100px){.intel-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.intel-grid{grid-template-columns:1fr;}}
+.intel-card{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:20px;}
+.intel-card-title{font-family:var(--font-display);font-size:13px;font-weight:700;
+  color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;}
+.intel-card-title span{font-size:16px;}
+/* tabela de probabilidades */
+.prob-table{width:100%;font-size:12px;border-collapse:collapse;}
+.prob-table tr{border-bottom:1px solid var(--line);}
+.prob-table tr:last-child{border-bottom:none;}
+.prob-table td{padding:7px 4px;vertical-align:middle;}
+.prob-table .dez{font-family:var(--font-mono);font-weight:700;color:var(--gold);width:60px;}
+.prob-table .prob{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
+.prob-bar-wrap{flex:1;padding:0 8px;}
+.prob-bar{height:4px;border-radius:99px;background:var(--bg-elev);}
+.prob-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green-soft),var(--green));}
+.best-row td{color:var(--text) !important;}
+.best-row .dez{color:var(--green) !important;}
+/* tabela de custos */
+.cost-table{width:100%;font-size:12px;border-collapse:collapse;}
+.cost-table tr{border-bottom:1px solid var(--line);}
+.cost-table tr:last-child{border-bottom:none;}
+.cost-table td{padding:7px 4px;font-family:var(--font-mono);}
+.cost-table .dez-c{color:var(--gold);font-weight:700;width:60px;}
+.cost-table .custo{color:var(--text-dim);}
+.cost-table .qtd{color:var(--green);text-align:right;}
+.cost-table .highlight{color:var(--green);font-weight:700;}
+.receita-box{background:rgba(43,182,115,.06);border:1px solid var(--green-soft);
+  border-radius:10px;padding:14px;margin-bottom:14px;display:flex;flex-direction:column;gap:4px;}
+.receita-box .rlabel{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:1px;}
+.receita-box .rvalue{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--green);}
+.receita-box .rsub{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
+/* dezenas mais sorteadas */
+.dezena-grid{display:flex;flex-wrap:wrap;gap:7px;}
+.dezena-ball{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:12px;font-weight:700;
+  background:var(--bg-elev);border:2px solid var(--line);color:var(--text-dim);
+  transition:all .15s;cursor:default;}
+.dezena-ball.d1{background:rgba(232,185,79,.20);border-color:var(--gold);color:var(--gold);}
+.dezena-ball.d2{background:rgba(232,185,79,.14);border-color:var(--gold-soft);color:var(--gold);}
+.dezena-ball.d3{background:rgba(232,185,79,.08);border-color:var(--gold-soft);color:var(--text);}
+.dezena-ball.d4{background:rgba(43,182,115,.08);border-color:var(--green-soft);color:var(--text);}
+.dezena-ball:hover{transform:scale(1.12);}
+.dezena-fonte{font-size:10px;color:var(--text-faint);font-family:var(--font-mono);margin-top:10px;line-height:1.5;}
+/* LINK CAIXA */
+.caixa-link{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:99px;
+  border:1px solid var(--green-soft);color:var(--green);background:rgba(43,182,115,.08);
+  font-family:var(--font-mono);font-size:12px;text-decoration:none;transition:background .15s,border-color .15s;}
+.caixa-link:hover{background:rgba(43,182,115,.16);border-color:var(--green);}
 /* FOOTER */
 footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-content:space-between;
   align-items:center;flex-wrap:wrap;gap:12px;color:var(--text-faint);font-size:12px;}
-footer .foot-links{display:flex;gap:18px;}
+footer .foot-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
 footer a{color:inherit;}
 footer a:hover{color:var(--green);}
 ::-webkit-scrollbar{height:8px;width:8px;}
@@ -177,14 +226,12 @@ footer a:hover{color:var(--green);}
   <div class="brand">
     <div class="brand-mark">BF</div>
     <div class="brand-text">
-      <h1>Estratégia de Investimentos</h1>
-      
-      <h1>Painel Inteligente de Estratégia de Investimentos</h1>
-      <span>Painel de Investidores · São Bernardo do Campo</span>
+      <h1>Bolão Federal</h1>
+      <span>Painel de Investidores · Investidores de São Bernardo do Campo</span>
     </div>
   </div>
   <div class="topbar-meta">
-    <div class="meta-item">Atualizado em <b>15/06/2026</b></div>
+    <div class="meta-item">Atualizado em <b>18/06/2026</b></div>
     <div class="pill">CONCURSO ABERTO</div>
   </div>
 </div>
@@ -212,7 +259,6 @@ footer a:hover{color:var(--green);}
         </div>
       </div>
     </div>
-
     <div class="hero-grid-mini">
       <div class="mini-card">
         <div class="icon icon-green">💰</div>
@@ -228,7 +274,7 @@ footer a:hover{color:var(--green);}
           <div class="label">Investidores ativos</div>
           <div class="value" id="kpiInvestidores">0</div>
         </div>
-        <div class="sub">URE São Bernardo do Campo</div>
+        <div class="sub">Investidores de São Bernardo do Campo</div>
       </div>
       <div class="mini-card">
         <div class="icon icon-green">📊</div>
@@ -278,12 +324,30 @@ footer a:hover{color:var(--green);}
     </div>
   </div>
 
+  <!-- ══ INTELIGÊNCIA DE APOSTAS ══ -->
+  <div class="section-title">
+    <h2>Inteligência de apostas</h2>
+    <div class="desc">probabilidade · custo · dezenas mais sorteadas por modalidade</div>
+  </div>
+
+  <div class="intel-panel">
+    <div class="intel-header">
+      <h2>🎯 Simulador de Estratégia</h2>
+      <span class="intel-badge">Receita disponível: <span id="receitaDisp">R$ 900,00</span></span>
+    </div>
+
+    <!-- tabs de modalidade -->
+    <div class="modal-tabs" id="modalTabs"></div>
+
+    <!-- conteúdo dinâmico das 3 colunas -->
+    <div class="intel-grid" id="intelGrid"></div>
+  </div>
+
   <!-- INVESTIDORES -->
   <div class="section-title">
     <h2>Investidores</h2>
     <div class="desc">cadastro e listagem · valor e setor por concurso</div>
   </div>
-
   <div class="panel" style="margin-bottom:28px;">
     <div class="panel-head">
       <h3>Novo investidor</h3>
@@ -328,15 +392,9 @@ footer a:hover{color:var(--green);}
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Setor</th>
-            <th>Modalidade</th>
-            <th>Concurso</th>
-            <th>Perfil</th>
-            <th class="num">Valor (R$)</th>
-            <th class="num">Crédito (R$)</th>
-            <th></th>
+            <th>#</th><th>Nome</th><th>Setor</th><th>Modalidade</th>
+            <th>Concurso</th><th>Perfil</th>
+            <th class="num">Valor (R$)</th><th class="num">Crédito (R$)</th>
           </tr>
         </thead>
         <tbody id="tabelaInvestidores"></tbody>
@@ -358,11 +416,8 @@ footer a:hover{color:var(--green);}
       <table>
         <thead>
           <tr>
-            <th>Modalidade</th>
-            <th>Concurso</th>
-            <th class="num">Investidores</th>
-            <th class="num">Receita (R$)</th>
-            <th class="num">Créditos (R$)</th>
+            <th>Modalidade</th><th>Concurso</th>
+            <th class="num">Investidores</th><th class="num">Receita (R$)</th><th class="num">Créditos (R$)</th>
           </tr>
         </thead>
         <tbody id="tabelaHistorico"></tbody>
@@ -373,202 +428,430 @@ footer a:hover{color:var(--green);}
 </div>
 
 <footer>
-  <div>© 2026 Bolão Federal · URE São Bernardo do Campo · Painel interno</div>
+  <div>© 2026 Bolão Federal · Investidores de São Bernardo do Campo · Painel interno</div>
   <div class="foot-links">
     <a href="#">Regulamento</a>
     <a href="#">Como investir</a>
+    <a href="https://loterias.caixa.gov.br" target="_blank" rel="noopener" class="caixa-link">🎰 Loterias Caixa</a>
   </div>
 </footer>
 
 <script>
-// ========== DADOS ==========
+// ══════════════════════════════════════════════════════════
+//  BASE DE DADOS (extraída das abas da planilha Loteria_V3)
+// ══════════════════════════════════════════════════════════
+const RECEITA_GRUPO = 900;   // R$ total arrecadado pela planilha
+const CREDITOS_GRUPO = 300;  // R$ em créditos acumulados
+
+const MODALIDADES_DB = {
+  'Mega-Sena': {
+    emoji:'🎰', custo_min: 6, freq:'2x/semana', universo:'1–60',
+    probabilidades:[
+      {dez:6,  prob:'1 em 50.063.860', val:50063860},
+      {dez:7,  prob:'1 em 7.151.980',  val:7151980},
+      {dez:8,  prob:'1 em 1.787.995',  val:1787995},
+      {dez:9,  prob:'1 em 595.998',    val:595998},
+      {dez:10, prob:'1 em 238.399',    val:238399},
+    ],
+    custos:[
+      {dez:6,  custo:6},
+      {dez:7,  custo:42},
+      {dez:8,  custo:168},
+      {dez:9,  custo:504},
+      {dez:10, custo:1260},
+      {dez:11, custo:2772},
+      {dez:12, custo:5544},
+    ],
+    top10:[10,53,37,34,33,5,23,20,51,44],
+    fonte:'Concurso 1 (mar/1996) ao 3018 (jun/2026)'
+  },
+  'Quina': {
+    emoji:'5️⃣', custo_min: 3, freq:'5x/semana', universo:'1–80',
+    probabilidades:[
+      {dez:5,  prob:'1 em 24.040.016', val:24040016},
+      {dez:6,  prob:'1 em 4.006.669',  val:4006669},
+      {dez:7,  prob:'1 em 1.144.763',  val:1144763},
+      {dez:8,  prob:'1 em 429.286',    val:429286},
+      {dez:9,  prob:'1 em 190.794',    val:190794},
+      {dez:10, prob:'1 em 95.396',     val:95396},
+    ],
+    custos:[
+      {dez:5,  custo:3},
+      {dez:6,  custo:18},
+      {dez:7,  custo:63},
+      {dez:8,  custo:168},
+      {dez:9,  custo:378},
+      {dez:10, custo:756},
+      {dez:11, custo:1386},
+      {dez:12, custo:2376},
+    ],
+    top10:[4,13,53,31,74,65,5,27,80,20],
+    fonte:'Dados históricos até jun/2026'
+  },
+  'Quina de São João': {
+    emoji:'🌾', custo_min: 3, freq:'Especial', universo:'1–80',
+    probabilidades:[
+      {dez:5,  prob:'1 em 24.040.016', val:24040016},
+      {dez:6,  prob:'1 em 4.006.669',  val:4006669},
+      {dez:7,  prob:'1 em 1.144.763',  val:1144763},
+      {dez:8,  prob:'1 em 429.286',    val:429286},
+      {dez:9,  prob:'1 em 190.794',    val:190794},
+      {dez:10, prob:'1 em 95.396',     val:95396},
+    ],
+    custos:[
+      {dez:5,  custo:3},
+      {dez:6,  custo:18},
+      {dez:7,  custo:63},
+      {dez:8,  custo:168},
+      {dez:9,  custo:378},
+      {dez:10, custo:756},
+      {dez:11, custo:1386},
+      {dez:12, custo:2376},
+    ],
+    top10:[4,13,53,31,74,65,5,27,80,20],
+    fonte:'Mesma estrutura da Quina · dados históricos até jun/2026'
+  },
+  'Lotofácil': {
+    emoji:'🍀', custo_min: 3.5, freq:'7x/semana', universo:'1–25',
+    probabilidades:[
+      {dez:15, prob:'1 em 3.268.760', val:3268760},
+      {dez:16, prob:'1 em 204.298',   val:204298},
+      {dez:17, prob:'1 em 24.035',    val:24035},
+      {dez:18, prob:'1 em 4.257',     val:4257},
+      {dez:19, prob:'1 em 1.062',     val:1062},
+      {dez:20, prob:'1 em 355',       val:355},
+    ],
+    custos:[
+      {dez:15, custo:3.5},
+      {dez:16, custo:56},
+      {dez:17, custo:476},
+      {dez:18, custo:2856},
+      {dez:19, custo:13566},
+      {dez:20, custo:54264},
+    ],
+    top10:[20,25,10,11,13,14,23,18,16,5],
+    fonte:'Concurso 1 (set/2003) ao 3710 (jun/2026)'
+  },
+  'Dupla Sena': {
+    emoji:'2️⃣', custo_min: 3, freq:'2x/semana', universo:'1–50',
+    probabilidades:[
+      {dez:6,  prob:'1 em 15.890.700', val:15890700},
+      {dez:7,  prob:'1 em 2.270.100',  val:2270100},
+      {dez:8,  prob:'1 em 567.525',    val:567525},
+      {dez:9,  prob:'1 em 189.175',    val:189175},
+      {dez:10, prob:'1 em 75.670',     val:75670},
+      {dez:11, prob:'1 em 34.395',     val:34395},
+    ],
+    custos:[
+      {dez:6,  custo:3},
+      {dez:7,  custo:21},
+      {dez:8,  custo:84},
+      {dez:9,  custo:252},
+      {dez:10, custo:630},
+      {dez:11, custo:1386},
+      {dez:12, custo:2772},
+    ],
+    top10:[23,5,38,14,47,30,9,42,17,33],
+    fonte:'Dados históricos até jun/2026'
+  },
+  'Timemania': {
+    emoji:'⚽', custo_min: 3.5, freq:'3x/semana', universo:'1–80',
+    probabilidades:[
+      {dez:7, prob:'1 em 26.472.637', val:26472637},
+      {dez:8, prob:'1 em 3.781.805',  val:3781805},
+      {dez:9, prob:'1 em 755.361',    val:755361},
+      {dez:10,prob:'1 em 188.840',    val:188840},
+    ],
+    custos:[
+      {dez:7,  custo:3.5},
+      {dez:8,  custo:28},
+      {dez:9,  custo:126},
+      {dez:10, custo:378},
+    ],
+    top10:[20,53,5,37,14,68,29,42,76,11],
+    fonte:'Concurso 1 (mar/2008) ao 2403 (jun/2026)'
+  },
+  'Dia de Sorte': {
+    emoji:'📅', custo_min: 2.5, freq:'2x/semana', universo:'1–31',
+    probabilidades:[
+      {dez:7,  prob:'1 em 2.629.575', val:2629575},
+      {dez:8,  prob:'1 em 329.947',   val:329947},
+      {dez:9,  prob:'1 em 65.990',    val:65990},
+      {dez:10, prob:'1 em 16.497',    val:16497},
+      {dez:11, prob:'1 em 4.713',     val:4713},
+    ],
+    custos:[
+      {dez:7,  custo:2.5},
+      {dez:8,  custo:17.5},
+      {dez:9,  custo:70},
+      {dez:10, custo:210},
+      {dez:11, custo:462},
+    ],
+    top10:[7,13,28,2,19,24,10,31,5,16],
+    fonte:'Dados históricos até jun/2026'
+  },
+};
+
+const modalOrdem = ['Quina de São João','Mega-Sena','Quina','Lotofácil','Dupla Sena','Timemania','Dia de Sorte'];
+let modalAtiva = 'Quina de São João';
+
+// ══════════════════════════════════════════════════════════
+//  INVESTIDORES
+// ══════════════════════════════════════════════════════════
 const LOTERIA_ATUAL = 'Quina de São João';
-const CONCURSO_ATUAL = '7051';
-
-const loteriasLista = [
-  'Mega-Sena','Mega-Sena da Virada','Quina','Quina de São João','Lotofácil',
-  'Lotofácil da Independência','Dupla Sena','Lotomania','Timemania',
-  'Dia de Sorte','Super Sete','Federal','+Milionária','Loteca','Especial'
-];
-
-const setoresLista = [
-  'ASURE','ESE','EEC','SEINTEC','SETEC','SEGRE','SEVESC','SEMAT',
-  'SEPES','SEFREP','SEAPE','SEAFIN','SEFIN','SECOMSE','SEOM','SEFISC','Prime'
-];
+const loteriasLista = ['Mega-Sena','Mega-Sena da Virada','Quina','Quina de São João','Lotofácil',
+  'Lotofácil da Independência','Dupla Sena','Lotomania','Timemania','Dia de Sorte','Super Sete','Federal','+Milionária','Loteca','Especial'];
+const setoresLista = ['ASURE','ESE','EEC','SEINTEC','SETEC','SEGRE','SEVESC','SEMAT',
+  'SEPES','SEFREP','SEAPE','SEAFIN','SEFIN','SECOMSE','SEOM','SEFISC','Prime'];
 
 let investidores = [
-  {nome:'Adriana Guerrieri',setor:'EEC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Adriana Milan',setor:'SEFREP',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Adriano Vinco',setor:'SEFIN',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Carolina Tavares',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Maria Cordon',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Maria Magalhães',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Paula Boteon',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Carlos Alberto',setor:'SEAPE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:80},
-  {nome:'Cláudia Rosana',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Denise Couto',setor:'SEFISC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Dulciene Varela',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Elena Zanetti',setor:'SEFIN',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Elizabete Moreira',setor:'SECOMSE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Érica Marson',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Erlim Andrade',setor:'SEOM',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ester Caetano',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Fran Santiago',setor:'SEFISC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Inês Helena',setor:'SEFIN',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ionara',setor:'SEGRE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Juliana Ferreira Sousa',setor:'ASURE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Lia',setor:'EEC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Lúcia de Novaes',setor:'SEPES',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Márcia Rocha',setor:'ASURE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Marina Caetano',setor:'SEAPE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Marta Carlos',setor:'SEMAT',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Meliane Salmaso',setor:'SEOM',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Renata Fenelon',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rita Micheletti',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Robson Zanetti',setor:'EEC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rosana Mota',setor:'EEC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rosana Nobre',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rosangêla Marotti',setor:'EEC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Sílvia Cristina',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Simone Nogueira',setor:'SEOM',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Sueli Thodorof',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Tânia L Demenis',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Tânia Murias',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Valéria Albuquerque',setor:'EEC',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Van',setor:'Prime',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:140},
-  {nome:'Vani Gomes',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Vitor H Pissaia',setor:'ESE',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0}
+  {nome:'Adriana Guerrieri',    setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Adriana Milan',        setor:'SEFREP',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Adriano Vinco',        setor:'SEFIN',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Ana Carolina Tavares', setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Ana Maria Cordon',     setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Ana Maria Magalhães',  setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Ana Paula Boteon',     setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
+  {nome:'Carlos Alberto',       setor:'SEAPE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:80},
+  {nome:'Carlos Renato',        setor:'ASURE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Cláudia Rosana',       setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Denise Couto',         setor:'SEFISC',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Dulciene Varela',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Elena Zanetti',        setor:'SECOMSE',        modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Elizabete Moreira',    setor:'SECOMSE',        modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Érica Marson',         setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Erlim Andrade',        setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Ester Caetano',        setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Fran Santiago',        setor:'SEFISC',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Inês Helena',          setor:'SEFIN',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Ionara',               setor:'SEGRE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Juliana Ferreira Sousa',setor:'ASURE',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Lia',                  setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Lúcia de Novaes',      setor:'SEPES',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
+  {nome:'Márcia Rocha',         setor:'ASURE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Marina Caetano',       setor:'SEAPE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Marta Carlos',         setor:'SEMAT',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Maurício Leite',       setor:'SEFIN',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Meliane Salmaso',      setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Mirian V Souza',       setor:'BI - Manutenção',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Renata Fenelon',       setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Rita Micheletti',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
+  {nome:'Robson Zanetti',       setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Rosana Mota',          setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Rosana Nobre',         setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Rosangêla Marotti',    setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Sílvia Cristina',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Simone Nogueira',      setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Sueli Thodorof',       setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
+  {nome:'Tânia L Demenis',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Tânia Murias',         setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Valéria Albuquerque',  setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Van',                  setor:'Prime',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:140},
+  {nome:'Vani Gomes',           setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Vitor H Pissaia',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+  {nome:'Viviane Carlos',       setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
 ];
 
-// ========== UTILITÁRIOS ==========
+// ══════════════════════════════════════════════════════════
+//  UTILITÁRIOS
+// ══════════════════════════════════════════════════════════
 const fmt = (v) => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-
 function perfil(valor){
   if(valor <= 20) return {nome:'Conservador',classe:'conservador'};
   if(valor <= 40) return {nome:'Moderado',classe:'moderado'};
   return {nome:'Arrojado',classe:'arrojado'};
 }
 
-// ========== COUNTDOWN ==========
+// ══════════════════════════════════════════════════════════
+//  COUNTDOWN
+// ══════════════════════════════════════════════════════════
 function atualizarCountdown(){
   const sorteio = new Date('2026-06-28T14:00:00-03:00');
-  const agora = new Date();
-  const diff = sorteio - agora;
-  if(diff <= 0){ document.getElementById('countdown').textContent = 'Hoje!'; return; }
-  const dias = Math.floor(diff / (1000*60*60*24));
-  const hrs  = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-  const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
-  document.getElementById('countdown').textContent = `${dias}d ${hrs}h ${mins}m`;
+  const diff = sorteio - new Date();
+  if(diff <= 0){ document.getElementById('countdown').textContent='Hoje!'; return; }
+  const d = Math.floor(diff/(1000*60*60*24));
+  const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const m = Math.floor((diff%(1000*60*60))/(1000*60));
+  document.getElementById('countdown').textContent=`${d}d ${h}h ${m}m`;
 }
 atualizarCountdown();
-setInterval(atualizarCountdown, 60000);
+setInterval(atualizarCountdown,60000);
 
-// ========== POPULA SELECTS ==========
+// ══════════════════════════════════════════════════════════
+//  SELECTS
+// ══════════════════════════════════════════════════════════
 const selSetor = document.getElementById('invSetor');
-setoresLista.forEach(s => { const o = document.createElement('option'); o.value = o.textContent = s; selSetor.appendChild(o); });
+setoresLista.forEach(s=>{const o=document.createElement('option');o.value=o.textContent=s;selSetor.appendChild(o);});
 const selMod = document.getElementById('invModalidade');
-loteriasLista.forEach(m => {
-  const o = document.createElement('option');
-  o.value = o.textContent = m;
-  if(m === LOTERIA_ATUAL) o.selected = true;
-  selMod.appendChild(o);
-});
+loteriasLista.forEach(m=>{const o=document.createElement('option');o.value=o.textContent=m;if(m===LOTERIA_ATUAL)o.selected=true;selMod.appendChild(o);});
 
-// ========== RENDER KPIs ==========
+// ══════════════════════════════════════════════════════════
+//  INTELIGÊNCIA DE APOSTAS
+// ══════════════════════════════════════════════════════════
+function buildIntelTabs(){
+  const container = document.getElementById('modalTabs');
+  container.innerHTML = modalOrdem.map(m=>`
+    <button class="modal-tab${m===modalAtiva?' active':''}" onclick="setModalAtiva('${m}')">${MODALIDADES_DB[m].emoji} ${m}</button>
+  `).join('');
+}
+
+function setModalAtiva(nome){
+  modalAtiva = nome;
+  buildIntelTabs();
+  buildIntelGrid();
+}
+
+function buildIntelGrid(){
+  const db = MODALIDADES_DB[modalAtiva];
+  const receita = RECEITA_GRUPO;
+
+  // ── coluna 1: probabilidades ──
+  const maxVal = db.probabilidades[0].val;
+  const probRows = db.probabilidades.map((p,i)=>{
+    const pct = Math.max(4, Math.round((1/p.val * 1/db.probabilidades[db.probabilidades.length-1].val) * 100));
+    const largura = Math.round((db.probabilidades[db.probabilidades.length-1].val / p.val)*100);
+    const isFirst = i===0;
+    return `<tr class="${isFirst?'best-row':''}">
+      <td class="dez">${p.dez} dez.</td>
+      <td style="padding:4px 8px;width:80px;">
+        <div class="prob-bar"><div class="prob-bar-fill" style="width:${Math.min(100,largura)}%"></div></div>
+      </td>
+      <td class="prob">${p.prob}</td>
+    </tr>`;
+  }).join('');
+
+  const colProb = `<div class="intel-card">
+    <div class="intel-card-title"><span>📊</span> Probabilidades</div>
+    <table class="prob-table">${probRows}</table>
+    <div style="margin-top:12px;font-size:11px;color:var(--text-faint);font-family:var(--font-mono);">
+      Universo: ${db.universo} · ${db.freq}
+    </div>
+  </div>`;
+
+  // ── coluna 2: custos e o que a receita compra ──
+  const custosRec = db.custos.filter(c=>c.custo<=receita);
+  const melhor = custosRec.length ? custosRec[custosRec.length-1] : null;
+
+  const costRows = db.custos.map(c=>{
+    const cabeFull = c.custo <= receita;
+    const nApostas = cabeFull ? Math.floor(receita/c.custo) : 0;
+    const highlight = melhor && c.dez===melhor.dez;
+    return `<tr>
+      <td class="dez-c">${c.dez} dez.</td>
+      <td class="custo ${highlight?'highlight':''}">${fmt(c.custo)}</td>
+      <td class="qtd">${cabeFull ? `${nApostas}x aposta${nApostas>1?'s':''}` : '<span style="color:var(--text-faint)">acima da receita</span>'}</td>
+    </tr>`;
+  }).join('');
+
+  const melhorTxt = melhor
+    ? `<div style="margin-top:8px;font-size:12px;color:var(--green);font-family:var(--font-mono);">
+        ✅ Melhor opção com R$${receita}: <b>${melhor.dez} dezenas</b> · ${Math.floor(receita/melhor.custo)}x jogos de ${fmt(melhor.custo)} cada
+       </div>`
+    : `<div style="margin-top:8px;font-size:12px;color:var(--red);font-family:var(--font-mono);">⚠️ Receita insuficiente para a aposta mínima.</div>`;
+
+  const colCusto = `<div class="intel-card">
+    <div class="intel-card-title"><span>💰</span> Custos & Estratégia</div>
+    <div class="receita-box">
+      <div class="rlabel">Receita disponível do grupo</div>
+      <div class="rvalue">${fmt(receita)}</div>
+      <div class="rsub">45 investidores · R$ 20,00 cada · Concurso 7.051</div>
+    </div>
+    <table class="cost-table">${costRows}</table>
+    ${melhorTxt}
+  </div>`;
+
+  // ── coluna 3: dezenas mais sorteadas ──
+  const medalhas = ['🥇','🥈','🥉'];
+  const balls = db.top10.map((n,i)=>{
+    const cls = i<3?`d${i+1}`:i<6?'d4':'';
+    const medal = i<3?` title="${medalhas[i]}"` : '';
+    return `<div class="dezena-ball ${cls}"${medal}>${String(n).padStart(2,'0')}</div>`;
+  }).join('');
+
+  const colDez = `<div class="intel-card">
+    <div class="intel-card-title"><span>🔢</span> Dezenas Mais Sorteadas</div>
+    <div class="dezena-grid">${balls}</div>
+    <div class="dezena-fonte">
+      🥇 Ouro · 🥈 Prata · 🥉 Bronze · 🟢 Top 4–6<br>
+      ${db.fonte}
+    </div>
+    <div style="margin-top:14px;padding:12px;background:rgba(43,182,115,.05);border:1px solid var(--line);border-radius:8px;font-size:11px;color:var(--text-dim);font-family:var(--font-mono);line-height:1.6;">
+      ⚠️ Frequência histórica não garante resultado futuro. Cada sorteio é independente.
+    </div>
+  </div>`;
+
+  document.getElementById('intelGrid').innerHTML = colProb + colCusto + colDez;
+  document.getElementById('receitaDisp').textContent = fmt(receita);
+}
+
+// ══════════════════════════════════════════════════════════
+//  RENDER KPIs
+// ══════════════════════════════════════════════════════════
 let chartSetoresInst = null;
-
 function renderTudo(){
   const totalReceita = investidores.reduce((a,b)=>a+b.valor,0);
   const totalCredito = investidores.reduce((a,b)=>a+b.credito,0);
   const media = investidores.length ? totalReceita/investidores.length : 0;
-
-  document.getElementById('kpiReceita').textContent = fmt(totalReceita);
-  document.getElementById('kpiInvestidores').textContent = investidores.length;
-  document.getElementById('kpiMedia').textContent = fmt(media);
-  document.getElementById('kpiCreditos').textContent = fmt(totalCredito);
-
-  renderPerfis();
-  renderSetores();
-  renderTabela();
-  renderHistorico();
+  document.getElementById('kpiReceita').textContent=fmt(totalReceita);
+  document.getElementById('kpiInvestidores').textContent=investidores.length;
+  document.getElementById('kpiMedia').textContent=fmt(media);
+  document.getElementById('kpiCreditos').textContent=fmt(totalCredito);
+  renderPerfis(); renderSetores(); renderTabela(); renderHistorico();
 }
 
-// ========== PERFIS ==========
 function renderPerfis(){
-  const grupos = {conservador:{inv:0,total:0},moderado:{inv:0,total:0},arrojado:{inv:0,total:0}};
-  investidores.forEach(i => { const p = perfil(i.valor); grupos[p.classe].inv++; grupos[p.classe].total+=i.valor; });
-  const total = investidores.length || 1;
-  const cards = [
+  const grupos={conservador:{inv:0,total:0},moderado:{inv:0,total:0},arrojado:{inv:0,total:0}};
+  investidores.forEach(i=>{const p=perfil(i.valor);grupos[p.classe].inv++;grupos[p.classe].total+=i.valor;});
+  const total=investidores.length||1;
+  const cards=[
     {chave:'conservador',titulo:'Conservador',desc:'R$ 20,00 investido'},
     {chave:'moderado',titulo:'Moderado',desc:'R$ 40,00 investido'},
     {chave:'arrojado',titulo:'Arrojado',desc:'Acima de R$ 40,00'}
   ];
-  const cores = {conservador:'var(--green)',moderado:'var(--gold)',arrojado:'var(--red)'};
-  document.getElementById('profileCards').innerHTML = cards.map(c => {
-    const g = grupos[c.chave];
-    const pct = Math.round((g.inv/total)*100);
+  const cores={conservador:'var(--green)',moderado:'var(--gold)',arrojado:'var(--red)'};
+  document.getElementById('profileCards').innerHTML=cards.map(c=>{
+    const g=grupos[c.chave];const pct=Math.round((g.inv/total)*100);
     return `<div class="profile-card ${c.chave}">
-      <div class="ptitle">${c.titulo}</div>
-      <div class="pdesc">${c.desc}</div>
+      <div class="ptitle">${c.titulo}</div><div class="pdesc">${c.desc}</div>
       <div class="bar"><div class="bar-fill" style="width:${pct}%;background:${cores[c.chave]}"></div></div>
       <div class="pstats">
         <span><b>${g.inv}</b><br>investidores</span>
         <span><b>${pct}%</b><br>do total</span>
         <span><b>${fmt(g.total)}</b><br>em receita</span>
-      </div>
-    </div>`;
+      </div></div>`;
   }).join('');
 }
 
-// ========== SETORES ==========
 function renderSetores(){
-  const map = {};
-  investidores.forEach(i => {
-    if(!map[i.setor]) map[i.setor]={inv:0,total:0};
-    map[i.setor].inv++; map[i.setor].total+=i.valor;
-  });
-  const lista = Object.entries(map).sort((a,b)=>b[1].total-a[1].total);
-  const maxTotal = lista.length ? lista[0][1].total : 1;
-
-  document.getElementById('tagSetores').textContent = `${lista.length} setores`;
-  document.getElementById('sectorGrid').innerHTML = lista.map(([s,v])=>`
+  const map={};
+  investidores.forEach(i=>{if(!map[i.setor])map[i.setor]={inv:0,total:0};map[i.setor].inv++;map[i.setor].total+=i.valor;});
+  const lista=Object.entries(map).sort((a,b)=>b[1].total-a[1].total);
+  const maxTotal=lista.length?lista[0][1].total:1;
+  document.getElementById('tagSetores').textContent=`${lista.length} setores`;
+  document.getElementById('sectorGrid').innerHTML=lista.map(([s,v])=>`
     <div class="sector-card">
-      <div class="code">${s}</div>
-      <div class="invested">${fmt(v.total)}</div>
+      <div class="code">${s}</div><div class="invested">${fmt(v.total)}</div>
       <div class="meta">${v.inv} investidor(es)</div>
       <div class="mini-bar"><div class="mini-bar-fill" style="width:${Math.round((v.total/maxTotal)*100)}%"></div></div>
     </div>`).join('');
-
-  // gráfico top setores
-  const top = lista.slice(0,6);
-  const colors = {green:'#2bb673'};
-  if(chartSetoresInst) chartSetoresInst.destroy();
-  chartSetoresInst = new Chart(document.getElementById('chartSetores'),{
+  const top=lista.slice(0,6);
+  if(chartSetoresInst)chartSetoresInst.destroy();
+  chartSetoresInst=new Chart(document.getElementById('chartSetores'),{
     type:'bar',
-    data:{
-      labels:top.map(([s])=>s),
-      datasets:[{label:'Receita (R$)',data:top.map(([,v])=>v.total),backgroundColor:'#2bb673',borderRadius:8,maxBarThickness:28}]
-    },
-    options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0e1410',borderColor:'#263128',borderWidth:1,padding:12,
-        callbacks:{label:(ctx)=>` ${fmt(ctx.parsed.x)}`}}},
-      scales:{
-        x:{grid:{color:'#263128'},ticks:{callback:(v)=>'R$ '+v,color:'#8fa097'}},
-        y:{grid:{display:false},ticks:{color:'#8fa097'}}
-      }
-    }
+    data:{labels:top.map(([s])=>s),datasets:[{label:'Receita (R$)',data:top.map(([,v])=>v.total),backgroundColor:'#2bb673',borderRadius:8,maxBarThickness:28}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0e1410',borderColor:'#263128',borderWidth:1,padding:12,callbacks:{label:(ctx)=>` ${fmt(ctx.parsed.x)}`}}},
+      scales:{x:{grid:{color:'#263128'},ticks:{callback:(v)=>'R$ '+v,color:'#8fa097'}},y:{grid:{display:false},ticks:{color:'#8fa097'}}}}
   });
 }
 
-// ========== TABELA INVESTIDORES ==========
 function renderTabela(){
-  const tbody = document.getElementById('tabelaInvestidores');
+  const tbody=document.getElementById('tabelaInvestidores');
   if(!investidores.length){
-    tbody.innerHTML=`<tr class="empty-row"><td colspan="9">Nenhum investidor cadastrado ainda.</td></tr>`;
+    tbody.innerHTML=`<tr class="empty-row"><td colspan="8">Nenhum investidor cadastrado ainda.</td></tr>`;
   } else {
-    tbody.innerHTML = investidores.map((inv,idx)=>{
-      const p = perfil(inv.valor);
+    tbody.innerHTML=investidores.map((inv,idx)=>{
+      const p=perfil(inv.valor);
       return `<tr>
         <td class="num" style="color:var(--text-faint)">${idx+1}</td>
         <td>${inv.nome}</td>
@@ -578,51 +861,46 @@ function renderTabela(){
         <td><span class="profile-chip ${p.classe}">${p.nome}</span></td>
         <td class="num">${fmt(inv.valor)}</td>
         <td class="num">${inv.credito>0?fmt(inv.credito):'—'}</td>
-        <td><button class="btn-remove" onclick="remover(${idx})" title="Remover">✕</button></td>
       </tr>`;
     }).join('');
   }
-  const totalCredito = investidores.reduce((a,b)=>a+b.credito,0);
-  const tag = `${investidores.length} investidores · ${fmt(investidores.reduce((a,b)=>a+b.valor,0))} investido`;
-  document.getElementById('totalInvestidoresTag').textContent = totalCredito>0 ? tag+` · ${fmt(totalCredito)} em créditos` : tag;
+  const totalCredito=investidores.reduce((a,b)=>a+b.credito,0);
+  const tag=`${investidores.length} investidores · ${fmt(investidores.reduce((a,b)=>a+b.valor,0))} investido`;
+  document.getElementById('totalInvestidoresTag').textContent=totalCredito>0?tag+` · ${fmt(totalCredito)} em créditos`:tag;
 }
 
-// ========== HISTÓRICO ==========
 function renderHistorico(){
-  const grupos = {};
+  const grupos={};
   investidores.forEach(inv=>{
-    const chave = `${inv.modalidade}|${inv.concurso}`;
-    if(!grupos[chave]) grupos[chave]={modalidade:inv.modalidade,concurso:inv.concurso,inv:0,receita:0,credito:0};
-    grupos[chave].inv++; grupos[chave].receita+=inv.valor; grupos[chave].credito+=inv.credito;
+    const chave=`${inv.modalidade}|${inv.concurso}`;
+    if(!grupos[chave])grupos[chave]={modalidade:inv.modalidade,concurso:inv.concurso,inv:0,receita:0,credito:0};
+    grupos[chave].inv++;grupos[chave].receita+=inv.valor;grupos[chave].credito+=inv.credito;
   });
-  const lista = Object.values(grupos).sort((a,b)=>Number(b.concurso)-Number(a.concurso));
-  const tbody = document.getElementById('tabelaHistorico');
+  const lista=Object.values(grupos).sort((a,b)=>Number(b.concurso)-Number(a.concurso));
+  const tbody=document.getElementById('tabelaHistorico');
   if(!lista.length){
     tbody.innerHTML=`<tr class="empty-row"><td colspan="5">Nenhum concurso registrado ainda.</td></tr>`;
   } else {
-    tbody.innerHTML = lista.map(g=>`<tr>
-      <td>${g.modalidade}</td>
-      <td class="num">${g.concurso}</td>
-      <td class="num">${g.inv}</td>
-      <td class="num">${fmt(g.receita)}</td>
+    tbody.innerHTML=lista.map(g=>`<tr>
+      <td>${g.modalidade}</td><td class="num">${g.concurso}</td>
+      <td class="num">${g.inv}</td><td class="num">${fmt(g.receita)}</td>
       <td class="num">${g.credito>0?fmt(g.credito):'—'}</td>
     </tr>`).join('');
   }
-  document.getElementById('totalConcursosTag').textContent = `${lista.length} concurso(s) registrado(s)`;
+  document.getElementById('totalConcursosTag').textContent=`${lista.length} concurso(s) registrado(s)`;
 }
 
-// ========== ADICIONAR ==========
 function adicionarInvestidor(){
-  const nome = document.getElementById('invNome').value.trim();
-  const setor = document.getElementById('invSetor').value;
-  const modalidade = document.getElementById('invModalidade').value;
-  const concurso = document.getElementById('invConcurso').value.trim();
-  const valor = parseFloat(document.getElementById('invValor').value)||0;
-  const credito = parseFloat(document.getElementById('invCredito').value)||0;
-  const msg = document.getElementById('formMsg');
+  const nome=document.getElementById('invNome').value.trim();
+  const setor=document.getElementById('invSetor').value;
+  const modalidade=document.getElementById('invModalidade').value;
+  const concurso=document.getElementById('invConcurso').value.trim();
+  const valor=parseFloat(document.getElementById('invValor').value)||0;
+  const credito=parseFloat(document.getElementById('invCredito').value)||0;
+  const msg=document.getElementById('formMsg');
   if(!nome||!concurso||valor<=0){
     msg.textContent='Preencha nome, concurso e valor investido (mínimo R$ 0,01).';
-    msg.classList.add('error'); return;
+    msg.classList.add('error');return;
   }
   investidores.push({nome,setor,modalidade,concurso,valor,credito});
   renderTudo();
@@ -633,16 +911,14 @@ function adicionarInvestidor(){
   document.getElementById('invCredito').value='0';
 }
 
-// ========== REMOVER ==========
-function remover(idx){
-  investidores.splice(idx,1);
-  renderTudo();
-}
-
-// ========== INIT ==========
+// ══════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════
 Chart.defaults.font.family="'Inter',sans-serif";
 Chart.defaults.color='#8fa097';
 Chart.defaults.borderColor='#263128';
+buildIntelTabs();
+buildIntelGrid();
 renderTudo();
 </script>
 </body>
