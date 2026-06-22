@@ -348,41 +348,6 @@ footer a:hover{color:var(--green);}
     <h2>Investidores</h2>
     <div class="desc">cadastro e listagem · valor e setor por concurso</div>
   </div>
-  <div class="panel" style="margin-bottom:28px;">
-    <div class="panel-head">
-      <h3>Novo investidor</h3>
-      <span class="tag">crédito = valor pago em duplicidade</span>
-    </div>
-    <div class="form-grid">
-      <div class="field">
-        <label for="invNome">Nome</label>
-        <input type="text" id="invNome" placeholder="Nome do investidor">
-      </div>
-      <div class="field">
-        <label for="invSetor">Setor</label>
-        <select id="invSetor"></select>
-      </div>
-      <div class="field">
-        <label for="invModalidade">Modalidade</label>
-        <select id="invModalidade"></select>
-      </div>
-      <div class="field">
-        <label for="invConcurso">Concurso</label>
-        <input type="text" id="invConcurso" placeholder="Ex: 7051" value="7051">
-      </div>
-      <div class="field">
-        <label for="invValor">Valor (R$)</label>
-        <input type="number" id="invValor" min="0" step="0.01" value="20" placeholder="0,00">
-      </div>
-      <div class="field">
-        <label for="invCredito">Crédito (R$)</label>
-        <input type="number" id="invCredito" min="0" step="0.01" value="0" placeholder="0,00">
-      </div>
-      <button class="btn-primary" onclick="adicionarInvestidor()">Adicionar</button>
-    </div>
-    <div class="form-msg" id="formMsg"></div>
-  </div>
-
   <div class="panel" style="margin-bottom:36px;">
     <div class="panel-head">
       <h3>Lista de investidores</h3>
@@ -677,13 +642,7 @@ function atualizarCountdown(){
 atualizarCountdown();
 setInterval(atualizarCountdown,60000);
 
-// ══════════════════════════════════════════════════════════
-//  SELECTS
-// ══════════════════════════════════════════════════════════
-const selSetor = document.getElementById('invSetor');
-setoresLista.forEach(s=>{const o=document.createElement('option');o.value=o.textContent=s;selSetor.appendChild(o);});
-const selMod = document.getElementById('invModalidade');
-loteriasLista.forEach(m=>{const o=document.createElement('option');o.value=o.textContent=m;if(m===LOTERIA_ATUAL)o.selected=true;selMod.appendChild(o);});
+
 
 // ══════════════════════════════════════════════════════════
 //  INTELIGÊNCIA DE APOSTAS
@@ -819,7 +778,7 @@ function buildIntelGrid(){
           </div>
           ${rowsExtra}
           <div style="font-size:10px;color:rgba(217,105,79,.7);font-family:var(--font-mono);margin-top:4px;line-height:1.5;">
-            Arredondamentos possíveis · se adicionado aumenta a possibilidade
+            Arredondamentos possíveis até sábado · valor extra por investidor seria de centavos
           </div>` : ''}
       </div>`;
   }
@@ -856,64 +815,85 @@ function buildIntelGrid(){
     return `<div class="dezena-ball ${cls}"${medal}>${String(n).padStart(2,'0')}</div>`;
   }).join('');
 
-  // ── monta sugestões múltiplas de jogos pelas mais sorteadas ──
+  // ── sugestões múltiplas — dezenas distintas por jogo ──────
   function sugerirJogos(top10, custos, saldo) {
-    // tamanhos alvo — do maior disponível para o menor
     const tamanhosPriority = [10,8,7,6,5];
-    // filtra os que existem nesta modalidade
     const disponiveis = tamanhosPriority.filter(t => custos.find(c=>c.dez===t));
     if(!disponiveis.length) return '';
 
-    const ballsSug = (arr, cor) => arr.map(n =>
-      `<div class="dezena-ball" style="width:28px;height:28px;font-size:10px;
-        background:${cor.bg};border:2px solid ${cor.border};color:${cor.text};">
-        ${String(n).padStart(2,'0')}
-      </div>`
-    ).join('');
-
-    const cores = [
-      {bg:'rgba(43,182,115,.18)',  border:'var(--green)',      text:'var(--green)'},
-      {bg:'rgba(232,185,79,.14)',  border:'var(--gold)',       text:'var(--gold)'},
-      {bg:'rgba(74,158,255,.12)',  border:'var(--blue)',       text:'var(--blue)'},
-      {bg:'rgba(255,255,255,.06)', border:'var(--text-dim)',   text:'var(--text)'},
-      {bg:'rgba(255,255,255,.04)', border:'var(--line)',       text:'var(--text-dim)'},
-    ];
+    // Jogo A usa as primeiras N dezenas do top10
+    // Jogo B usa as próximas N (sem repetir as do A)
+    // Jogo C usa as próximas N (sem repetir A e B), etc.
+    // Se top10 não tiver dezenas suficientes, reutiliza ciclicamente
 
     const labels = ['A','B','C','D','E'];
+    const cores = [
+      {bg:'rgba(43,182,115,.18)',  border:'var(--green)',    text:'var(--green)'},
+      {bg:'rgba(232,185,79,.14)',  border:'var(--gold)',     text:'var(--gold)'},
+      {bg:'rgba(74,158,255,.12)', border:'var(--blue)',     text:'var(--blue)'},
+      {bg:'rgba(180,130,255,.12)',border:'#b482ff',         text:'#b482ff'},
+      {bg:'rgba(255,255,255,.05)',border:'var(--text-dim)', text:'var(--text-dim)'},
+    ];
 
+    // Expande o pool de dezenas se necessário (repete top10 ciclicamente)
+    const pool = [];
+    const totalNecessario = disponiveis.reduce((a,t)=>a+t,0);
+    while(pool.length < totalNecessario + 10){
+      top10.forEach(n=>{ if(!pool.includes(n)) pool.push(n); });
+      // se precisar de mais, adiciona números adjacentes ao maior
+      let extra = Math.max(...pool) + 1;
+      while(pool.length < totalNecessario + 10) pool.push(extra++);
+    }
+
+    let usado = 0; // ponteiro no pool
     let html = `<div style="margin-top:14px;">
       <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-faint);
           text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">
-        🎯 Sugestões de jogo — dezenas mais sorteadas
+        🎯 Sugestões de jogo — dezenas distintas por jogo
       </div>`;
 
     disponiveis.forEach((tam, idx) => {
       const info = custos.find(c=>c.dez===tam);
       if(!info) return;
-      const dezenasJogo = top10.slice(0,tam);
+
+      // dezenas deste jogo = próximas `tam` do pool
+      const dezenasJogo = pool.slice(usado, usado + tam);
+      usado += tam;
+
       const cor = cores[idx] || cores[cores.length-1];
       const dentroReceita = info.custo <= saldo;
       const statusTxt = dentroReceita
         ? `<span style="color:var(--green);font-size:10px;">✅ dentro da receita</span>`
-        : `<span style="color:var(--red);font-size:10px;">🔴 investimento extra (+${fmt(info.custo-saldo)})</span>`;
+        : `<span style="color:var(--red);font-size:10px;">🔴 +${fmt(info.custo - saldo)} extra</span>`;
+
+      const ballsCor = dentroReceita ? cor : {bg:'rgba(217,105,79,.10)',border:'rgba(217,105,79,.5)',text:'var(--red)'};
+      const balls = dezenasJogo.map(n =>
+        `<div class="dezena-ball" style="width:28px;height:28px;font-size:10px;
+          background:${ballsCor.bg};border:2px solid ${ballsCor.border};color:${ballsCor.text};">
+          ${String(n).padStart(2,'0')}
+        </div>`
+      ).join('');
 
       html += `<div style="padding:10px;border-radius:8px;margin-bottom:8px;
           background:${dentroReceita?cor.bg:'rgba(217,105,79,.06)'};
           border:1px solid ${dentroReceita?cor.border:'rgba(217,105,79,.35)'};">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px;">
-          <div style="font-family:var(--font-mono);font-size:11px;color:${dentroReceita?cor.text:'var(--red)'};">
+          <div style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:${dentroReceita?cor.text:'var(--red)'};">
             Jogo ${labels[idx]} · ${tam} dezenas · ${fmt(info.custo)}
           </div>
           ${statusTxt}
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px;">${ballsSug(dezenasJogo, dentroReceita?cor:{bg:'rgba(217,105,79,.10)',border:'rgba(217,105,79,.5)',text:'var(--red)'})}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;">${balls}</div>
+        ${!dentroReceita ? `<div style="font-family:var(--font-mono);font-size:10px;color:rgba(217,105,79,.8);margin-top:6px;">
+          Requer aporte adicional de ${fmt(info.custo - saldo)} além da receita atual.
+        </div>` : ''}
       </div>`;
     });
 
     html += `<div style="font-size:10px;color:var(--text-faint);font-family:var(--font-mono);
         margin-top:4px;line-height:1.5;">
       ⚠️ Frequência histórica não garante resultado futuro. Cada sorteio é independente.<br>
-      Jogos em 🔴 vermelho requerem arredondamento/aporte adicional.
+      Jogos 🔴 vermelhos dependem de arredondamento ou aporte até sábado.
     </div></div>`;
     return html;
   }
@@ -1040,26 +1020,7 @@ function renderHistorico(){
   document.getElementById('totalConcursosTag').textContent=`${lista.length} concurso(s) registrado(s)`;
 }
 
-function adicionarInvestidor(){
-  const nome=document.getElementById('invNome').value.trim();
-  const setor=document.getElementById('invSetor').value;
-  const modalidade=document.getElementById('invModalidade').value;
-  const concurso=document.getElementById('invConcurso').value.trim();
-  const valor=parseFloat(document.getElementById('invValor').value)||0;
-  const credito=parseFloat(document.getElementById('invCredito').value)||0;
-  const msg=document.getElementById('formMsg');
-  if(!nome||!concurso||valor<=0){
-    msg.textContent='Preencha nome, concurso e valor investido (mínimo R$ 0,01).';
-    msg.classList.add('error');return;
-  }
-  investidores.push({nome,setor,modalidade,concurso,valor,credito});
-  renderTudo();
-  msg.textContent=`${nome} adicionado(a) — ${modalidade} ${concurso} · ${fmt(valor)}${credito>0?' · crédito '+fmt(credito):''}`;
-  msg.classList.remove('error');
-  document.getElementById('invNome').value='';
-  document.getElementById('invValor').value='20';
-  document.getElementById('invCredito').value='0';
-}
+
 
 // ══════════════════════════════════════════════════════════
 //  INIT
