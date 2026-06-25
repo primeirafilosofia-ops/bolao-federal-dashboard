@@ -2,1035 +2,658 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Painel de Investidores · SBC</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{
-  --bg:#0e1410;--bg-elev:#141c17;--bg-card:#182019;--line:#263128;
-  --green:#2bb673;--green-soft:#1d6b46;--gold:#e8b94f;--gold-soft:#6b5421;
-  --text:#eef3ee;--text-dim:#8fa097;--text-faint:#5e6e64;--red:#d9694f;
-  --blue:#4a9eff;--blue-soft:#1a3a5c;
-  --radius:14px;
-  --font-display:'Space Grotesk',sans-serif;
-  --font-body:'Inter',sans-serif;
-  --font-mono:'JetBrains Mono',monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;
-  background-image:radial-gradient(circle at 85% -10%,rgba(43,182,115,.10),transparent 40%),
-  radial-gradient(circle at 10% 110%,rgba(232,185,79,.06),transparent 45%);}
-/* TOPBAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;
-  border-bottom:1px solid var(--line);position:sticky;top:0;
-  background:rgba(14,20,16,.92);backdrop-filter:blur(10px);z-index:50;flex-wrap:wrap;gap:12px;}
-.brand{display:flex;align-items:center;gap:12px;}
-.brand-mark{width:38px;height:38px;border-radius:10px;
-  background:linear-gradient(135deg,var(--green),var(--green-soft));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-weight:700;font-size:16px;color:#0e1410;}
-.brand-text h1{font-family:var(--font-display);font-size:18px;font-weight:700;}
-.brand-text span{font-size:12px;color:var(--text-dim);}
-.topbar-meta{display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
-.meta-item{font-size:12px;color:var(--text-dim);}
-.meta-item b{color:var(--text);font-family:var(--font-mono);font-weight:500;}
-.pill{font-size:11px;font-family:var(--font-mono);padding:4px 10px;border-radius:99px;
-  border:1px solid var(--green-soft);color:var(--green);background:rgba(43,182,115,.08);letter-spacing:.5px;}
-/* LAYOUT */
-.container{max-width:1400px;margin:0 auto;padding:28px 32px 60px;}
-/* HERO */
-.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-bottom:28px;}
-@media(max-width:980px){.hero{grid-template-columns:1fr;}}
-.hero-main{background:linear-gradient(135deg,var(--bg-elev) 0%,#10231a 100%);
-  border:1px solid var(--line);border-radius:var(--radius);padding:28px;
-  position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;}
-.hero-main::after{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;
-  border-radius:50%;background:radial-gradient(circle,rgba(43,182,115,.18),transparent 70%);}
-.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;position:relative;z-index:1;}
-.hero-eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
-.hero-game{font-family:var(--font-display);font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.05;}
-.hero-concurso{font-family:var(--font-mono);font-size:13px;color:var(--text-dim);margin-top:6px;}
-.hero-countdown{text-align:right;}
-.hero-countdown .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
-.hero-countdown .value{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--gold);}
-.hero-prize{margin-top:24px;position:relative;z-index:1;}
-.hero-prize .label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
-.hero-prize .value{font-family:var(--font-display);font-size:clamp(36px,6vw,58px);font-weight:700;color:var(--green);line-height:1;letter-spacing:-1px;}
-.hero-prize .value sup{font-size:.45em;color:var(--text-dim);font-weight:500;margin-left:6px;}
-.hero-grid-mini{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-.mini-card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;justify-content:space-between;}
-.mini-card .icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:14px;}
-.mini-card .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
-.mini-card .value{font-family:var(--font-display);font-size:26px;font-weight:700;}
-.mini-card .sub{font-size:12px;color:var(--text-dim);margin-top:6px;font-family:var(--font-mono);}
-.icon-green{background:rgba(43,182,115,.12);color:var(--green);}
-.icon-gold{background:rgba(232,185,79,.12);color:var(--gold);}
-.icon-blue{background:rgba(74,158,255,.12);color:var(--blue);}
-/* SECTION TITLES */
-.section-title{display:flex;align-items:baseline;justify-content:space-between;margin:36px 0 16px;flex-wrap:wrap;gap:8px;}
-.section-title h2{font-family:var(--font-display);font-size:20px;font-weight:600;}
-.section-title .desc{font-size:12px;color:var(--text-faint);font-family:var(--font-mono);}
-/* PERFIL CARDS */
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-@media(max-width:980px){.grid-3{grid-template-columns:1fr 1fr;}}
-@media(max-width:640px){.grid-3{grid-template-columns:1fr;}}
-.profile-card{border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px;}
-.profile-card .bar{height:6px;border-radius:99px;background:var(--bg-elev);overflow:hidden;}
-.profile-card .bar-fill{height:100%;border-radius:99px;}
-.profile-card .ptitle{font-family:var(--font-display);font-size:16px;font-weight:700;}
-.profile-card .pdesc{font-size:12px;color:var(--text-dim);}
-.profile-card .pstats{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);margin-top:auto;}
-.profile-card .pstats b{color:var(--text);font-size:18px;font-family:var(--font-display);}
-.conservador{border-color:rgba(43,182,115,.35);}
-.moderado{border-color:rgba(232,185,79,.35);}
-.arrojado{border-color:rgba(217,105,79,.35);}
-/* PANELS */
-.grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
-@media(max-width:980px){.grid-2{grid-template-columns:1fr;}}
-.panel{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;}
-.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:8px;}
-.panel-head h3{font-family:var(--font-display);font-size:15px;font-weight:600;}
-.panel-head .tag{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
-.chart-wrap{position:relative;height:280px;}
-.chart-wrap.tall{height:340px;}
-/* SECTOR GRID */
-.sector-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-@media(max-width:980px){.sector-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:640px){.sector-grid{grid-template-columns:repeat(2,1fr);}}
-.sector-card{background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px;}
-.sector-card .code{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.5px;}
-.sector-card .invested{font-family:var(--font-display);font-size:18px;font-weight:700;}
-.sector-card .meta{font-size:11px;color:var(--text-faint);}
-.sector-card .mini-bar{height:4px;border-radius:99px;background:var(--bg-card);overflow:hidden;margin-top:2px;}
-.sector-card .mini-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-soft),var(--green));border-radius:99px;}
-/* FORM */
-.form-grid{display:grid;grid-template-columns:1.8fr 1.1fr 1.3fr 0.9fr 0.9fr auto;gap:14px;align-items:end;}
-@media(max-width:1300px){.form-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:640px){.form-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:420px){.form-grid{grid-template-columns:1fr;}}
-.field{display:flex;flex-direction:column;gap:6px;}
-.field label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);font-family:var(--font-mono);}
-.field input,.field select{background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;
-  padding:11px 12px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color .15s;}
-.field input:focus,.field select:focus{border-color:var(--green);}
-.field input::placeholder{color:var(--text-faint);}
-.field select{appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238fa097' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;padding-right:34px;}
-.btn-primary{background:linear-gradient(135deg,var(--green),var(--green-soft));color:#0e1410;border:none;
-  border-radius:10px;padding:12px 22px;font-family:var(--font-display);font-weight:700;font-size:14px;
-  cursor:pointer;transition:filter .15s,transform .05s;white-space:nowrap;}
-.btn-primary:hover{filter:brightness(1.08);}
-.btn-primary:active{transform:translateY(1px);}
-.form-msg{font-family:var(--font-mono);font-size:12px;margin-top:12px;color:var(--green);min-height:16px;}
-.form-msg.error{color:var(--red);}
-/* TABLE */
-.table-wrap{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-th{text-align:left;font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:1px;
-  color:var(--text-faint);padding:0 12px 12px;border-bottom:1px solid var(--line);white-space:nowrap;}
-td{padding:12px;border-bottom:1px solid var(--line);white-space:nowrap;}
-tr:last-child td{border-bottom:none;}
-td.num,th.num{text-align:right;font-family:var(--font-mono);}
-.tag-bet{display:inline-block;padding:3px 9px;border-radius:99px;font-family:var(--font-mono);font-size:11px;
-  background:rgba(43,182,115,.10);color:var(--green);border:1px solid var(--green-soft);}
-.empty-row td{text-align:center;color:var(--text-faint);padding:28px 12px;font-family:var(--font-mono);font-size:12px;}
-.profile-chip{display:inline-block;padding:3px 9px;border-radius:99px;font-family:var(--font-mono);font-size:11px;border:1px solid;}
-.profile-chip.conservador{color:var(--green);border-color:var(--green-soft);background:rgba(43,182,115,.08);}
-.profile-chip.moderado{color:var(--gold);border-color:var(--gold-soft);background:rgba(232,185,79,.08);}
-.profile-chip.arrojado{color:var(--red);border-color:rgba(217,105,79,.4);background:rgba(217,105,79,.08);}
-/* ══════════════════════════════════════════════
-   SEÇÃO: INTELIGÊNCIA DE APOSTAS
-══════════════════════════════════════════════ */
-.intel-panel{background:linear-gradient(135deg,#101e14 0%,#0e1c1a 100%);
-  border:1px solid var(--green-soft);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
-.intel-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
-.intel-header h2{font-family:var(--font-display);font-size:22px;font-weight:700;}
-.intel-badge{font-family:var(--font-mono);font-size:11px;padding:4px 12px;border-radius:99px;
-  background:rgba(43,182,115,.12);border:1px solid var(--green-soft);color:var(--green);}
-/* seletor de modalidade */
-.modal-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
-.modal-tab{background:var(--bg-elev);border:1px solid var(--line);border-radius:8px;
-  padding:8px 16px;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);
-  cursor:pointer;transition:all .15s;}
-.modal-tab:hover{border-color:var(--green-soft);color:var(--text);}
-.modal-tab.active{background:rgba(43,182,115,.12);border-color:var(--green);color:var(--green);font-weight:700;}
-/* grid 3 colunas para as 3 sub-seções */
-.intel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
-@media(max-width:1100px){.intel-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:640px){.intel-grid{grid-template-columns:1fr;}}
-.intel-card{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:20px;}
-.intel-card-title{font-family:var(--font-display);font-size:13px;font-weight:700;
-  color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;
-  display:flex;align-items:center;gap:8px;}
-.intel-card-title span{font-size:16px;}
-/* tabela de probabilidades */
-.prob-table{width:100%;font-size:12px;border-collapse:collapse;}
-.prob-table tr{border-bottom:1px solid var(--line);}
-.prob-table tr:last-child{border-bottom:none;}
-.prob-table td{padding:7px 4px;vertical-align:middle;}
-.prob-table .dez{font-family:var(--font-mono);font-weight:700;color:var(--gold);width:60px;}
-.prob-table .prob{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
-.prob-bar-wrap{flex:1;padding:0 8px;}
-.prob-bar{height:4px;border-radius:99px;background:var(--bg-elev);}
-.prob-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green-soft),var(--green));}
-.best-row td{color:var(--text) !important;}
-.best-row .dez{color:var(--green) !important;}
-/* tabela de custos */
-.cost-table{width:100%;font-size:12px;border-collapse:collapse;}
-.cost-table tr{border-bottom:1px solid var(--line);}
-.cost-table tr:last-child{border-bottom:none;}
-.cost-table td{padding:7px 4px;font-family:var(--font-mono);}
-.cost-table .dez-c{color:var(--gold);font-weight:700;width:60px;}
-.cost-table .custo{color:var(--text-dim);}
-.cost-table .qtd{color:var(--green);text-align:right;}
-.cost-table .highlight{color:var(--green);font-weight:700;}
-.receita-box{background:rgba(43,182,115,.06);border:1px solid var(--green-soft);
-  border-radius:10px;padding:14px;margin-bottom:14px;display:flex;flex-direction:column;gap:4px;}
-.receita-box .rlabel{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:1px;}
-.receita-box .rvalue{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--green);}
-.receita-box .rsub{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
-/* dezenas mais sorteadas */
-.dezena-grid{display:flex;flex-wrap:wrap;gap:7px;}
-.dezena-ball{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:12px;font-weight:700;
-  background:var(--bg-elev);border:2px solid var(--line);color:var(--text-dim);
-  transition:all .15s;cursor:default;}
-.dezena-ball.d1{background:rgba(232,185,79,.20);border-color:var(--gold);color:var(--gold);}
-.dezena-ball.d2{background:rgba(232,185,79,.14);border-color:var(--gold-soft);color:var(--gold);}
-.dezena-ball.d3{background:rgba(232,185,79,.08);border-color:var(--gold-soft);color:var(--text);}
-.dezena-ball.d4{background:rgba(43,182,115,.08);border-color:var(--green-soft);color:var(--text);}
-.dezena-ball:hover{transform:scale(1.12);}
-.dezena-fonte{font-size:10px;color:var(--text-faint);font-family:var(--font-mono);margin-top:10px;line-height:1.5;}
-/* LINK CAIXA */
-.caixa-link{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:99px;
-  border:1px solid var(--green-soft);color:var(--green);background:rgba(43,182,115,.08);
-  font-family:var(--font-mono);font-size:12px;text-decoration:none;transition:background .15s,border-color .15s;}
-.caixa-link:hover{background:rgba(43,182,115,.16);border-color:var(--green);}
-/* FOOTER */
-footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-content:space-between;
-  align-items:center;flex-wrap:wrap;gap:12px;color:var(--text-faint);font-size:12px;}
-footer .foot-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
-footer a{color:inherit;}
-footer a:hover{color:var(--green);}
-::-webkit-scrollbar{height:8px;width:8px;}
-::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1e2633;
+    --border: #30363d;
+    --gold: #f0b429;
+    --gold-dim: #7d5c10;
+    --green: #3fb950;
+    --red: #f85149;
+    --blue: #58a6ff;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --radius: 10px;
+    --font: 'Segoe UI', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #1a2030 100%);
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: var(--gold);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 16px; color: #000;
+  }
+  .logo h1 { font-size: 18px; font-weight: 700; }
+  .logo p { font-size: 11px; color: var(--muted); }
+  .badge-concurso {
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    color: #000;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .updated { font-size: 11px; color: var(--muted); text-align: right; }
+
+  /* COUNTDOWN */
+  .countdown-bar {
+    background: linear-gradient(90deg, #1a2030, #0d1117);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .countdown-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .countdown-digits { display: flex; gap: 8px; }
+  .cd-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    text-align: center;
+    min-width: 50px;
+  }
+  .cd-block span:first-child { display: block; font-size: 20px; font-weight: 800; color: var(--gold); }
+  .cd-block span:last-child { display: block; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .premio-bar { margin-left: auto; font-size: 13px; }
+  .premio-bar strong { color: var(--gold); font-size: 16px; }
+
+  /* MAIN */
+  main { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* CARDS KPI */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .kpi.gold::before { background: var(--gold); }
+  .kpi.green::before { background: var(--green); }
+  .kpi.blue::before { background: var(--blue); }
+  .kpi.red::before { background: var(--red); }
+  .kpi-icon { font-size: 22px; margin-bottom: 6px; }
+  .kpi-value { font-size: 26px; font-weight: 800; line-height: 1.1; }
+  .kpi-value.gold { color: var(--gold); }
+  .kpi-value.green { color: var(--green); }
+  .kpi-value.red { color: var(--red); }
+  .kpi-value.blue { color: var(--blue); }
+  .kpi-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
+  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin: 28px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* GRID 2 COL */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .card-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+
+  /* CHART CONTAINER */
+  .chart-wrap { position: relative; height: 240px; }
+
+  /* DUPLICIDADES */
+  .dup-list { display: flex; flex-direction: column; gap: 8px; }
+  .dup-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: 6px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .dup-name { font-size: 13px; font-weight: 600; }
+  .dup-detail { font-size: 11px; color: var(--muted); }
+  .dup-tag {
+    background: rgba(248,81,73,.15);
+    color: var(--red);
+    border: 1px solid rgba(248,81,73,.3);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { background: var(--surface2); }
+  th {
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr:last-child td { border-bottom: none; }
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .pill-green { background: rgba(63,185,80,.15); color: var(--green); }
+  .pill-yellow { background: rgba(240,180,41,.15); color: var(--gold); }
+  .pill-red { background: rgba(248,81,73,.15); color: var(--red); }
+  .pill-blue { background: rgba(88,166,255,.15); color: var(--blue); }
+  .valor-col { font-weight: 700; }
+  .credito-pos { color: var(--green); font-weight: 700; }
+  .credito-neg { color: var(--red); font-weight: 700; }
+  .credito-zero { color: var(--muted); }
+
+  /* DATAS INVESTIMENTO */
+  .datas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .data-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .data-card .dc-date { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .data-card .dc-valor { font-size: 18px; font-weight: 800; color: var(--gold); }
+  .data-card .dc-label { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* PROGRESS SETORES */
+  .setor-list { display: flex; flex-direction: column; gap: 10px; }
+  .setor-item {}
+  .setor-header { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; }
+  .setor-name { font-weight: 600; }
+  .setor-val { color: var(--gold); font-weight: 700; }
+  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #d97706); border-radius: 3px; transition: width .6s ease; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  footer a { color: var(--blue); text-decoration: none; }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="brand">
-    <div class="brand-mark">BF</div>
-    <div class="brand-text">
+<header>
+  <div class="logo">
+    <div class="logo-icon">BF</div>
+    <div>
       <h1>Bolão Federal</h1>
-      <span>Painel de Investidores · Investidores de São Bernardo do Campo</span>
+      <p>Painel de Investidores · São Bernardo do Campo</p>
     </div>
   </div>
-  <div class="topbar-meta">
-    <div class="meta-item">Atualizado em <b>18/06/2026</b></div>
-    <div class="pill">CONCURSO ABERTO</div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+    <span class="badge-concurso">🎰 Concurso 7.051 · Quina de São João</span>
+    <span class="updated">Sorteio: 28/06/2026 às 14h00 · Atualizado em 25/06/2026</span>
+  </div>
+</header>
+
+<div class="countdown-bar">
+  <div>
+    <div class="countdown-label">Tempo para o sorteio</div>
+    <div class="countdown-digits">
+      <div class="cd-block"><span id="cd-d">--</span><span>dias</span></div>
+      <div class="cd-block"><span id="cd-h">--</span><span>horas</span></div>
+      <div class="cd-block"><span id="cd-m">--</span><span>min</span></div>
+      <div class="cd-block"><span id="cd-s">--</span><span>seg</span></div>
+    </div>
+  </div>
+  <div class="premio-bar">
+    Prêmio estimado: <strong>R$ 250.000.000,00</strong>
   </div>
 </div>
 
-<div class="container">
+<main>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-main">
-      <div>
-        <div class="hero-top">
-          <div>
-            <div class="hero-eyebrow">Modalidade em destaque</div>
-            <div class="hero-game">Quina de São João</div>
-            <div class="hero-concurso">Concurso <b>7.051</b> · Sorteio em 28/06/2026 · 14h00</div>
-          </div>
-          <div class="hero-countdown">
-            <div class="label">Dias para o sorteio</div>
-            <div class="value" id="countdown">--</div>
-          </div>
-        </div>
-        <div class="hero-prize">
-          <div class="label">Prêmio estimado</div>
-          <div class="value">R$ 250.000.000<sup>,00</sup></div>
-        </div>
-      </div>
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi gold">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-value gold">R$ 1.320,00</div>
+      <div class="kpi-label">Receita Total do Grupo</div>
+      <div class="kpi-sub">Concurso 7.051 · Quina de São João</div>
     </div>
-    <div class="hero-grid-mini">
-      <div class="mini-card">
-        <div class="icon icon-green">💰</div>
-        <div>
-          <div class="label">Receita total do grupo</div>
-          <div class="value" id="kpiReceita">R$ 0,00</div>
-        </div>
-        <div class="sub">Concurso 7.051 · Quina de São João</div>
-      </div>
-      <div class="mini-card">
-        <div class="icon icon-gold">👥</div>
-        <div>
-          <div class="label">Investidores ativos</div>
-          <div class="value" id="kpiInvestidores">0</div>
-        </div>
-        <div class="sub">Investidores de São Bernardo do Campo</div>
-      </div>
-      <div class="mini-card">
-        <div class="icon icon-green">📊</div>
-        <div>
-          <div class="label">Média por investidor</div>
-          <div class="value" id="kpiMedia">R$ 0,00</div>
-        </div>
-        <div class="sub">Concurso 7.051</div>
-      </div>
-      <div class="mini-card">
-        <div class="icon icon-gold">🔁</div>
-        <div>
-          <div class="label">Créditos acumulados</div>
-          <div class="value" id="kpiCreditos">R$ 0,00</div>
-        </div>
-        <div class="sub">de pagamentos em duplicidade</div>
-      </div>
+    <div class="kpi blue">
+      <div class="kpi-icon">👥</div>
+      <div class="kpi-value blue">48</div>
+      <div class="kpi-label">Investidores Ativos</div>
+      <div class="kpi-sub">São Bernardo do Campo</div>
     </div>
-  </section>
-
-  <!-- PERFIL -->
-  <div class="section-title">
-    <h2>Perfil do investidor</h2>
-    <div class="desc">conservador R$20 · moderado R$40 · arrojado acima de R$40</div>
+    <div class="kpi green">
+      <div class="kpi-icon">📊</div>
+      <div class="kpi-value green">R$ 27,50</div>
+      <div class="kpi-label">Média por Investidor</div>
+      <div class="kpi-sub">Cota padrão: R$ 20,00</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-icon">🔁</div>
+      <div class="kpi-value red">R$ 340,00</div>
+      <div class="kpi-label">Créditos Acumulados</div>
+      <div class="kpi-sub">Pagamentos em duplicidade detectados</div>
+    </div>
   </div>
-  <div class="grid-3" id="profileCards"></div>
 
-  <!-- SETORES -->
-  <div class="section-title">
-    <h2>Investimento por setor</h2>
-    <div class="desc">distribuição dos colaboradores por unidade organizacional</div>
+  <!-- INVESTIMENTO POR DATA -->
+  <div class="section-title">📅 Investimento por data de pagamento</div>
+  <div class="datas-grid" style="margin-bottom:24px;">
+    <div class="data-card"><div class="dc-date">08/06</div><div class="dc-valor">R$ 430</div><div class="dc-label">maior entrada</div></div>
+    <div class="data-card"><div class="dc-date">09/06</div><div class="dc-valor">R$ 370</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">10/06</div><div class="dc-valor">R$ 60</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">11/06</div><div class="dc-valor">R$ 20</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">12/06</div><div class="dc-valor">R$ 120</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">15/06</div><div class="dc-valor">R$ 370</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">16/06</div><div class="dc-valor">R$ 60</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">17/06</div><div class="dc-valor">R$ 20</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">19/06</div><div class="dc-valor">R$ 120</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">22/06</div><div class="dc-valor">R$ 120</div><div class="dc-label"></div></div>
+    <div class="data-card"><div class="dc-date">24/06</div><div class="dc-valor">R$ 370</div><div class="dc-label">último lote</div></div>
   </div>
+
+  <!-- GRÁFICOS -->
   <div class="grid-2">
-    <div class="panel">
-      <div class="panel-head">
-        <h3>Receita por setor</h3>
-        <span class="tag" id="tagSetores">—</span>
+    <div class="card">
+      <div class="card-title">📈 Arrecadação por data</div>
+      <div class="chart-wrap"><canvas id="chartDatas"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 Perfil dos investidores</div>
+      <div class="chart-wrap"><canvas id="chartPerfil"></canvas></div>
+    </div>
+  </div>
+
+  <!-- DUPLICIDADES -->
+  <div class="section-title">⚠️ Duplicidades detectadas — crédito acumulado</div>
+  <div class="dup-list" style="margin-bottom:24px;">
+    <div class="dup-item">
+      <div>
+        <div class="dup-name">Van</div>
+        <div class="dup-detail">Pagou R$ 160 · Cota padrão R$ 20 · 8 cotas pagas</div>
       </div>
-      <div class="sector-grid" id="sectorGrid"></div>
+      <div class="dup-tag">Crédito R$ 140</div>
     </div>
-    <div class="panel">
-      <div class="panel-head">
-        <h3>Top setores por receita</h3>
-        <span class="tag">ranking atual</span>
+    <div class="dup-item">
+      <div>
+        <div class="dup-name">Carlos Alberto</div>
+        <div class="dup-detail">Pagou R$ 100 · Cota padrão R$ 20 · 5 cotas pagas</div>
       </div>
-      <div class="chart-wrap tall"><canvas id="chartSetores"></canvas></div>
+      <div class="dup-tag">Crédito R$ 80</div>
     </div>
-  </div>
-
-  <!-- ══ INTELIGÊNCIA DE APOSTAS ══ -->
-  <div class="section-title">
-    <h2>Inteligência de apostas</h2>
-    <div class="desc">probabilidade · custo · dezenas mais sorteadas por modalidade</div>
-  </div>
-
-  <div class="intel-panel">
-    <div class="intel-header">
-      <h2>🎯 Simulador de Estratégia</h2>
-      <span class="intel-badge">Receita disponível: <span id="receitaDisp">R$ 900,00</span></span>
+    <div class="dup-item">
+      <div>
+        <div class="dup-name">Sueli Thodorof</div>
+        <div class="dup-detail">Pagou R$ 60 · Cota padrão R$ 20 · Pagamentos em 3 datas</div>
+      </div>
+      <div class="dup-tag">Crédito R$ 40</div>
+    </div>
+    <div class="dup-item">
+      <div>
+        <div class="dup-name">Ana Paula Boteon</div>
+        <div class="dup-detail">Pagou R$ 40 · Cota padrão R$ 20 · 2 pagamentos</div>
+      </div>
+      <div class="dup-tag">Crédito R$ 20</div>
+    </div>
+    <div class="dup-item">
+      <div>
+        <div class="dup-name">Dulciene Varela</div>
+        <div class="dup-detail">Pagou R$ 40 · 2 pagamentos (08/06 + 24/06)</div>
+      </div>
+      <div class="dup-tag">Crédito R$ 20</div>
+    </div>
+    <div class="dup-item">
+      <div>
+        <div class="dup-name">Lúcia de Novaes</div>
+        <div class="dup-detail">Pagou R$ 40 · 2 pagamentos (08/06 + 12/06)</div>
+      </div>
+      <div class="dup-tag">Crédito R$ 20</div>
+    </div>
+    <div class="dup-item">
+      <div>
+        <div class="dup-name">Rita Micheletti</div>
+        <div class="dup-detail">Pagou R$ 40 · 2 pagamentos (08/06 + 12/06)</div>
+      </div>
+      <div class="dup-tag">Crédito R$ 20</div>
     </div>
 
-    <!-- tabs de modalidade -->
-    <div class="modal-tabs" id="modalTabs"></div>
-
-    <!-- conteúdo dinâmico das 3 colunas -->
-    <div class="intel-grid" id="intelGrid"></div>
   </div>
 
-  <!-- INVESTIDORES -->
-  <div class="section-title">
-    <h2>Investidores</h2>
-    <div class="desc">cadastro e listagem · valor e setor por concurso</div>
-  </div>
-  <div class="panel" style="margin-bottom:36px;">
-    <div class="panel-head">
-      <h3>Lista de investidores</h3>
-      <span class="tag" id="totalInvestidoresTag">0 investidores</span>
+  <!-- TABELA COMPLETA -->
+  <div class="section-title">📋 Lista completa de investidores</div>
+  <div class="card" style="margin-bottom:24px;">
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+      <span class="pill pill-blue">🔍 Total: 48 investidores</span>
+      <span class="pill pill-green">✅ Quita: 41</span>
+      <span class="pill pill-red">⚠️ Crédito: 7</span>
+      <span class="pill pill-yellow">💛 Cota padrão R$ 20</span>
     </div>
     <div class="table-wrap">
-      <table>
+      <table id="tabela-investidores">
         <thead>
           <tr>
-            <th>#</th><th>Nome</th><th>Setor</th><th>Modalidade</th>
-            <th>Concurso</th><th>Perfil</th>
-            <th class="num">Valor (R$)</th><th class="num">Crédito (R$)</th>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Total pago (R$)</th>
+            <th>Receita Total (R$)</th>
+            <th>Crédito (R$)</th>
+            <th>Perfil</th>
+            <th>Status</th>
           </tr>
         </thead>
-        <tbody id="tabelaInvestidores"></tbody>
+        <tbody id="tbody-inv"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- HISTÓRICO -->
-  <div class="section-title">
-    <h2>Histórico de concursos</h2>
-    <div class="desc">participação agrupada por modalidade e concurso</div>
-  </div>
-  <div class="panel" style="margin-bottom:36px;">
-    <div class="panel-head">
-      <h3>Concursos registrados</h3>
-      <span class="tag" id="totalConcursosTag">0 concursos</span>
-    </div>
+  <!-- HISTÓRICO DE CONCURSOS -->
+  <div class="section-title">🗂️ Histórico de concursos</div>
+  <div class="card" style="margin-bottom:24px;">
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Modalidade</th><th>Concurso</th>
-            <th class="num">Investidores</th><th class="num">Receita (R$)</th><th class="num">Créditos (R$)</th>
+            <th>Modalidade</th>
+            <th>Concurso</th>
+            <th>Sorteio</th>
+            <th>Investidores</th>
+            <th>Receita (R$)</th>
+            <th>Créditos (R$)</th>
+            <th>Status</th>
           </tr>
         </thead>
-        <tbody id="tabelaHistorico"></tbody>
+        <tbody>
+          <tr>
+            <td>Quina de São João</td>
+            <td>7.051</td>
+            <td>28/06/2026</td>
+            <td>48</td>
+            <td class="valor-col">1.320,00</td>
+            <td class="credito-neg">-340,00</td>
+            <td><span class="pill pill-yellow">Em aberto</span></td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
 
-</div>
+  <!-- INFORMAÇÕES DA LOTERIA -->
+  <div class="section-title">🎰 Inteligência da aposta — Quina de São João</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📊 Dados do concurso</div>
+      <table style="font-size:12px;">
+        <tbody>
+          <tr><td style="color:var(--muted);padding:5px 0;">Modalidade</td><td style="padding:5px 0;font-weight:600;">Quina de São João</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Concurso</td><td style="padding:5px 0;font-weight:600;">7.051</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Sorteio</td><td style="padding:5px 0;font-weight:600;">28/06/2026 às 14h00</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Prêmio estimado</td><td style="padding:5px 0;font-weight:600;color:var(--gold);">R$ 250.000.000</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Universo</td><td style="padding:5px 0;font-weight:600;">1 a 80 números</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Acertos p/ prêmio</td><td style="padding:5px 0;font-weight:600;">5 dezenas</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Probabilidade (5 dez.)</td><td style="padding:5px 0;font-weight:600;color:var(--red);">1 em 24.040.016</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Receita do grupo</td><td style="padding:5px 0;font-weight:600;color:var(--green);">R$ 1.320,00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">🔢 Dezenas mais sorteadas na Quina</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">04</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">13</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">53</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">31</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">74</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">65</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">05</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">27</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">80</span>
+        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">20</span>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:10px;">Fonte: estatísticas históricas até jun/2026 · somatematica.com.br</p>
+    </div>
+  </div>
+
+</main>
 
 <footer>
-  <div>© 2026 Bolão Federal · Investidores de São Bernardo do Campo · Painel interno</div>
-  <div class="foot-links">
-    <a href="#">Regulamento</a>
-    <a href="#">Como investir</a>
-    <a href="https://loterias.caixa.gov.br" target="_blank" rel="noopener" class="caixa-link">🎰 Loterias Caixa</a>
-  </div>
+  © 2026 Bolão Federal · Investidores de São Bernardo do Campo · Painel interno
+  &nbsp;·&nbsp;
+  <a href="https://loterias.caixa.gov.br" target="_blank">🎰 Loterias Caixa</a>
 </footer>
 
 <script>
-// ══════════════════════════════════════════════════════════
-//  BASE DE DADOS (extraída das abas da planilha Loteria_V3)
-// ══════════════════════════════════════════════════════════
-const RECEITA_GRUPO = 900;   // R$ total arrecadado pela planilha
-const CREDITOS_GRUPO = 300;  // R$ em créditos acumulados
-
-const MODALIDADES_DB = {
-  'Mega-Sena': {
-    emoji:'🎰', custo_min: 6, freq:'2x/semana', universo:'1–60',
-    probabilidades:[
-      {dez:6,  prob:'1 em 50.063.860', val:50063860},
-      {dez:7,  prob:'1 em 7.151.980',  val:7151980},
-      {dez:8,  prob:'1 em 1.787.995',  val:1787995},
-      {dez:9,  prob:'1 em 595.998',    val:595998},
-      {dez:10, prob:'1 em 238.399',    val:238399},
-    ],
-    custos:[
-      {dez:6,  custo:6},
-      {dez:7,  custo:42},
-      {dez:8,  custo:168},
-      {dez:9,  custo:504},
-      {dez:10, custo:1260},
-      {dez:11, custo:2772},
-      {dez:12, custo:5544},
-    ],
-    top10:[10,53,37,34,33,5,23,20,51,44],
-    fonte:'Concurso 1 (mar/1996) ao 3018 (jun/2026)'
-  },
-  'Quina': {
-    emoji:'5️⃣', custo_min: 3, freq:'5x/semana', universo:'1–80',
-    probabilidades:[
-      {dez:5,  prob:'1 em 24.040.016', val:24040016},
-      {dez:6,  prob:'1 em 4.006.669',  val:4006669},
-      {dez:7,  prob:'1 em 1.144.763',  val:1144763},
-      {dez:8,  prob:'1 em 429.286',    val:429286},
-      {dez:9,  prob:'1 em 190.794',    val:190794},
-      {dez:10, prob:'1 em 95.396',     val:95396},
-    ],
-    custos:[
-      {dez:5,  custo:3},
-      {dez:6,  custo:18},
-      {dez:7,  custo:63},
-      {dez:8,  custo:168},
-      {dez:9,  custo:378},
-      {dez:10, custo:756},
-      {dez:11, custo:1386},
-      {dez:12, custo:2376},
-    ],
-    top10:[4,13,53,31,74,65,5,27,80,20],
-    fonte:'Dados históricos até jun/2026'
-  },
-  'Quina de São João': {
-    emoji:'🌾', custo_min: 3, freq:'Especial', universo:'1–80',
-    probabilidades:[
-      {dez:5,  prob:'1 em 24.040.016', val:24040016},
-      {dez:6,  prob:'1 em 4.006.669',  val:4006669},
-      {dez:7,  prob:'1 em 1.144.763',  val:1144763},
-      {dez:8,  prob:'1 em 429.286',    val:429286},
-      {dez:9,  prob:'1 em 190.794',    val:190794},
-      {dez:10, prob:'1 em 95.396',     val:95396},
-    ],
-    custos:[
-      {dez:5,  custo:3},
-      {dez:6,  custo:18},
-      {dez:7,  custo:63},
-      {dez:8,  custo:168},
-      {dez:9,  custo:378},
-      {dez:10, custo:756},
-      {dez:11, custo:1386},
-      {dez:12, custo:2376},
-    ],
-    top10:[4,13,53,31,74,65,5,27,80,20],
-    fonte:'Mesma estrutura da Quina · dados históricos até jun/2026'
-  },
-  'Lotofácil': {
-    emoji:'🍀', custo_min: 3.5, freq:'7x/semana', universo:'1–25',
-    probabilidades:[
-      {dez:15, prob:'1 em 3.268.760', val:3268760},
-      {dez:16, prob:'1 em 204.298',   val:204298},
-      {dez:17, prob:'1 em 24.035',    val:24035},
-      {dez:18, prob:'1 em 4.257',     val:4257},
-      {dez:19, prob:'1 em 1.062',     val:1062},
-      {dez:20, prob:'1 em 355',       val:355},
-    ],
-    custos:[
-      {dez:15, custo:3.5},
-      {dez:16, custo:56},
-      {dez:17, custo:476},
-      {dez:18, custo:2856},
-      {dez:19, custo:13566},
-      {dez:20, custo:54264},
-    ],
-    top10:[20,25,10,11,13,14,23,18,16,5],
-    fonte:'Concurso 1 (set/2003) ao 3710 (jun/2026)'
-  },
-  'Dupla Sena': {
-    emoji:'2️⃣', custo_min: 3, freq:'2x/semana', universo:'1–50',
-    probabilidades:[
-      {dez:6,  prob:'1 em 15.890.700', val:15890700},
-      {dez:7,  prob:'1 em 2.270.100',  val:2270100},
-      {dez:8,  prob:'1 em 567.525',    val:567525},
-      {dez:9,  prob:'1 em 189.175',    val:189175},
-      {dez:10, prob:'1 em 75.670',     val:75670},
-      {dez:11, prob:'1 em 34.395',     val:34395},
-    ],
-    custos:[
-      {dez:6,  custo:3},
-      {dez:7,  custo:21},
-      {dez:8,  custo:84},
-      {dez:9,  custo:252},
-      {dez:10, custo:630},
-      {dez:11, custo:1386},
-      {dez:12, custo:2772},
-    ],
-    top10:[23,5,38,14,47,30,9,42,17,33],
-    fonte:'Dados históricos até jun/2026'
-  },
-  'Timemania': {
-    emoji:'⚽', custo_min: 3.5, freq:'3x/semana', universo:'1–80',
-    probabilidades:[
-      {dez:7, prob:'1 em 26.472.637', val:26472637},
-      {dez:8, prob:'1 em 3.781.805',  val:3781805},
-      {dez:9, prob:'1 em 755.361',    val:755361},
-      {dez:10,prob:'1 em 188.840',    val:188840},
-    ],
-    custos:[
-      {dez:7,  custo:3.5},
-      {dez:8,  custo:28},
-      {dez:9,  custo:126},
-      {dez:10, custo:378},
-    ],
-    top10:[20,53,5,37,14,68,29,42,76,11],
-    fonte:'Concurso 1 (mar/2008) ao 2403 (jun/2026)'
-  },
-  'Dia de Sorte': {
-    emoji:'📅', custo_min: 2.5, freq:'2x/semana', universo:'1–31',
-    probabilidades:[
-      {dez:7,  prob:'1 em 2.629.575', val:2629575},
-      {dez:8,  prob:'1 em 329.947',   val:329947},
-      {dez:9,  prob:'1 em 65.990',    val:65990},
-      {dez:10, prob:'1 em 16.497',    val:16497},
-      {dez:11, prob:'1 em 4.713',     val:4713},
-    ],
-    custos:[
-      {dez:7,  custo:2.5},
-      {dez:8,  custo:17.5},
-      {dez:9,  custo:70},
-      {dez:10, custo:210},
-      {dez:11, custo:462},
-    ],
-    top10:[7,13,28,2,19,24,10,31,5,16],
-    fonte:'Dados históricos até jun/2026'
-  },
-};
-
-const modalOrdem = ['Quina de São João','Mega-Sena','Quina','Lotofácil','Dupla Sena','Timemania','Dia de Sorte'];
-let modalAtiva = 'Quina de São João';
-
-// ══════════════════════════════════════════════════════════
-//  INVESTIDORES
-// ══════════════════════════════════════════════════════════
-const LOTERIA_ATUAL = 'Quina de São João';
-const loteriasLista = ['Mega-Sena','Mega-Sena da Virada','Quina','Quina de São João','Lotofácil',
-  'Lotofácil da Independência','Dupla Sena','Lotomania','Timemania','Dia de Sorte','Super Sete','Federal','+Milionária','Loteca','Especial'];
-const setoresLista = ['ASURE','ESE','EEC','SEINTEC','SETEC','SEGRE','SEVESC','SEMAT',
-  'SEPES','SEFREP','SEAPE','SEAFIN','SEFIN','SECOMSE','SEOM','SEFISC','Prime'];
-
-let investidores = [
-  {nome:'Adriana Guerrieri',    setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Adriana Milan',        setor:'SEFREP',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Adriano Vinco',        setor:'SEFIN',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Carolina Tavares', setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Maria Cordon',     setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Maria Magalhães',  setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ana Paula Boteon',     setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Carlos Alberto',       setor:'SEAPE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:80},
-  {nome:'Carlos Renato',        setor:'ASURE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Cláudia Rosana',       setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Denise Couto',         setor:'SEFISC',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Dulciene Varela',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Elena Zanetti',        setor:'SECOMSE',        modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Elizabete Moreira',    setor:'SECOMSE',        modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Érica Marson',         setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Erlim Andrade',        setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ester Caetano',        setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Fran Santiago',        setor:'SEFISC',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Inês Helena',          setor:'SEFIN',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Ionara',               setor:'SEGRE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Juliana Ferreira Sousa',setor:'ASURE',         modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Lia',                  setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Lúcia de Novaes',      setor:'SEPES',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Márcia Rocha',         setor:'ASURE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Marina Caetano',       setor:'SEAPE',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Marta Carlos',         setor:'SEMAT',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Maurício Leite',       setor:'SEFIN',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Meliane Salmaso',      setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Mirian V Souza',       setor:'BI - Manutenção',modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Renata Fenelon',       setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rita Micheletti',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Robson Zanetti',       setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rosana Mota',          setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rosana Nobre',         setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Rosangêla Marotti',    setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Sílvia Cristina',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Simone Nogueira',      setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Sueli Thodorof',       setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:20},
-  {nome:'Tânia L Demenis',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Tânia Murias',         setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Valéria Albuquerque',  setor:'EEC',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Van',                  setor:'Prime',          modalidade:'Quina de São João',concurso:'7051',valor:20,credito:140},
-  {nome:'Vani Gomes',           setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Vitor H Pissaia',      setor:'ESE',            modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
-  {nome:'Viviane Carlos',       setor:'SEOM',           modalidade:'Quina de São João',concurso:'7051',valor:20,credito:0},
+// ── DADOS DA PLANILHA ─────────────────────────────────────────────────────────
+const INVESTIDORES = [
+  {id:1, nome:"Adriana Guerrieri", total:20, receita:20, credito:0},
+  {id:2, nome:"Adriana Milan", total:20, receita:20, credito:0},
+  {id:3, nome:"Adriano Vinco", total:20, receita:20, credito:0},
+  {id:4, nome:"Ana Carolina Tavares", total:20, receita:20, credito:0},
+  {id:5, nome:"Ana Maria Cordon", total:20, receita:20, credito:0},
+  {id:6, nome:"Ana Maria Magalhães", total:20, receita:20, credito:0},
+  {id:7, nome:"Ana Paula Boteon", total:40, receita:20, credito:-20},
+  {id:8, nome:"Carlos Alberto", total:100, receita:20, credito:-80},
+  {id:9, nome:"Cláudia Rosana", total:20, receita:20, credito:0},
+  {id:10, nome:"Denise Couto", total:20, receita:20, credito:0},
+  {id:11, nome:"Dulciene Varela", total:40, receita:20, credito:-20},
+  {id:12, nome:"Elena Zanetti", total:20, receita:20, credito:0},
+  {id:13, nome:"Elizabete Moreira", total:20, receita:20, credito:0},
+  {id:14, nome:"Érica Marson", total:20, receita:20, credito:0},
+  {id:15, nome:"Erlim Andrade", total:20, receita:20, credito:0},
+  {id:16, nome:"Ester Caetano", total:20, receita:20, credito:0},
+  {id:17, nome:"Fran Santiago", total:20, receita:20, credito:0},
+  {id:18, nome:"Inês Helena", total:20, receita:20, credito:0},
+  {id:19, nome:"Ionara", total:20, receita:20, credito:0},
+  {id:21, nome:"Juliana Ferreira Sousa", total:20, receita:20, credito:0},
+  {id:22, nome:"Lia", total:20, receita:20, credito:0},
+  {id:23, nome:"Lúcia de Novaes", total:40, receita:20, credito:-20},
+  {id:24, nome:"Márcia Rocha", total:20, receita:20, credito:0},
+  {id:25, nome:"Marina Caetano", total:20, receita:20, credito:0},
+  {id:27, nome:"Marta Carlos", total:20, receita:20, credito:0},
+  {id:28, nome:"Meliane Salmaso", total:20, receita:20, credito:0},
+  {id:29, nome:"Renata Fenelon", total:20, receita:20, credito:0},
+  {id:30, nome:"Rita Micheletti", total:40, receita:20, credito:-20},
+  {id:31, nome:"Robson Zanetti", total:20, receita:20, credito:0},
+  {id:32, nome:"Rosana Mota", total:20, receita:20, credito:0},
+  {id:33, nome:"Rosana Nobre", total:20, receita:20, credito:0},
+  {id:35, nome:"Rosangêla Marotti", total:20, receita:20, credito:0},
+  {id:36, nome:"Sílvia Cristina", total:20, receita:20, credito:0},
+  {id:37, nome:"Simone Nogueira", total:20, receita:20, credito:0},
+  {id:38, nome:"Sueli Thodorof", total:60, receita:20, credito:-40},
+  {id:39, nome:"Tânia L Demenis", total:20, receita:20, credito:0},
+  {id:40, nome:"Tânia Murias", total:20, receita:20, credito:0},
+  {id:41, nome:"Valéria Albuquerque", total:20, receita:20, credito:0},
+  {id:42, nome:"Van", total:160, receita:20, credito:-140},
+  {id:43, nome:"Vani Gomes", total:20, receita:20, credito:0},
+  {id:44, nome:"Vitor H Pissaia", total:20, receita:20, credito:0},
+  {id:45, nome:"Mirian V Souza", total:20, receita:20, credito:0},
+  {id:46, nome:"Viviane Carlos", total:20, receita:20, credito:0},
+  {id:47, nome:"Maurício Leite", total:20, receita:20, credito:0},
+  {id:48, nome:"Carlos Renato", total:20, receita:20, credito:0},
+  {id:49, nome:"Débora Stábile", total:20, receita:20, credito:0},
+  {id:50, nome:"Vera Rosseto", total:20, receita:20, credito:0},
+  {id:51, nome:"Célia Regina Tossato", total:20, receita:20, credito:0},
+  {id:52, nome:"Lilian Tunes", total:20, receita:20, credito:0},
 ];
 
-// ══════════════════════════════════════════════════════════
-//  UTILITÁRIOS
-// ══════════════════════════════════════════════════════════
-const fmt = (v) => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-function perfil(valor){
-  if(valor <= 20) return {nome:'Conservador',classe:'conservador'};
-  if(valor <= 40) return {nome:'Moderado',classe:'moderado'};
-  return {nome:'Arrojado',classe:'arrojado'};
-}
+// PREENCHE TABELA
+const tbody = document.getElementById('tbody-inv');
+INVESTIDORES.forEach((inv, i) => {
+  const perfil = inv.total === 20 ? ['Conservador','pill-green'] :
+                 inv.total <= 40  ? ['Moderado','pill-yellow'] :
+                                    ['Arrojado','pill-blue'];
+  const creditoClass = inv.credito < 0 ? 'credito-neg' : inv.credito > 0 ? 'credito-pos' : 'credito-zero';
+  const creditoStr  = inv.credito === 0 ? '—' : `R$ ${Math.abs(inv.credito).toFixed(2).replace('.',',')}`;
+  const status = inv.credito < 0
+    ? `<span class="pill pill-red">Crédito pendente</span>`
+    : `<span class="pill pill-green">Quitado</span>`;
+  tbody.innerHTML += `<tr>
+    <td style="color:var(--muted);">${i+1}</td>
+    <td style="font-weight:600;">${inv.nome}</td>
+    <td class="valor-col">R$ ${inv.total.toFixed(2).replace('.',',')}</td>
+    <td>R$ ${inv.receita.toFixed(2).replace('.',',')}</td>
+    <td class="${creditoClass}">${creditoStr}</td>
+    <td><span class="pill ${perfil[1]}">${perfil[0]}</span></td>
+    <td>${status}</td>
+  </tr>`;
+});
 
-// ══════════════════════════════════════════════════════════
-//  COUNTDOWN
-// ══════════════════════════════════════════════════════════
-function atualizarCountdown(){
-  const sorteio = new Date('2026-06-28T14:00:00-03:00');
-  const diff = sorteio - new Date();
-  if(diff <= 0){ document.getElementById('countdown').textContent='Hoje!'; return; }
-  const d = Math.floor(diff/(1000*60*60*24));
-  const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-  const m = Math.floor((diff%(1000*60*60))/(1000*60));
-  document.getElementById('countdown').textContent=`${d}d ${h}h ${m}m`;
-}
-atualizarCountdown();
-setInterval(atualizarCountdown,60000);
-
-
-
-// ══════════════════════════════════════════════════════════
-//  INTELIGÊNCIA DE APOSTAS
-// ══════════════════════════════════════════════════════════
-function buildIntelTabs(){
-  const container = document.getElementById('modalTabs');
-  container.innerHTML = modalOrdem.map(m=>`
-    <button class="modal-tab${m===modalAtiva?' active':''}" onclick="setModalAtiva('${m}')">${MODALIDADES_DB[m].emoji} ${m}</button>
-  `).join('');
-}
-
-function setModalAtiva(nome){
-  modalAtiva = nome;
-  buildIntelTabs();
-  buildIntelGrid();
-}
-
-function buildIntelGrid(){
-  const db = MODALIDADES_DB[modalAtiva];
-  const receita = RECEITA_GRUPO;
-
-  // ── coluna 1: probabilidades ──
-  const probRows = db.probabilidades.map((p,i)=>{
-    const largura = Math.round((db.probabilidades[db.probabilidades.length-1].val / p.val)*100);
-    const isFirst = i===0;
-    return `<tr class="${isFirst?'best-row':''}">
-      <td class="dez">${p.dez} dez.</td>
-      <td style="padding:4px 8px;width:80px;">
-        <div class="prob-bar"><div class="prob-bar-fill" style="width:${Math.min(100,largura)}%"></div></div>
-      </td>
-      <td class="prob">${p.prob}</td>
-    </tr>`;
-  }).join('');
-
-  const colProb = `<div class="intel-card">
-    <div class="intel-card-title"><span>📊</span> Probabilidades</div>
-    <table class="prob-table">${probRows}</table>
-    <div style="margin-top:12px;font-size:11px;color:var(--text-faint);font-family:var(--font-mono);">
-      Universo: ${db.universo} · ${db.freq}
-    </div>
-  </div>`;
-
-  // ── coluna 2: custos + combos ──────────────────────────
-  const custosRec = db.custos.filter(c=>c.custo<=receita);
-  const melhor = custosRec.length ? custosRec[custosRec.length-1] : null;
-
-  const costRows = db.custos.map(c=>{
-    const cabeFull = c.custo <= receita;
-    const nApostas = cabeFull ? Math.floor(receita/c.custo) : 0;
-    const highlight = melhor && c.dez===melhor.dez;
-    return `<tr>
-      <td class="dez-c">${c.dez} dez.</td>
-      <td class="custo ${highlight?'highlight':''}">${fmt(c.custo)}</td>
-      <td class="qtd">${cabeFull
-        ? `${nApostas}x aposta${nApostas>1?'s':''}`
-        : '<span style="color:var(--text-faint)">acima da receita</span>'}</td>
-    </tr>`;
-  }).join('');
-
-  // ── gera combos com saldo restante + extras acima da receita ──
-  function gerarCombos(base, saldo, custos) {
-    const sobra = saldo - base.custo;
-    if(sobra <= 0) return { dentro:[], extra:[] };
-    const dentro = custos
-      .filter(c => c.custo <= sobra && c.dez !== base.dez)
-      .map(c => ({ dez:c.dez, custo:c.custo, extra:sobra-c.custo, total:base.custo+c.custo, acima:false }))
-      .reverse();
-    // combos que ultrapassam a receita (investimento extra)
-    const extra = custos
-      .filter(c => c.custo > sobra && base.custo+c.custo > saldo && c.dez !== base.dez)
-      .slice(0,3)
-      .map(c => ({ dez:c.dez, custo:c.custo, extra:base.custo+c.custo-saldo, total:base.custo+c.custo, acima:true }));
-    return { dentro, extra };
+// COUNTDOWN
+const TARGET = new Date('2026-06-28T14:00:00-03:00');
+function tick(){
+  const now = new Date();
+  const diff = TARGET - now;
+  if(diff <= 0){
+    ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '00');
+    return;
   }
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+}
+tick(); setInterval(tick, 1000);
 
-  let combosHtml = '';
-  if(melhor){
-    const sobra = receita - melhor.custo;
-    const { dentro, extra } = gerarCombos(melhor, receita, db.custos);
-
-    const renderComboRow = (cb, i, isExtra) => {
-      if(isExtra){
-        return `<div style="display:flex;align-items:center;justify-content:space-between;
-            padding:8px 10px;border-radius:8px;margin-bottom:6px;
-            background:rgba(217,105,79,.08);border:1px solid rgba(217,105,79,.4);">
-          <div style="font-family:var(--font-mono);font-size:12px;">
-            <span style="color:var(--gold);font-weight:700">${melhor.dez} dez.</span>
-            <span style="color:var(--text-faint)"> + </span>
-            <span style="color:var(--red);font-weight:700">${cb.dez} dez.</span>
-            <span style="color:var(--red);font-size:10px;margin-left:4px;">🔴 extra</span>
-          </div>
-          <div style="text-align:right;font-family:var(--font-mono);font-size:11px;">
-            <div style="color:var(--red);font-weight:700">${fmt(cb.total)}</div>
-            <div style="color:rgba(217,105,79,.7);">+${fmt(cb.extra)} além da receita</div>
-          </div>
-        </div>`;
-      }
-      const badge = i===0
-        ? `<span style="color:var(--green);font-size:10px;margin-left:4px;">⭐ destaque</span>`
-        : '';
-      const extraTxt = cb.extra > 0 ? `sobram ${fmt(cb.extra)}` : `gasto exato`;
-      return `<div style="display:flex;align-items:center;justify-content:space-between;
-          padding:8px 10px;border-radius:8px;margin-bottom:6px;
-          background:${i===0?'rgba(43,182,115,.10)':'rgba(255,255,255,.03)'};
-          border:1px solid ${i===0?'var(--green-soft)':'var(--line)'};">
-        <div style="font-family:var(--font-mono);font-size:12px;">
-          <span style="color:var(--gold);font-weight:700">${melhor.dez} dez.</span>
-          <span style="color:var(--text-faint)"> + </span>
-          <span style="color:var(--text);font-weight:700">${cb.dez} dez.</span>
-          ${badge}
-        </div>
-        <div style="text-align:right;font-family:var(--font-mono);font-size:11px;">
-          <div style="color:var(--green)">${fmt(cb.total)}</div>
-          <div style="color:var(--text-faint)">${extraTxt}</div>
-        </div>
-      </div>`;
-    };
-
-    const rowsDentro = dentro.slice(0,4).map((cb,i)=>renderComboRow(cb,i,false)).join('');
-    const rowsExtra  = extra.map((cb,i)=>renderComboRow(cb,i,true)).join('');
-
-    combosHtml = `
-      <div style="margin-top:14px;">
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-faint);
-            text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
-          💡 Combinações com saldo restante de ${fmt(sobra)}
-        </div>
-        ${rowsDentro || '<div style="font-size:11px;color:var(--text-faint);font-family:var(--font-mono);">Sem combinações dentro da receita.</div>'}
-        ${rowsExtra ? `
-          <div style="font-family:var(--font-mono);font-size:10px;color:var(--red);
-              text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;">
-            🔴 Possíveis investimentos extras (acima de ${fmt(receita)})
-          </div>
-          ${rowsExtra}
-          <div style="font-size:10px;color:rgba(217,105,79,.7);font-family:var(--font-mono);margin-top:4px;line-height:1.5;">
-            Arredondamentos possíveis até sábado · valor extra por investidor seria de centavos
-          </div>` : ''}
-      </div>`;
-  }
-
-  const melhorTxt = melhor
-    ? `<div style="margin-top:10px;padding:10px 12px;border-radius:8px;
-          background:rgba(43,182,115,.08);border:1px solid var(--green-soft);
-          font-family:var(--font-mono);font-size:12px;color:var(--green);">
-        ✅ Melhor aposta com ${fmt(receita)}:<br>
-        <span style="font-size:14px;font-weight:700">${melhor.dez} dezenas · ${fmt(melhor.custo)}</span><br>
-        <span style="color:var(--text-dim)">Saldo restante: ${fmt(receita - melhor.custo)}</span>
-       </div>
-       ${combosHtml}`
-    : `<div style="margin-top:8px;font-size:12px;color:var(--red);font-family:var(--font-mono);">
-        ⚠️ Receita insuficiente para a aposta mínima.
-       </div>`;
-
-  const colCusto = `<div class="intel-card">
-    <div class="intel-card-title"><span>💰</span> Custos & Estratégia</div>
-    <div class="receita-box">
-      <div class="rlabel">Receita disponível do grupo</div>
-      <div class="rvalue">${fmt(receita)}</div>
-      <div class="rsub">45 investidores · R$ 20,00 cada · Concurso 7.051</div>
-    </div>
-    <table class="cost-table">${costRows}</table>
-    ${melhorTxt}
-  </div>`;
-
-  // ── coluna 3: dezenas mais sorteadas + sugestão de jogo ─
-  const medalhas = ['🥇','🥈','🥉'];
-  const balls = db.top10.map((n,i)=>{
-    const cls = i<3?`d${i+1}`:i<6?'d4':'';
-    const medal = i<3?` title="${medalhas[i]}"` : '';
-    return `<div class="dezena-ball ${cls}"${medal}>${String(n).padStart(2,'0')}</div>`;
-  }).join('');
-
-  // ── sugestões múltiplas — dezenas distintas por jogo ──────
-  function sugerirJogos(top10, custos, saldo) {
-    const tamanhosPriority = [10,8,7,6,5];
-    const disponiveis = tamanhosPriority.filter(t => custos.find(c=>c.dez===t));
-    if(!disponiveis.length) return '';
-
-    // Jogo A usa as primeiras N dezenas do top10
-    // Jogo B usa as próximas N (sem repetir as do A)
-    // Jogo C usa as próximas N (sem repetir A e B), etc.
-    // Se top10 não tiver dezenas suficientes, reutiliza ciclicamente
-
-    const labels = ['A','B','C','D','E'];
-    const cores = [
-      {bg:'rgba(43,182,115,.18)',  border:'var(--green)',    text:'var(--green)'},
-      {bg:'rgba(232,185,79,.14)',  border:'var(--gold)',     text:'var(--gold)'},
-      {bg:'rgba(74,158,255,.12)', border:'var(--blue)',     text:'var(--blue)'},
-      {bg:'rgba(180,130,255,.12)',border:'#b482ff',         text:'#b482ff'},
-      {bg:'rgba(255,255,255,.05)',border:'var(--text-dim)', text:'var(--text-dim)'},
-    ];
-
-    // Expande o pool de dezenas se necessário (repete top10 ciclicamente)
-    const pool = [];
-    const totalNecessario = disponiveis.reduce((a,t)=>a+t,0);
-    while(pool.length < totalNecessario + 10){
-      top10.forEach(n=>{ if(!pool.includes(n)) pool.push(n); });
-      // se precisar de mais, adiciona números adjacentes ao maior
-      let extra = Math.max(...pool) + 1;
-      while(pool.length < totalNecessario + 10) pool.push(extra++);
+// CHART: ARRECADAÇÃO POR DATA
+const ctx1 = document.getElementById('chartDatas').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['08/06','09/06','10/06','11/06','12/06','15/06','16/06','17/06','19/06','22/06','24/06'],
+    datasets: [{
+      label: 'Arrecadado (R$)',
+      data: [430,370,60,20,120,370,60,20,120,120,370],
+      backgroundColor: [
+        '#f0b429cc','#f0b429aa','#f0b42966','#f0b42944','#f0b42966',
+        '#f0b429aa','#f0b42966','#f0b42944','#f0b42966','#f0b42966','#f0b429aa'
+      ],
+      borderColor: '#f0b429',
+      borderWidth: 1,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#8b949e', font:{size:10} }, grid: { color:'#30363d' } },
+      y: { ticks: { color: '#8b949e', font:{size:10}, callback: v => 'R$'+v }, grid: { color:'#30363d' } }
     }
-
-    let usado = 0; // ponteiro no pool
-    let html = `<div style="margin-top:14px;">
-      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-faint);
-          text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">
-        🎯 Sugestões de jogo — dezenas distintas por jogo
-      </div>`;
-
-    disponiveis.forEach((tam, idx) => {
-      const info = custos.find(c=>c.dez===tam);
-      if(!info) return;
-
-      // dezenas deste jogo = próximas `tam` do pool
-      const dezenasJogo = pool.slice(usado, usado + tam);
-      usado += tam;
-
-      const cor = cores[idx] || cores[cores.length-1];
-      const dentroReceita = info.custo <= saldo;
-      const statusTxt = dentroReceita
-        ? `<span style="color:var(--green);font-size:10px;">✅ dentro da receita</span>`
-        : `<span style="color:var(--red);font-size:10px;">🔴 +${fmt(info.custo - saldo)} extra</span>`;
-
-      const ballsCor = dentroReceita ? cor : {bg:'rgba(217,105,79,.10)',border:'rgba(217,105,79,.5)',text:'var(--red)'};
-      const balls = dezenasJogo.map(n =>
-        `<div class="dezena-ball" style="width:28px;height:28px;font-size:10px;
-          background:${ballsCor.bg};border:2px solid ${ballsCor.border};color:${ballsCor.text};">
-          ${String(n).padStart(2,'0')}
-        </div>`
-      ).join('');
-
-      html += `<div style="padding:10px;border-radius:8px;margin-bottom:8px;
-          background:${dentroReceita?cor.bg:'rgba(217,105,79,.06)'};
-          border:1px solid ${dentroReceita?cor.border:'rgba(217,105,79,.35)'};">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px;">
-          <div style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:${dentroReceita?cor.text:'var(--red)'};">
-            Jogo ${labels[idx]} · ${tam} dezenas · ${fmt(info.custo)}
-          </div>
-          ${statusTxt}
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px;">${balls}</div>
-        ${!dentroReceita ? `<div style="font-family:var(--font-mono);font-size:10px;color:rgba(217,105,79,.8);margin-top:6px;">
-          Requer aporte adicional de ${fmt(info.custo - saldo)} além da receita atual.
-        </div>` : ''}
-      </div>`;
-    });
-
-    html += `<div style="font-size:10px;color:var(--text-faint);font-family:var(--font-mono);
-        margin-top:4px;line-height:1.5;">
-      ⚠️ Frequência histórica não garante resultado futuro. Cada sorteio é independente.<br>
-      Jogos 🔴 vermelhos dependem de arredondamento ou aporte até sábado.
-    </div></div>`;
-    return html;
   }
+});
 
-  const sugestaoHtml = sugerirJogos(db.top10, db.custos, receita);
-
-  const colDez = `<div class="intel-card">
-    <div class="intel-card-title"><span>🔢</span> Dezenas Mais Sorteadas</div>
-    <div class="dezena-grid">${balls}</div>
-    <div class="dezena-fonte">
-      🥇 Ouro · 🥈 Prata · 🥉 Bronze · 🟢 Top 4–6<br>
-      ${db.fonte}
-    </div>
-    ${sugestaoHtml}
-  </div>`;
-
-  document.getElementById('intelGrid').innerHTML = colProb + colCusto + colDez;
-  document.getElementById('receitaDisp').textContent = fmt(receita);
-}
-
-// ══════════════════════════════════════════════════════════
-//  RENDER KPIs
-// ══════════════════════════════════════════════════════════
-let chartSetoresInst = null;
-function renderTudo(){
-  const totalReceita = investidores.reduce((a,b)=>a+b.valor,0);
-  const totalCredito = investidores.reduce((a,b)=>a+b.credito,0);
-  const media = investidores.length ? totalReceita/investidores.length : 0;
-  document.getElementById('kpiReceita').textContent=fmt(totalReceita);
-  document.getElementById('kpiInvestidores').textContent=investidores.length;
-  document.getElementById('kpiMedia').textContent=fmt(media);
-  document.getElementById('kpiCreditos').textContent=fmt(totalCredito);
-  renderPerfis(); renderSetores(); renderTabela(); renderHistorico();
-}
-
-function renderPerfis(){
-  const grupos={conservador:{inv:0,total:0},moderado:{inv:0,total:0},arrojado:{inv:0,total:0}};
-  investidores.forEach(i=>{const p=perfil(i.valor);grupos[p.classe].inv++;grupos[p.classe].total+=i.valor;});
-  const total=investidores.length||1;
-  const cards=[
-    {chave:'conservador',titulo:'Conservador',desc:'R$ 20,00 investido'},
-    {chave:'moderado',titulo:'Moderado',desc:'R$ 40,00 investido'},
-    {chave:'arrojado',titulo:'Arrojado',desc:'Acima de R$ 40,00'}
-  ];
-  const cores={conservador:'var(--green)',moderado:'var(--gold)',arrojado:'var(--red)'};
-  document.getElementById('profileCards').innerHTML=cards.map(c=>{
-    const g=grupos[c.chave];const pct=Math.round((g.inv/total)*100);
-    return `<div class="profile-card ${c.chave}">
-      <div class="ptitle">${c.titulo}</div><div class="pdesc">${c.desc}</div>
-      <div class="bar"><div class="bar-fill" style="width:${pct}%;background:${cores[c.chave]}"></div></div>
-      <div class="pstats">
-        <span><b>${g.inv}</b><br>investidores</span>
-        <span><b>${pct}%</b><br>do total</span>
-        <span><b>${fmt(g.total)}</b><br>em receita</span>
-      </div></div>`;
-  }).join('');
-}
-
-function renderSetores(){
-  const map={};
-  investidores.forEach(i=>{if(!map[i.setor])map[i.setor]={inv:0,total:0};map[i.setor].inv++;map[i.setor].total+=i.valor;});
-  const lista=Object.entries(map).sort((a,b)=>b[1].total-a[1].total);
-  const maxTotal=lista.length?lista[0][1].total:1;
-  document.getElementById('tagSetores').textContent=`${lista.length} setores`;
-  document.getElementById('sectorGrid').innerHTML=lista.map(([s,v])=>`
-    <div class="sector-card">
-      <div class="code">${s}</div><div class="invested">${fmt(v.total)}</div>
-      <div class="meta">${v.inv} investidor(es)</div>
-      <div class="mini-bar"><div class="mini-bar-fill" style="width:${Math.round((v.total/maxTotal)*100)}%"></div></div>
-    </div>`).join('');
-  const top=lista.slice(0,6);
-  if(chartSetoresInst)chartSetoresInst.destroy();
-  chartSetoresInst=new Chart(document.getElementById('chartSetores'),{
-    type:'bar',
-    data:{labels:top.map(([s])=>s),datasets:[{label:'Receita (R$)',data:top.map(([,v])=>v.total),backgroundColor:'#2bb673',borderRadius:8,maxBarThickness:28}]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0e1410',borderColor:'#263128',borderWidth:1,padding:12,callbacks:{label:(ctx)=>` ${fmt(ctx.parsed.x)}`}}},
-      scales:{x:{grid:{color:'#263128'},ticks:{callback:(v)=>'R$ '+v,color:'#8fa097'}},y:{grid:{display:false},ticks:{color:'#8fa097'}}}}
-  });
-}
-
-function renderTabela(){
-  const tbody=document.getElementById('tabelaInvestidores');
-  if(!investidores.length){
-    tbody.innerHTML=`<tr class="empty-row"><td colspan="8">Nenhum investidor cadastrado ainda.</td></tr>`;
-  } else {
-    tbody.innerHTML=investidores.map((inv,idx)=>{
-      const p=perfil(inv.valor);
-      return `<tr>
-        <td class="num" style="color:var(--text-faint)">${idx+1}</td>
-        <td>${inv.nome}</td>
-        <td><span class="tag-bet">${inv.setor}</span></td>
-        <td>${inv.modalidade}</td>
-        <td class="num">${inv.concurso}</td>
-        <td><span class="profile-chip ${p.classe}">${p.nome}</span></td>
-        <td class="num">${fmt(inv.valor)}</td>
-        <td class="num">${inv.credito>0?fmt(inv.credito):'—'}</td>
-      </tr>`;
-    }).join('');
+// CHART: PERFIL DOS INVESTIDORES
+const ctx2 = document.getElementById('chartPerfil').getContext('2d');
+const conservador = INVESTIDORES.filter(i => i.total === 20).length;
+const moderado = INVESTIDORES.filter(i => i.total > 20 && i.total <= 40).length;
+const arrojado = INVESTIDORES.filter(i => i.total > 40).length;
+new Chart(ctx2, {
+  type: 'doughnut',
+  data: {
+    labels: ['Conservador (R$ 20)', 'Moderado (até R$ 40)', 'Arrojado (acima R$ 40)'],
+    datasets: [{
+      data: [conservador, moderado, arrojado],
+      backgroundColor: ['#3fb950cc','#f0b429cc','#f85149cc'],
+      borderColor: ['#3fb950','#f0b429','#f85149'],
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#8b949e', font:{size:11}, padding:12 } }
+    }
   }
-  const totalCredito=investidores.reduce((a,b)=>a+b.credito,0);
-  const tag=`${investidores.length} investidores · ${fmt(investidores.reduce((a,b)=>a+b.valor,0))} investido`;
-  document.getElementById('totalInvestidoresTag').textContent=totalCredito>0?tag+` · ${fmt(totalCredito)} em créditos`:tag;
-}
-
-function renderHistorico(){
-  const grupos={};
-  investidores.forEach(inv=>{
-    const chave=`${inv.modalidade}|${inv.concurso}`;
-    if(!grupos[chave])grupos[chave]={modalidade:inv.modalidade,concurso:inv.concurso,inv:0,receita:0,credito:0};
-    grupos[chave].inv++;grupos[chave].receita+=inv.valor;grupos[chave].credito+=inv.credito;
-  });
-  const lista=Object.values(grupos).sort((a,b)=>Number(b.concurso)-Number(a.concurso));
-  const tbody=document.getElementById('tabelaHistorico');
-  if(!lista.length){
-    tbody.innerHTML=`<tr class="empty-row"><td colspan="5">Nenhum concurso registrado ainda.</td></tr>`;
-  } else {
-    tbody.innerHTML=lista.map(g=>`<tr>
-      <td>${g.modalidade}</td><td class="num">${g.concurso}</td>
-      <td class="num">${g.inv}</td><td class="num">${fmt(g.receita)}</td>
-      <td class="num">${g.credito>0?fmt(g.credito):'—'}</td>
-    </tr>`).join('');
-  }
-  document.getElementById('totalConcursosTag').textContent=`${lista.length} concurso(s) registrado(s)`;
-}
-
-
-
-// ══════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════
-Chart.defaults.font.family="'Inter',sans-serif";
-Chart.defaults.color='#8fa097';
-Chart.defaults.borderColor='#263128';
-buildIntelTabs();
-buildIntelGrid();
-renderTudo();
+});
 </script>
 </body>
 </html>
