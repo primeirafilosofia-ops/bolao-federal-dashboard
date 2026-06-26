@@ -297,29 +297,41 @@
   <!-- KPIs -->
   <div class="kpi-grid">
     <div class="kpi gold">
-      <div class="kpi-icon">💰</div>
+      <div class="kpi-icon">💵</div>
       <div class="kpi-value gold">R$ 1.320,00</div>
-      <div class="kpi-label">Receita Total do Grupo</div>
-      <div class="kpi-sub">Concurso 7.051 · Quina de São João</div>
-    </div>
-    <div class="kpi blue">
-      <div class="kpi-icon">👥</div>
-      <div class="kpi-value blue">48</div>
-      <div class="kpi-label">Investidores Ativos</div>
-      <div class="kpi-sub">São Bernardo do Campo</div>
+      <div class="kpi-label">Total Arrecadado</div>
+      <div class="kpi-sub">Receita R$ 980 + Créditos R$ 340 · Col. N</div>
     </div>
     <div class="kpi green">
-      <div class="kpi-icon">📊</div>
-      <div class="kpi-value green">R$ 27,50</div>
-      <div class="kpi-label">Média por Investidor</div>
-      <div class="kpi-sub">Cota padrão: R$ 20,00</div>
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-value green">R$ 980,00</div>
+      <div class="kpi-label">Receita Total do Grupo</div>
+      <div class="kpi-sub">Soma das cotas padrão (R$ 20) · Col. O</div>
     </div>
     <div class="kpi red">
       <div class="kpi-icon">🔁</div>
       <div class="kpi-value red">R$ 340,00</div>
       <div class="kpi-label">Créditos Acumulados</div>
-      <div class="kpi-sub">Pagamentos em duplicidade detectados</div>
+      <div class="kpi-sub">Excedente por duplicidade de pagamento · Col. P</div>
     </div>
+    <div class="kpi blue">
+      <div class="kpi-icon">👥</div>
+      <div class="kpi-value blue">48</div>
+      <div class="kpi-label">Investidores Ativos</div>
+      <div class="kpi-sub">São Bernardo do Campo · 7 com crédito pendente</div>
+    </div>
+  </div>
+
+  <!-- FÓRMULA EXPLICATIVA -->
+  <div style="background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--radius);padding:12px 18px;margin-bottom:24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;">
+    <span style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Composição:</span>
+    <span style="color:var(--green);font-weight:700;">Receita Total R$ 980,00</span>
+    <span style="color:var(--muted);">(Col. O — soma das cotas de R$ 20)</span>
+    <span style="color:var(--muted);margin:0 4px;">+</span>
+    <span style="color:var(--red);font-weight:700;">Créditos Acumulados R$ 340,00</span>
+    <span style="color:var(--muted);">(Col. P — excedente por duplicidade)</span>
+    <span style="color:var(--muted);margin:0 4px;">=</span>
+    <span style="color:var(--gold);font-weight:800;">Total Arrecadado R$ 1.320,00</span>
   </div>
 
   <!-- INVESTIMENTO POR DATA -->
@@ -477,7 +489,9 @@
           <tr><td style="color:var(--muted);padding:5px 0;">Universo</td><td style="padding:5px 0;font-weight:600;">1 a 80 números</td></tr>
           <tr><td style="color:var(--muted);padding:5px 0;">Acertos p/ prêmio</td><td style="padding:5px 0;font-weight:600;">5 dezenas</td></tr>
           <tr><td style="color:var(--muted);padding:5px 0;">Probabilidade (5 dez.)</td><td style="padding:5px 0;font-weight:600;color:var(--red);">1 em 24.040.016</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Receita do grupo</td><td style="padding:5px 0;font-weight:600;color:var(--green);">R$ 1.320,00</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Receita do grupo (Col. O)</td><td style="padding:5px 0;font-weight:600;color:var(--green);">R$ 980,00</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Créditos acumulados (Col. P)</td><td style="padding:5px 0;font-weight:600;color:var(--red);">R$ 340,00</td></tr>
+          <tr><td style="color:var(--muted);padding:5px 0;">Total arrecadado</td><td style="padding:5px 0;font-weight:600;color:var(--gold);">R$ 1.320,00</td></tr>
         </tbody>
       </table>
     </div>
