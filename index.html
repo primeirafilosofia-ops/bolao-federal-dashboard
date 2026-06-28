@@ -1,673 +1,384 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Painel de Investidores · SBC</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Bolão Federal Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
-  :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1e2633;
-    --border: #30363d;
-    --gold: #f0b429;
-    --gold-dim: #7d5c10;
-    --green: #3fb950;
-    --red: #f85149;
-    --blue: #58a6ff;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --radius: 10px;
-    --font: 'Segoe UI', system-ui, sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 14px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
 
-  /* HEADER */
-  header {
-    background: linear-gradient(135deg, #0d1117 0%, #1a2030 100%);
-    border-bottom: 1px solid var(--gold-dim);
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-icon {
-    width: 40px; height: 40px;
-    background: var(--gold);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 16px; color: #000;
-  }
-  .logo h1 { font-size: 18px; font-weight: 700; }
-  .logo p { font-size: 11px; color: var(--muted); }
-  .badge-concurso {
-    background: linear-gradient(135deg, var(--gold), #d97706);
-    color: #000;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .updated { font-size: 11px; color: var(--muted); text-align: right; }
+body{
+    background:#f4f6f9;
+    overflow-x:hidden;
+}
 
-  /* COUNTDOWN */
-  .countdown-bar {
-    background: linear-gradient(90deg, #1a2030, #0d1117);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .countdown-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-  .countdown-digits { display: flex; gap: 8px; }
-  .cd-block {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 10px;
-    text-align: center;
-    min-width: 50px;
-  }
-  .cd-block span:first-child { display: block; font-size: 20px; font-weight: 800; color: var(--gold); }
-  .cd-block span:last-child { display: block; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-  .premio-bar { margin-left: auto; font-size: 13px; }
-  .premio-bar strong { color: var(--gold); font-size: 16px; }
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:250px;
+    height:100vh;
+    background:#212529;
+    padding-top:20px;
+}
 
-  /* MAIN */
-  main { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; }
+.sidebar h4{
+    color:#fff;
+    text-align:center;
+    margin-bottom:30px;
+}
 
-  /* CARDS KPI */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .kpi {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .kpi::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-  .kpi.gold::before { background: var(--gold); }
-  .kpi.green::before { background: var(--green); }
-  .kpi.blue::before { background: var(--blue); }
-  .kpi.red::before { background: var(--red); }
-  .kpi-icon { font-size: 22px; margin-bottom: 6px; }
-  .kpi-value { font-size: 26px; font-weight: 800; line-height: 1.1; }
-  .kpi-value.gold { color: var(--gold); }
-  .kpi-value.green { color: var(--green); }
-  .kpi-value.red { color: var(--red); }
-  .kpi-value.blue { color: var(--blue); }
-  .kpi-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
-  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.sidebar a{
+    color:#ced4da;
+    text-decoration:none;
+    display:block;
+    padding:12px 20px;
+}
 
-  /* SECTION TITLE */
-  .section-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    margin: 28px 0 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+.sidebar a:hover{
+    background:#0d6efd;
+    color:#fff;
+}
 
-  /* GRID 2 COL */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-  @media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
+.main-content{
+    margin-left:250px;
+    padding:25px;
+}
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-  }
-  .card-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+.card-dashboard{
+    border:none;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
 
-  /* CHART CONTAINER */
-  .chart-wrap { position: relative; height: 240px; }
+.valor{
+    font-size:32px;
+    font-weight:bold;
+}
 
-  /* DUPLICIDADES */
-  .dup-list { display: flex; flex-direction: column; gap: 8px; }
-  .dup-item {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--red);
-    border-radius: 6px;
-    padding: 10px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-  .dup-name { font-size: 13px; font-weight: 600; }
-  .dup-detail { font-size: 11px; color: var(--muted); }
-  .dup-tag {
-    background: rgba(248,81,73,.15);
-    color: var(--red);
-    border: 1px solid rgba(248,81,73,.3);
-    border-radius: 4px;
-    padding: 3px 8px;
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-  }
+.card-header{
+    font-weight:bold;
+}
 
-  /* TABLE */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  thead tr { background: var(--surface2); }
-  th {
-    padding: 8px 10px;
-    text-align: left;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  td {
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-  }
-  tbody tr:hover { background: var(--surface2); }
-  tbody tr:last-child td { border-bottom: none; }
-  .pill {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 10px;
-    font-weight: 700;
-  }
-  .pill-green { background: rgba(63,185,80,.15); color: var(--green); }
-  .pill-yellow { background: rgba(240,180,41,.15); color: var(--gold); }
-  .pill-red { background: rgba(248,81,73,.15); color: var(--red); }
-  .pill-blue { background: rgba(88,166,255,.15); color: var(--blue); }
-  .valor-col { font-weight: 700; }
-  .credito-pos { color: var(--green); font-weight: 700; }
-  .credito-neg { color: var(--red); font-weight: 700; }
-  .credito-zero { color: var(--muted); }
+.table td{
+    vertical-align:middle;
+}
 
-  /* DATAS INVESTIMENTO */
-  .datas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-  }
-  .data-card {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    text-align: center;
-  }
-  .data-card .dc-date { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .data-card .dc-valor { font-size: 18px; font-weight: 800; color: var(--gold); }
-  .data-card .dc-label { font-size: 10px; color: var(--muted); margin-top: 2px; }
+@media(max-width:768px){
 
-  /* PROGRESS SETORES */
-  .setor-list { display: flex; flex-direction: column; gap: 10px; }
-  .setor-item {}
-  .setor-header { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; }
-  .setor-name { font-weight: 600; }
-  .setor-val { color: var(--gold); font-weight: 700; }
-  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #d97706); border-radius: 3px; transition: width .6s ease; }
+.sidebar{
+    width:100%;
+    position:relative;
+    height:auto;
+}
 
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 16px 24px;
-    text-align: center;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  footer a { color: var(--blue); text-decoration: none; }
+.main-content{
+    margin-left:0;
+}
+
+}
+
 </style>
+
 </head>
+
 <body>
 
-<header>
-  <div class="logo">
-    <div class="logo-icon">BF</div>
-    <div>
-      <h1>Gestão de Investimentos</h1>
-      <p>Painel de Investidores · São Bernardo do Campo</p>
-    </div>
-  </div>
-  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-    <span class="badge-concurso">🎰 Concurso 7.051 · Quina de São João</span>
-    <span class="updated">Sorteio: 28/06/2026 às 14h00 · Atualizado em 25/06/2026</span>
-  </div>
-</header>
+<!-- MENU -->
 
-<div class="countdown-bar">
-  <div>
-    <div class="countdown-label">Tempo para o sorteio</div>
-    <div class="countdown-digits">
-      <div class="cd-block"><span id="cd-d">--</span><span>dias</span></div>
-      <div class="cd-block"><span id="cd-h">--</span><span>horas</span></div>
-      <div class="cd-block"><span id="cd-m">--</span><span>min</span></div>
-      <div class="cd-block"><span id="cd-s">--</span><span>seg</span></div>
-    </div>
-  </div>
-  <div class="premio-bar">
-    Prêmio estimado: <strong>R$ 250.000.000,00</strong>
-  </div>
+<div class="sidebar">
+
+<h4>🎲 Bolão Federal</h4>
+
+<a href="#dashboard">📊 Dashboard</a>
+<a href="#financeiro">💰 Financeiro</a>
+<a href="#apostas">🎯 Apostas Realizadas</a>
+<a href="#investidores">👥 Investidores</a>
+<a href="#creditos">🏦 Créditos</a>
+<a href="#transparencia">📋 Transparência</a>
+<a href="#estatisticas">📈 Estatísticas</a>
+<a href="#simulador">🧮 Simulador</a>
+
 </div>
 
-<main>
+<!-- CONTEÚDO -->
 
-  <!-- KPIs -->
-  <div class="kpi-grid">
-    <div class="kpi gold">
-      <div class="kpi-icon">💵</div>
-      <div class="kpi-value gold">R$ 1.320,00</div>
-      <div class="kpi-label">Total Arrecadado</div>
-      <div class="kpi-sub">Receita R$ 980 + Créditos R$ 340 · Col. N</div>
-    </div>
-    <div class="kpi green">
-      <div class="kpi-icon">💰</div>
-      <div class="kpi-value green">R$ 980,00</div>
-      <div class="kpi-label">Receita Total do Grupo</div>
-      <div class="kpi-sub">Soma das cotas padrão (R$ 20) · Col. O</div>
-    </div>
-    <div class="kpi red">
-      <div class="kpi-icon">🔁</div>
-      <div class="kpi-value red">R$ 340,00</div>
-      <div class="kpi-label">Créditos Acumulados</div>
-      <div class="kpi-sub">Excedente por duplicidade de pagamento · Col. P</div>
-    </div>
-    <div class="kpi blue">
-      <div class="kpi-icon">👥</div>
-      <div class="kpi-value blue">48</div>
-      <div class="kpi-label">Investidores Ativos</div>
-      <div class="kpi-sub">São Bernardo do Campo · 7 com crédito pendente</div>
-    </div>
-  </div>
+<div class="main-content">
 
-  <!-- FÓRMULA EXPLICATIVA -->
-  <div style="background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--radius);padding:12px 18px;margin-bottom:24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;">
-    <span style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Composição:</span>
-    <span style="color:var(--green);font-weight:700;">Receita Total R$ 980,00</span>
-    <!--//<span style="color:var(--muted);">(Col. O — soma das cotas de R$ 20)</span> -->
-    <span style="color:var(--muted);margin:0 4px;">+</span>
-    <span style="color:var(--red);font-weight:700;">Créditos Acumulados R$ 340,00</span>
-    <!--//<span style="color:var(--muted);">(Col. P — excedente por duplicidade)</span> -->
-    <span style="color:var(--muted);margin:0 4px;">=</span>
-    <span style="color:var(--gold);font-weight:800;">Total Arrecadado R$ 1.320,00</span>
-  </div>
+<section id="dashboard">
 
-  <!-- INVESTIMENTO POR DATA -->
-  <div class="section-title">📅 Investimento por data de pagamento</div>
-  <div class="datas-grid" style="margin-bottom:24px;">
-    <div class="data-card"><div class="dc-date">08/06</div><div class="dc-valor">R$ 430</div><div class="dc-label">maior entrada</div></div>
-    <div class="data-card"><div class="dc-date">09/06</div><div class="dc-valor">R$ 370</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">10/06</div><div class="dc-valor">R$ 60</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">11/06</div><div class="dc-valor">R$ 20</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">12/06</div><div class="dc-valor">R$ 120</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">15/06</div><div class="dc-valor">R$ 120</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">16/06</div><div class="dc-valor">R$ 40</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">17/06</div><div class="dc-valor">R$ 40</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">19/06</div><div class="dc-valor">R$ 60</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">22/06</div><div class="dc-valor">R$ 20</div><div class="dc-label"></div></div>
-    <div class="data-card"><div class="dc-date">24/06</div><div class="dc-valor">R$ 40</div><div class="dc-label">último lote</div></div>
-  </div>
+<h2>Quina de São João - Concurso 7051</h2>
 
-  <!-- GRÁFICOS -->
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">📈 Arrecadação por data</div>
-      <div class="chart-wrap"><canvas id="chartDatas"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">🎯 Perfil dos investidores</div>
-      <div class="chart-wrap"><canvas id="chartPerfil"></canvas></div>
-    </div>
-  </div>
+<p class="text-muted">
+Portal de Transparência dos Investidores
+</p>
 
-  <!-- DUPLICIDADES -->
- <!-- <div class="section-title">⚠️ Duplicidades detectadas — crédito acumulado</div>
-  <div class="dup-list" style="margin-bottom:24px;">
-    <div class="dup-item">
-      <div>
-        <div class="dup-name">Van</div>
-        <div class="dup-detail">Pagou R$ 160 · Cota padrão R$ 20 · 8 cotas pagas</div>
-      </div>
-      <div class="dup-tag">Crédito R$ 140</div>
-    </div>
-    <div class="dup-item">
-      <div>
-        <div class="dup-name">Carlos Alberto</div>
-        <div class="dup-detail">Pagou R$ 100 · Cota padrão R$ 20 · 5 cotas pagas</div>
-      </div>
-      <div class="dup-tag">Crédito R$ 80</div>
-    </div>
-    <div class="dup-item">
-      <div>
-        <div class="dup-name">Sueli Thodorof</div>
-        <div class="dup-detail">Pagou R$ 60 · Cota padrão R$ 20 · Pagamentos em 3 datas</div>
-      </div>
-      <div class="dup-tag">Crédito R$ 40</div>
-    </div>
-    <div class="dup-item">
-      <div>
-        <div class="dup-name">Ana Paula Boteon</div>
-        <div class="dup-detail">Pagou R$ 40 · Cota padrão R$ 20 · 2 pagamentos</div>
-      </div>
-      <div class="dup-tag">Crédito R$ 20</div>
-    </div>
-    <div class="dup-item">
-      <div>
-        <div class="dup-name">Dulciene Varela</div>
-        <div class="dup-detail">Pagou R$ 40 · 2 pagamentos (08/06 + 24/06)</div>
-      </div>
-      <div class="dup-tag">Crédito R$ 20</div>
-    </div>
-    <div class="dup-item">
-      <div>
-        <div class="dup-name">Lúcia de Novaes</div>
-        <div class="dup-detail">Pagou R$ 40 · 2 pagamentos (08/06 + 12/06)</div>
-      </div>
-      <div class="dup-tag">Crédito R$ 20</div>
-    </div>
-    <div class="dup-item">
-      <div>
-        <div class="dup-name">Rita Micheletti</div>
-        <div class="dup-detail">Pagou R$ 40 · 2 pagamentos (08/06 + 12/06)</div>
-      </div>
-      <div class="dup-tag">Crédito R$ 20</div>
-    </div>
+<div class="row g-3">
 
-  </div> 
---> 
-  <!-- TABELA COMPLETA -->
-  <div class="section-title">📋 Lista completa de investidores</div>
-  <div class="card" style="margin-bottom:24px;">
-    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
-      <span class="pill pill-blue">🔍 Total: 48 investidores</span>
-      <span class="pill pill-green">✅ Quita: 41</span>
-      <span class="pill pill-red">⚠️ Crédito: 7</span>
-      <span class="pill pill-yellow">💛 Cota padrão R$ 20</span>
-    </div>
-    <div class="table-wrap">
-      <table id="tabela-investidores">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Total pago (R$)</th>
-            <th>Receita Total (R$)</th>
-            <th>Crédito (R$)</th>
-            <th>Perfil</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="tbody-inv"></tbody>
-      </table>
-    </div>
-  </div>
+<div class="col-lg-3">
+<div class="card card-dashboard text-bg-success">
+<div class="card-body">
+<div>Receita Recebida</div>
+<div class="valor">R$ 1.280</div>
+</div>
+</div>
+</div>
 
-  <!-- HISTÓRICO DE CONCURSOS -->
-  <div class="section-title">🗂️ Histórico de concursos</div>
-  <div class="card" style="margin-bottom:24px;">
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Modalidade</th>
-            <th>Concurso</th>
-            <th>Sorteio</th>
-            <th>Investidores</th>
-            <th>Receita (R$)</th>
-            <th>Créditos (R$)</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Quina de São João</td>
-            <td>7.051</td>
-            <td>28/06/2026</td>
-            <td>48</td>
-            <td class="valor-col">1.320,00</td>
-            <td class="credito-neg">-340,00</td>
-            <td><span class="pill pill-yellow">Em aberto</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="col-lg-3">
+<div class="card card-dashboard text-bg-primary">
+<div class="card-body">
+<div>Aplicado nas Apostas</div>
+<div class="valor">R$ 1.023</div>
+</div>
+</div>
+</div>
 
-  <!-- INFORMAÇÕES DA LOTERIA -->
-  <div class="section-title">🎰 Inteligência da aposta — Quina de São João</div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">📊 Dados do concurso</div>
-      <table style="font-size:12px;">
-        <tbody>
-          <tr><td style="color:var(--muted);padding:5px 0;">Modalidade</td><td style="padding:5px 0;font-weight:600;">Quina de São João</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Concurso</td><td style="padding:5px 0;font-weight:600;">7.051</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Sorteio</td><td style="padding:5px 0;font-weight:600;">28/06/2026 às 14h00</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Prêmio estimado</td><td style="padding:5px 0;font-weight:600;color:var(--gold);">R$ 250.000.000</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Universo</td><td style="padding:5px 0;font-weight:600;">1 a 80 números</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Acertos p/ prêmio</td><td style="padding:5px 0;font-weight:600;">5 dezenas</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Probabilidade (5 dez.)</td><td style="padding:5px 0;font-weight:600;color:var(--red);">1 em 24.040.016</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Receita do grupo (Col. O)</td><td style="padding:5px 0;font-weight:600;color:var(--green);">R$ 980,00</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Créditos acumulados (Col. P)</td><td style="padding:5px 0;font-weight:600;color:var(--red);">R$ 340,00</td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0;">Total arrecadado</td><td style="padding:5px 0;font-weight:600;color:var(--gold);">R$ 1.320,00</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">🔢 Dezenas mais sorteadas na Quina</div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">04</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">13</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">53</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">31</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">74</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">65</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">05</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">27</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">80</span>
-        <span style="background:#1e3a5f;color:#58a6ff;border:1px solid #2d5a8e;border-radius:4px;padding:4px 10px;font-size:13px;font-weight:700;">20</span>
-      </div>
-      <p style="font-size:11px;color:var(--muted);margin-top:10px;">Fonte: estatísticas históricas até jun/2026 · somatematica.com.br</p>
-    </div>
-  </div>
+<div class="col-lg-3">
+<div class="card card-dashboard text-bg-warning">
+<div class="card-body">
+<div>Créditos</div>
+<div class="valor">R$ 260</div>
+</div>
+</div>
+</div>
 
-</main>
+<div class="col-lg-3">
+<div class="card card-dashboard text-bg-secondary">
+<div class="card-body">
+<div>Investidores</div>
+<div class="valor">51</div>
+</div>
+</div>
+</div>
 
-<footer>
-  © 2026 Bolão Federal · Investidores de São Bernardo do Campo · Painel interno
-  &nbsp;·&nbsp;
-  <a href="https://loterias.caixa.gov.br" target="_blank">🎰 Loterias Caixa</a>
-</footer>
+</div>
+
+</section>
+
+<hr>
+
+<section id="financeiro">
+
+<div class="row mt-4">
+
+<div class="col-lg-6">
+
+<div class="card card-dashboard">
+
+<div class="card-header">
+Composição Financeira
+</div>
+
+<div class="card-body">
+
+<canvas id="graficoPizza"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card card-dashboard">
+
+<div class="card-header">
+Indicadores Financeiros
+</div>
+
+<div class="card-body">
+
+<canvas id="graficoBarra"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<hr>
+
+<section id="apostas">
+
+<div class="card card-dashboard mt-4">
+
+<div class="card-header">
+🎯 Jogos Realizados
+</div>
+
+<div class="card-body">
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+<th>Jogo</th>
+<th>Dezenas</th>
+<th>Valor</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>1</td>
+<td>04 05 13 20 27 31 53 65 74 80</td>
+<td>R$ 756,00</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>02 15 31 32 47 49 68 70</td>
+<td>R$ 168,00</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>25 37 38 48 62 67</td>
+<td>R$ 18,00</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>01 04 07 19 21 59</td>
+<td>R$ 18,00</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>01 15 18 19 40 73 80</td>
+<td>R$ 63,00</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<hr>
+
+<section id="transparencia">
+
+<div class="card card-dashboard">
+
+<div class="card-header">
+
+📋 Resumo Financeiro
+
+</div>
+
+<div class="card-body">
+
+<table class="table">
+
+<tr>
+<td>Receita Recebida</td>
+<td>R$ 1.280,00</td>
+</tr>
+
+<tr>
+<td>Valor Aplicado nas Apostas</td>
+<td>R$ 1.023,00</td>
+</tr>
+
+<tr>
+<td>Aportes Estratégicos</td>
+<td>R$ 3,00</td>
+</tr>
+
+<tr>
+<td>Créditos Acumulados</td>
+<td>R$ 260,00</td>
+</tr>
+
+<tr>
+<td>Investidores</td>
+<td>51</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
 
 <script>
-// ── DADOS DA PLANILHA ─────────────────────────────────────────────────────────
-const INVESTIDORES = [
-  {id:1, nome:"Adriana Guerrieri", total:20, receita:20, credito:0},
-  {id:2, nome:"Adriana Milan", total:20, receita:20, credito:0},
-  {id:3, nome:"Adriano Vinco", total:20, receita:20, credito:0},
-  {id:4, nome:"Ana Carolina Tavares", total:20, receita:20, credito:0},
-  {id:5, nome:"Ana Maria Cordon", total:20, receita:20, credito:0},
-  {id:6, nome:"Ana Maria Magalhães", total:20, receita:20, credito:0},
-  {id:7, nome:"Ana Paula Boteon", total:40, receita:20, credito:-20},
-  {id:8, nome:"Carlos Alberto", total:100, receita:20, credito:-80},
-  {id:9, nome:"Cláudia Rosana", total:20, receita:20, credito:0},
-  {id:10, nome:"Denise Couto", total:20, receita:20, credito:0},
-  {id:11, nome:"Dulciene Varela", total:40, receita:20, credito:-20},
-  {id:12, nome:"Elena Zanetti", total:20, receita:20, credito:0},
-  {id:13, nome:"Elizabete Moreira", total:20, receita:20, credito:0},
-  {id:14, nome:"Érica Marson", total:20, receita:20, credito:0},
-  {id:15, nome:"Erlim Andrade", total:20, receita:20, credito:0},
-  {id:16, nome:"Ester Caetano", total:20, receita:20, credito:0},
-  {id:17, nome:"Fran Santiago", total:20, receita:20, credito:0},
-  {id:18, nome:"Inês Helena", total:20, receita:20, credito:0},
-  {id:19, nome:"Ionara", total:20, receita:20, credito:0},
-  {id:21, nome:"Juliana Ferreira Sousa", total:20, receita:20, credito:0},
-  {id:22, nome:"Lia", total:20, receita:20, credito:0},
-  {id:23, nome:"Lúcia de Novaes", total:40, receita:20, credito:-20},
-  {id:24, nome:"Márcia Rocha", total:20, receita:20, credito:0},
-  {id:25, nome:"Marina Caetano", total:20, receita:20, credito:0},
-  {id:27, nome:"Marta Carlos", total:20, receita:20, credito:0},
-  {id:28, nome:"Meliane Salmaso", total:20, receita:20, credito:0},
-  {id:29, nome:"Renata Fenelon", total:20, receita:20, credito:0},
-  {id:30, nome:"Rita Micheletti", total:40, receita:20, credito:-20},
-  {id:31, nome:"Robson Zanetti", total:20, receita:20, credito:0},
-  {id:32, nome:"Rosana Mota", total:20, receita:20, credito:0},
-  {id:33, nome:"Rosana Nobre", total:20, receita:20, credito:0},
-  {id:35, nome:"Rosangêla Marotti", total:20, receita:20, credito:0},
-  {id:36, nome:"Sílvia Cristina", total:20, receita:20, credito:0},
-  {id:37, nome:"Simone Nogueira", total:20, receita:20, credito:0},
-  {id:38, nome:"Sueli Thodorof", total:60, receita:20, credito:-40},
-  {id:39, nome:"Tânia L Demenis", total:20, receita:20, credito:0},
-  {id:40, nome:"Tânia Murias", total:20, receita:20, credito:0},
-  {id:41, nome:"Valéria Albuquerque", total:20, receita:20, credito:0},
-  {id:42, nome:"Van", total:160, receita:20, credito:-140},
-  {id:43, nome:"Vani Gomes", total:20, receita:20, credito:0},
-  {id:44, nome:"Vitor H Pissaia", total:20, receita:20, credito:0},
-  {id:45, nome:"Mirian V Souza", total:20, receita:20, credito:0},
-  {id:46, nome:"Viviane Carlos", total:20, receita:20, credito:0},
-  {id:47, nome:"Maurício Leite", total:20, receita:20, credito:0},
-  {id:48, nome:"Carlos Renato", total:20, receita:20, credito:0},
-  {id:49, nome:"Débora Stábile", total:20, receita:20, credito:0},
-  {id:50, nome:"Vera Rosseto", total:20, receita:20, credito:0},
-  {id:51, nome:"Célia Regina Tossato", total:20, receita:20, credito:0},
-  {id:52, nome:"Lilian Tunes", total:20, receita:20, credito:0},
-];
 
-// PREENCHE TABELA
-const tbody = document.getElementById('tbody-inv');
-INVESTIDORES.forEach((inv, i) => {
-  const perfil = inv.total === 20 ? ['Conservador','pill-green'] :
-                 inv.total <= 40  ? ['Moderado','pill-yellow'] :
-                                    ['Arrojado','pill-blue'];
-  const creditoClass = inv.credito < 0 ? 'credito-neg' : inv.credito > 0 ? 'credito-pos' : 'credito-zero';
-  const creditoStr  = inv.credito === 0 ? '—' : `R$ ${Math.abs(inv.credito).toFixed(2).replace('.',',')}`;
-  const status = inv.credito < 0
-    ? `<span class="pill pill-red">Crédito pendente</span>`
-    : `<span class="pill pill-green">Quitado</span>`;
-  tbody.innerHTML += `<tr>
-    <td style="color:var(--muted);">${i+1}</td>
-    <td style="font-weight:600;">${inv.nome}</td>
-    <td class="valor-col">R$ ${inv.total.toFixed(2).replace('.',',')}</td>
-    <td>R$ ${inv.receita.toFixed(2).replace('.',',')}</td>
-    <td class="${creditoClass}">${creditoStr}</td>
-    <td><span class="pill ${perfil[1]}">${perfil[0]}</span></td>
-    <td>${status}</td>
-  </tr>`;
-});
+new Chart(
+document.getElementById('graficoPizza'),
+{
+type:'pie',
 
-// COUNTDOWN
-const TARGET = new Date('2026-06-28T14:00:00-03:00');
-function tick(){
-  const now = new Date();
-  const diff = TARGET - now;
-  if(diff <= 0){
-    ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '00');
-    return;
-  }
-  const d = Math.floor(diff/86400000);
-  const h = Math.floor((diff%86400000)/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  const s = Math.floor((diff%60000)/1000);
-  document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
-  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
-  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
-  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+data:{
+labels:[
+'Aplicado',
+'Créditos',
+'Aportes'
+],
+
+datasets:[{
+data:[
+1023,
+260,
+3
+]
+}]
 }
-tick(); setInterval(tick, 1000);
+}
+);
 
-// CHART: ARRECADAÇÃO POR DATA
-const ctx1 = document.getElementById('chartDatas').getContext('2d');
-new Chart(ctx1, {
-  type: 'bar',
-  data: {
-    labels: ['08/06','09/06','10/06','11/06','12/06','15/06','16/06','17/06','19/06','22/06','24/06'],
-    datasets: [{
-      label: 'Arrecadado (R$)',
-      data: [430,370,60,20,120,370,60,20,120,120,370],
-      backgroundColor: [
-        '#f0b429cc','#f0b429aa','#f0b42966','#f0b42944','#f0b42966',
-        '#f0b429aa','#f0b42966','#f0b42944','#f0b42966','#f0b42966','#f0b429aa'
-      ],
-      borderColor: '#f0b429',
-      borderWidth: 1,
-      borderRadius: 4,
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { color: '#8b949e', font:{size:10} }, grid: { color:'#30363d' } },
-      y: { ticks: { color: '#8b949e', font:{size:10}, callback: v => 'R$'+v }, grid: { color:'#30363d' } }
-    }
-  }
-});
+new Chart(
+document.getElementById('graficoBarra'),
+{
+type:'bar',
 
-// CHART: PERFIL DOS INVESTIDORES
-const ctx2 = document.getElementById('chartPerfil').getContext('2d');
-const conservador = INVESTIDORES.filter(i => i.total === 20).length;
-const moderado = INVESTIDORES.filter(i => i.total > 20 && i.total <= 40).length;
-const arrojado = INVESTIDORES.filter(i => i.total > 40).length;
-new Chart(ctx2, {
-  type: 'doughnut',
-  data: {
-    labels: ['Conservador (R$ 20)', 'Moderado (até R$ 40)', 'Arrojado (acima R$ 40)'],
-    datasets: [{
-      data: [conservador, moderado, arrojado],
-      backgroundColor: ['#3fb950cc','#f0b429cc','#f85149cc'],
-      borderColor: ['#3fb950','#f0b429','#f85149'],
-      borderWidth: 1,
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'bottom', labels: { color: '#8b949e', font:{size:11}, padding:12 } }
-    }
-  }
-});
+data:{
+labels:[
+'Receita',
+'Aplicado',
+'Créditos'
+],
+
+datasets:[{
+label:'Valores em R$',
+data:[
+1280,
+1023,
+260
+],
+backgroundColor:[
+'#198754',
+'#0d6efd',
+'#ffc107'
+]
+}]
+}
+}
+);
+
 </script>
+
 </body>
 </html>
