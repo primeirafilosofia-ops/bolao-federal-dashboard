@@ -1,384 +1,797 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Bolão Federal Dashboard</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolão Federal — Painel de Investidores · URE SBC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-
-body{
-    background:#f4f6f9;
-    overflow-x:hidden;
+:root{
+  --bg:#0e1410;--bg-elev:#141c17;--bg-card:#182019;--line:#263128;
+  --green:#2bb673;--green-soft:#1d6b46;--gold:#e8b94f;--gold-soft:#6b5421;
+  --text:#eef3ee;--text-dim:#8fa097;--text-faint:#5e6e64;--red:#d9694f;
+  --blue:#4f9fd9;--blue-soft:#1d4a6b;
+  --radius:14px;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
 }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;
+  background-image:radial-gradient(circle at 85% -10%,rgba(43,182,115,.10),transparent 40%),
+  radial-gradient(circle at 10% 110%,rgba(232,185,79,.06),transparent 45%);}
 
-.sidebar{
-    position:fixed;
-    top:0;
-    left:0;
-    width:250px;
-    height:100vh;
-    background:#212529;
-    padding-top:20px;
-}
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;
+  border-bottom:1px solid var(--line);position:sticky;top:0;
+  background:rgba(14,20,16,.90);backdrop-filter:blur(12px);z-index:50;flex-wrap:wrap;gap:12px;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--green),var(--green-soft));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:16px;color:#0e1410;}
+.brand-text h1{font-family:var(--font-display);font-size:18px;font-weight:700;}
+.brand-text span{font-size:12px;color:var(--text-dim);}
+.topbar-meta{display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
+.meta-item{font-size:12px;color:var(--text-dim);}
+.meta-item b{color:var(--text);font-family:var(--font-mono);font-weight:500;}
+.pill{font-size:11px;font-family:var(--font-mono);padding:4px 10px;border-radius:99px;
+  border:1px solid var(--green-soft);color:var(--green);background:rgba(43,182,115,.08);letter-spacing:.5px;}
+.pill.sorteio{border-color:var(--gold-soft);color:var(--gold);background:rgba(232,185,79,.08);}
 
-.sidebar h4{
-    color:#fff;
-    text-align:center;
-    margin-bottom:30px;
-}
+/* NAV */
+.nav-tabs{display:flex;gap:4px;padding:0 32px;border-bottom:1px solid var(--line);
+  background:var(--bg-elev);overflow-x:auto;}
+.nav-tab{padding:12px 20px;font-size:13px;font-family:var(--font-mono);color:var(--text-dim);
+  cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;}
+.nav-tab:hover{color:var(--text);}
+.nav-tab.active{color:var(--green);border-bottom-color:var(--green);}
 
-.sidebar a{
-    color:#ced4da;
-    text-decoration:none;
-    display:block;
-    padding:12px 20px;
-}
+/* LAYOUT */
+.container{max-width:1400px;margin:0 auto;padding:28px 32px 60px;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
 
-.sidebar a:hover{
-    background:#0d6efd;
-    color:#fff;
-}
+/* HERO */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-bottom:28px;}
+@media(max-width:980px){.hero{grid-template-columns:1fr;}}
+.hero-main{background:linear-gradient(135deg,var(--bg-elev) 0%,#10231a 100%);
+  border:1px solid var(--line);border-radius:var(--radius);padding:28px;
+  position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;}
+.hero-main::after{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;
+  border-radius:50%;background:radial-gradient(circle,rgba(43,182,115,.18),transparent 70%);}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;position:relative;z-index:1;}
+.hero-eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.hero-game{font-family:var(--font-display);font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.05;}
+.hero-concurso{font-family:var(--font-mono);font-size:13px;color:var(--text-dim);margin-top:6px;}
+.hero-countdown{text-align:right;}
+.hero-countdown .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.hero-countdown .value{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--gold);}
+.hero-prize{margin-top:24px;position:relative;z-index:1;}
+.hero-prize .label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
+.hero-prize .value{font-family:var(--font-display);font-size:clamp(36px,6vw,58px);font-weight:700;color:var(--green);line-height:1;letter-spacing:-1px;}
+.hero-prize .value sup{font-size:.45em;color:var(--text-dim);font-weight:500;margin-left:6px;}
+.hero-grid-mini{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.mini-card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;justify-content:space-between;}
+.mini-card .icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:14px;}
+.mini-card .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.mini-card .value{font-family:var(--font-display);font-size:26px;font-weight:700;}
+.mini-card .sub{font-size:12px;color:var(--text-dim);margin-top:6px;font-family:var(--font-mono);}
+.sub.up{color:var(--green);}
+.icon-green{background:rgba(43,182,115,.12);color:var(--green);}
+.icon-gold{background:rgba(232,185,79,.12);color:var(--gold);}
+.icon-blue{background:rgba(79,159,217,.12);color:var(--blue);}
+.icon-red{background:rgba(217,105,79,.12);color:var(--red);}
 
-.main-content{
-    margin-left:250px;
-    padding:25px;
-}
+/* SECTION TITLES */
+.section-title{display:flex;align-items:baseline;justify-content:space-between;margin:36px 0 16px;flex-wrap:wrap;gap:8px;}
+.section-title h2{font-family:var(--font-display);font-size:20px;font-weight:600;}
+.section-title .desc{font-size:12px;color:var(--text-faint);font-family:var(--font-mono);}
 
-.card-dashboard{
-    border:none;
-    border-radius:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
+/* PERFIL CARDS */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:980px){.grid-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.grid-3{grid-template-columns:1fr;}}
+.profile-card{border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px;}
+.profile-card .bar{height:6px;border-radius:99px;background:var(--bg-elev);overflow:hidden;}
+.profile-card .bar-fill{height:100%;border-radius:99px;transition:width .6s ease;}
+.profile-card .ptitle{font-family:var(--font-display);font-size:16px;font-weight:700;}
+.profile-card .pdesc{font-size:12px;color:var(--text-dim);}
+.profile-card .pstats{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);margin-top:auto;}
+.profile-card .pstats b{color:var(--text);font-size:18px;font-family:var(--font-display);}
+.conservador{border-color:rgba(43,182,115,.35);}
+.moderado{border-color:rgba(232,185,79,.35);}
+.arrojado{border-color:rgba(217,105,79,.35);}
 
-.valor{
-    font-size:32px;
-    font-weight:bold;
-}
+/* PANELS */
+.grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
+@media(max-width:980px){.grid-2{grid-template-columns:1fr;}}
+.panel{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;}
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:8px;}
+.panel-head h3{font-family:var(--font-display);font-size:15px;font-weight:600;}
+.panel-head .tag{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
+.chart-wrap{position:relative;height:280px;}
+.chart-wrap.tall{height:340px;}
 
-.card-header{
-    font-weight:bold;
-}
+/* SECTOR GRID */
+.sector-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:980px){.sector-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px){.sector-grid{grid-template-columns:repeat(2,1fr);}}
+.sector-card{background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px;}
+.sector-card .code{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.5px;}
+.sector-card .invested{font-family:var(--font-display);font-size:18px;font-weight:700;}
+.sector-card .meta{font-size:11px;color:var(--text-faint);}
+.sector-card .mini-bar{height:4px;border-radius:99px;background:var(--bg-card);overflow:hidden;margin-top:2px;}
+.sector-card .mini-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-soft),var(--green));border-radius:99px;}
 
-.table td{
-    vertical-align:middle;
-}
+/* FINANCEIRO */
+.finance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+@media(max-width:980px){.finance-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.finance-grid{grid-template-columns:1fr 1fr;}}
+.finance-card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;}
+.finance-card .fc-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.finance-card .fc-value{font-family:var(--font-display);font-size:24px;font-weight:700;}
+.finance-card .fc-sub{font-size:11px;color:var(--text-faint);margin-top:6px;font-family:var(--font-mono);}
+.finance-card.highlight{border-color:var(--green-soft);background:linear-gradient(135deg,#182019,#10231a);}
 
-@media(max-width:768px){
+/* APOSTAS (DEZENAS) */
+.apostas-grid{display:grid;gap:14px;}
+.aposta-card{background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;padding:16px 20px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.aposta-num{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);min-width:40px;}
+.dezenas{display:flex;flex-wrap:wrap;gap:8px;flex:1;}
+.dezena{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:13px;font-weight:700;
+  background:linear-gradient(135deg,var(--green-soft),#0f3d26);
+  color:var(--green);border:1px solid var(--green-soft);}
+.aposta-valor{font-family:var(--font-mono);font-size:13px;color:var(--gold);font-weight:700;white-space:nowrap;}
+.aposta-tipo{font-size:11px;color:var(--text-faint);font-family:var(--font-mono);}
 
-.sidebar{
-    width:100%;
-    position:relative;
-    height:auto;
-}
+/* CREDITOS PANEL */
+.credito-list{display:flex;flex-direction:column;gap:10px;}
+.credito-item{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;gap:12px;flex-wrap:wrap;}
+.credito-nome{font-size:14px;font-weight:500;}
+.credito-setor{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
+.credito-cotas{font-size:12px;color:var(--text-dim);}
+.credito-valor{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold);}
 
-.main-content{
-    margin-left:0;
-}
+/* TABLE */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:1px;
+  color:var(--text-faint);padding:0 12px 12px;border-bottom:1px solid var(--line);white-space:nowrap;}
+td{padding:12px;border-bottom:1px solid var(--line);white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+td.num,th.num{text-align:right;font-family:var(--font-mono);}
+.tag-bet{display:inline-block;padding:3px 9px;border-radius:99px;font-family:var(--font-mono);font-size:11px;
+  background:rgba(43,182,115,.10);color:var(--green);border:1px solid var(--green-soft);}
+.tag-gold{background:rgba(232,185,79,.10);color:var(--gold);border:1px solid var(--gold-soft);}
+.empty-row td{text-align:center;color:var(--text-faint);padding:28px 12px;font-family:var(--font-mono);font-size:12px;}
+.profile-chip{display:inline-block;padding:3px 9px;border-radius:99px;font-family:var(--font-mono);font-size:11px;border:1px solid;}
+.profile-chip.conservador{color:var(--green);border-color:var(--green-soft);background:rgba(43,182,115,.08);}
+.profile-chip.moderado{color:var(--gold);border-color:var(--gold-soft);background:rgba(232,185,79,.08);}
+.profile-chip.arrojado{color:var(--red);border-color:rgba(217,105,79,.4);background:rgba(217,105,79,.08);}
+.aporte-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;
+  font-family:var(--font-mono);font-size:10px;background:rgba(79,159,217,.10);color:var(--blue);border:1px solid var(--blue-soft);}
 
-}
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:12px;color:var(--text-faint);font-size:12px;}
 
+::-webkit-scrollbar{height:8px;width:8px;}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+::-webkit-scrollbar-track{background:transparent;}
 </style>
-
 </head>
-
 <body>
 
-<!-- MENU -->
-
-<div class="sidebar">
-
-<h4>🎲 Bolão Federal</h4>
-
-<a href="#dashboard">📊 Dashboard</a>
-<a href="#financeiro">💰 Financeiro</a>
-<a href="#apostas">🎯 Apostas Realizadas</a>
-<a href="#investidores">👥 Investidores</a>
-<a href="#creditos">🏦 Créditos</a>
-<a href="#transparencia">📋 Transparência</a>
-<a href="#estatisticas">📈 Estatísticas</a>
-<a href="#simulador">🧮 Simulador</a>
-
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">BF</div>
+    <div class="brand-text">
+      <h1>Bolão Federal</h1>
+      <span>Painel de Investidores · URE São Bernardo do Campo</span>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <div class="meta-item">Atualizado em <b>28/06/2026</b></div>
+    <div class="meta-item">Concurso <b>7.051</b></div>
+    <div class="pill sorteio" id="pillStatus">⏳ HOJE — 14h00</div>
+  </div>
 </div>
 
-<!-- CONTEÚDO -->
-
-<div class="main-content">
-
-<section id="dashboard">
-
-<h2>Quina de São João - Concurso 7051</h2>
-
-<p class="text-muted">
-Portal de Transparência dos Investidores
-</p>
-
-<div class="row g-3">
-
-<div class="col-lg-3">
-<div class="card card-dashboard text-bg-success">
-<div class="card-body">
-<div>Receita Recebida</div>
-<div class="valor">R$ 1.280</div>
-</div>
-</div>
+<!-- NAV TABS -->
+<div class="nav-tabs" id="navTabs">
+  <div class="nav-tab active" data-tab="dashboard">📊 Dashboard</div>
+  <div class="nav-tab" data-tab="apostas">🎯 Apostas</div>
+  <div class="nav-tab" data-tab="financeiro">💰 Financeiro</div>
+  <div class="nav-tab" data-tab="investidores">👥 Investidores</div>
 </div>
 
-<div class="col-lg-3">
-<div class="card card-dashboard text-bg-primary">
-<div class="card-body">
-<div>Aplicado nas Apostas</div>
-<div class="valor">R$ 1.023</div>
+<!-- ===== TAB: DASHBOARD ===== -->
+<div class="tab-panel active" id="tab-dashboard">
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="hero-top">
+          <div>
+            <div class="hero-eyebrow">Modalidade em destaque</div>
+            <div class="hero-game">Quina de São João</div>
+            <div class="hero-concurso">Concurso <b>7.051</b> · Sorteio em 28/06/2026 · 14h00</div>
+          </div>
+          <div class="hero-countdown">
+            <div class="label">Countdown</div>
+            <div class="value" id="countdown">--</div>
+          </div>
+        </div>
+        <div class="hero-prize">
+          <div class="label">Prêmio estimado</div>
+          <div class="value">R$ 260.000.000<sup>,00</sup></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-grid-mini">
+      <div class="mini-card">
+        <div class="icon icon-green">💰</div>
+        <div>
+          <div class="label">Receita total arrecadada</div>
+          <div class="value">R$ 1.280,00</div>
+        </div>
+        <div class="sub">Concurso 7.051 · 51 investidores</div>
+      </div>
+      <div class="mini-card">
+        <div class="icon icon-gold">📋</div>
+        <div>
+          <div class="label">Valor aplicado em apostas</div>
+          <div class="value">R$ 1.020,00</div>
+        </div>
+        <div class="sub">5 jogos registrados</div>
+      </div>
+      <div class="mini-card">
+        <div class="icon icon-blue">🔁</div>
+        <div>
+          <div class="label">Créditos acumulados</div>
+          <div class="value">R$ 260,00</div>
+        </div>
+        <div class="sub">9 investidores com saldo</div>
+      </div>
+      <div class="mini-card">
+        <div class="icon icon-red">⭐</div>
+        <div>
+          <div class="label">Aportes estratégicos</div>
+          <div class="value">R$ 3,00</div>
+        </div>
+        <div class="sub">Carlos Renato · ASURE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFIS -->
+  <div class="section-title">
+    <h2>Perfil dos investidores</h2>
+    <div class="desc">conservador R$20 · moderado R$21–40 · arrojado acima de R$40</div>
+  </div>
+  <div class="grid-3">
+    <div class="profile-card conservador">
+      <div class="ptitle">🟢 Conservador</div>
+      <div class="pdesc">Cota padrão · R$ 20,00</div>
+      <div class="bar"><div class="bar-fill" style="width:84.3%;background:var(--green)"></div></div>
+      <div class="pstats">
+        <span><b>43</b><br>investidores</span>
+        <span><b>84,3%</b><br>do grupo</span>
+        <span><b>R$ 860</b><br>em receita</span>
+      </div>
+    </div>
+    <div class="profile-card moderado">
+      <div class="ptitle">🟡 Moderado</div>
+      <div class="pdesc">Dupla cota · R$ 40,00</div>
+      <div class="bar"><div class="bar-fill" style="width:9.8%;background:var(--gold)"></div></div>
+      <div class="pstats">
+        <span><b>5</b><br>investidores</span>
+        <span><b>9,8%</b><br>do grupo</span>
+        <span><b>R$ 200</b><br>em receita</span>
+      </div>
+    </div>
+    <div class="profile-card arrojado">
+      <div class="ptitle">🔴 Arrojado</div>
+      <div class="pdesc">Múltiplas cotas · +R$ 40</div>
+      <div class="bar"><div class="bar-fill" style="width:5.9%;background:var(--red)"></div></div>
+      <div class="pstats">
+        <span><b>3</b><br>investidores</span>
+        <span><b>5,9%</b><br>do grupo</span>
+        <span><b>R$ 220</b><br>em receita</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETORES -->
+  <div class="section-title">
+    <h2>Investimento por setor</h2>
+    <div class="desc">13 setores · distribuição por unidade organizacional</div>
+  </div>
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Receita por setor</h3>
+        <span class="tag">13 setores ativos</span>
+      </div>
+      <div class="sector-grid">
+        <div class="sector-card"><div class="code">ESE</div><div class="invested">R$ 460,00</div><div class="meta">17 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:100%"></div></div></div>
+        <div class="sector-card"><div class="code">EEC</div><div class="invested">R$ 120,00</div><div class="meta">6 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:26%"></div></div></div>
+        <div class="sector-card"><div class="code">SEAPE</div><div class="invested">R$ 120,00</div><div class="meta">2 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:26%"></div></div></div>
+        <div class="sector-card"><div class="code">SECOMSE</div><div class="invested">R$ 100,00</div><div class="meta">5 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:22%"></div></div></div>
+        <div class="sector-card"><div class="code">ASURE</div><div class="invested">R$ 100,00</div><div class="meta">5 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:22%"></div></div></div>
+        <div class="sector-card"><div class="code">SEFREP</div><div class="invested">R$ 60,00</div><div class="meta">3 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:13%"></div></div></div>
+        <div class="sector-card"><div class="code">SEFIN</div><div class="invested">R$ 60,00</div><div class="meta">3 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:13%"></div></div></div>
+        <div class="sector-card"><div class="code">SEFISC</div><div class="invested">R$ 60,00</div><div class="meta">3 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:13%"></div></div></div>
+        <div class="sector-card"><div class="code">Prime</div><div class="invested">R$ 60,00</div><div class="meta">1 investidor</div><div class="mini-bar"><div class="mini-bar-fill" style="width:13%"></div></div></div>
+        <div class="sector-card"><div class="code">SEMAT</div><div class="invested">R$ 40,00</div><div class="meta">2 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:9%"></div></div></div>
+        <div class="sector-card"><div class="code">SEPES</div><div class="invested">R$ 40,00</div><div class="meta">1 investidor</div><div class="mini-bar"><div class="mini-bar-fill" style="width:9%"></div></div></div>
+        <div class="sector-card"><div class="code">SEOM</div><div class="invested">R$ 40,00</div><div class="meta">2 investidores</div><div class="mini-bar"><div class="mini-bar-fill" style="width:9%"></div></div></div>
+        <div class="sector-card"><div class="code">SEGRE</div><div class="invested">R$ 20,00</div><div class="meta">1 investidor</div><div class="mini-bar"><div class="mini-bar-fill" style="width:4%"></div></div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Top setores por receita</h3>
+        <span class="tag">ranking atual</span>
+      </div>
+      <div class="chart-wrap tall"><canvas id="chartSetores"></canvas></div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /tab-dashboard -->
+
+<!-- ===== TAB: APOSTAS ===== -->
+<div class="tab-panel" id="tab-apostas">
+<div class="container">
+
+  <div class="section-title">
+    <h2>Apostas realizadas — Concurso 7.051</h2>
+    <div class="desc">Quina de São João · 5 jogos · R$ 1.020,00 aplicados</div>
+  </div>
+
+  <!-- RESUMO APOSTAS -->
+  <div class="grid-2" style="margin-bottom:28px;">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Dezenas apostadas</h3>
+        <span class="tag">5 jogos registrados</span>
+      </div>
+      <div class="apostas-grid">
+        <!-- Jogo 1: 10 dezenas = R$756 -->
+        <div class="aposta-card">
+          <div class="aposta-num">Jogo 1</div>
+          <div class="dezenas">
+            <div class="dezena">04</div><div class="dezena">05</div><div class="dezena">13</div>
+            <div class="dezena">20</div><div class="dezena">27</div><div class="dezena">31</div>
+            <div class="dezena">53</div><div class="dezena">65</div><div class="dezena">74</div>
+            <div class="dezena">80</div>
+          </div>
+          <div style="text-align:right">
+            <div class="aposta-valor">R$ 756,00</div>
+            <div class="aposta-tipo">10 dezenas</div>
+          </div>
+        </div>
+        <!-- Jogo 2: 8 dezenas = R$168 -->
+        <div class="aposta-card">
+          <div class="aposta-num">Jogo 2</div>
+          <div class="dezenas">
+            <div class="dezena">02</div><div class="dezena">15</div><div class="dezena">31</div>
+            <div class="dezena">32</div><div class="dezena">47</div><div class="dezena">49</div>
+            <div class="dezena">68</div><div class="dezena">70</div>
+          </div>
+          <div style="text-align:right">
+            <div class="aposta-valor">R$ 168,00</div>
+            <div class="aposta-tipo">8 dezenas</div>
+          </div>
+        </div>
+        <!-- Jogo 3: 6 dezenas = R$18 -->
+        <div class="aposta-card">
+          <div class="aposta-num">Jogo 3</div>
+          <div class="dezenas">
+            <div class="dezena">25</div><div class="dezena">37</div><div class="dezena">38</div>
+            <div class="dezena">48</div><div class="dezena">62</div><div class="dezena">67</div>
+          </div>
+          <div style="text-align:right">
+            <div class="aposta-valor">R$ 18,00</div>
+            <div class="aposta-tipo">6 dezenas</div>
+          </div>
+        </div>
+        <!-- Jogo 4: 6 dezenas = R$18 -->
+        <div class="aposta-card">
+          <div class="aposta-num">Jogo 4</div>
+          <div class="dezenas">
+            <div class="dezena">01</div><div class="dezena">04</div><div class="dezena">07</div>
+            <div class="dezena">19</div><div class="dezena">21</div><div class="dezena">59</div>
+          </div>
+          <div style="text-align:right">
+            <div class="aposta-valor">R$ 18,00</div>
+            <div class="aposta-tipo">6 dezenas</div>
+          </div>
+        </div>
+        <!-- Jogo 5: 7 dezenas = R$63 -->
+        <div class="aposta-card">
+          <div class="aposta-num">Jogo 5</div>
+          <div class="dezenas">
+            <div class="dezena">01</div><div class="dezena">15</div><div class="dezena">18</div>
+            <div class="dezena">19</div><div class="dezena">40</div><div class="dezena">73</div>
+            <div class="dezena">80</div>
+          </div>
+          <div style="text-align:right">
+            <div class="aposta-valor">R$ 63,00</div>
+            <div class="aposta-tipo">7 dezenas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Resumo de investimento</h3>
+        <span class="tag">concurso 7.051</span>
+      </div>
+      <div class="chart-wrap" style="height:220px;"><canvas id="chartApostas"></canvas></div>
+      <div style="margin-top:18px;">
+        <table>
+          <thead><tr><th>Jogo</th><th>Dezenas</th><th class="num">Valor</th></tr></thead>
+          <tbody>
+            <tr><td>Jogo 1</td><td>10 dezenas</td><td class="num" style="color:var(--gold)">R$ 756,00</td></tr>
+            <tr><td>Jogo 2</td><td>8 dezenas</td><td class="num" style="color:var(--gold)">R$ 168,00</td></tr>
+            <tr><td>Jogo 3</td><td>6 dezenas</td><td class="num">R$ 18,00</td></tr>
+            <tr><td>Jogo 4</td><td>6 dezenas</td><td class="num">R$ 18,00</td></tr>
+            <tr><td>Jogo 5</td><td>7 dezenas</td><td class="num">R$ 63,00</td></tr>
+            <tr><td colspan="2" style="color:var(--text-dim);font-family:var(--font-mono);font-size:12px">TOTAL APLICADO</td><td class="num" style="color:var(--green);font-weight:700;font-family:var(--font-display)">R$ 1.023,00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTADO (placeholder) -->
+  <div class="section-title">
+    <h2>Resultado do concurso</h2>
+    <div class="desc">números sorteados · a preencher após o sorteio</div>
+  </div>
+  <div class="panel" style="margin-bottom:28px;">
+    <div class="panel-head">
+      <h3>Números sorteados · 28/06/2026</h3>
+      <span class="tag">aguardando sorteio</span>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:16px 0;">
+      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
+      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
+      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
+      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
+      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
+      <span style="color:var(--text-faint);font-family:var(--font-mono);font-size:12px;margin-left:8px;">Sorteio: 28/06/2026 às 14h00</span>
+    </div>
+  </div>
+
 </div>
 </div>
-</div>
 
-<div class="col-lg-3">
-<div class="card card-dashboard text-bg-warning">
-<div class="card-body">
-<div>Créditos</div>
-<div class="valor">R$ 260</div>
-</div>
-</div>
-</div>
+<!-- ===== TAB: FINANCEIRO ===== -->
+<div class="tab-panel" id="tab-financeiro">
+<div class="container">
 
-<div class="col-lg-3">
-<div class="card card-dashboard text-bg-secondary">
-<div class="card-body">
-<div>Investidores</div>
-<div class="valor">51</div>
-</div>
-</div>
-</div>
+  <div class="section-title">
+    <h2>Painel financeiro</h2>
+    <div class="desc">Concurso 7.051 · Quina de São João</div>
+  </div>
 
-</div>
+  <!-- KPIs FINANCEIROS -->
+  <div class="finance-grid">
+    <div class="finance-card highlight">
+      <div class="fc-label">💰 Receita total arrecadada</div>
+      <div class="fc-value" style="color:var(--green)">R$ 1.280,00</div>
+      <div class="fc-sub">51 cotas pagas</div>
+    </div>
+    <div class="finance-card">
+      <div class="fc-label">📋 Aplicado em apostas</div>
+      <div class="fc-value" style="color:var(--gold)">R$ 1.023,00</div>
+      <div class="fc-sub">5 jogos · Quina de São João</div>
+    </div>
+    <div class="finance-card">
+      <div class="fc-label">🔁 Créditos acumulados</div>
+      <div class="fc-value" style="color:var(--blue)">R$ 260,00</div>
+      <div class="fc-sub">9 investidores com saldo futuro</div>
+    </div>
+    <div class="finance-card">
+      <div class="fc-label">⭐ Aportes estratégicos</div>
+      <div class="fc-value" style="color:var(--red)">R$ 3,00</div>
+      <div class="fc-sub">Carlos Renato · 1 aporte</div>
+    </div>
+  </div>
 
-</section>
+  <!-- FLUXO FINANCEIRO -->
+  <div class="grid-2" style="margin-bottom:28px;">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Fluxo financeiro</h3>
+        <span class="tag">receita vs aplicado</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chartFinanceiro"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Distribuição da receita</h3>
+        <span class="tag">composição do R$ 1.280</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chartDistribuicao"></canvas></div>
+    </div>
+  </div>
 
-<hr>
-
-<section id="financeiro">
-
-<div class="row mt-4">
-
-<div class="col-lg-6">
-
-<div class="card card-dashboard">
-
-<div class="card-header">
-Composição Financeira
-</div>
-
-<div class="card-body">
-
-<canvas id="graficoPizza"></canvas>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-lg-6">
-
-<div class="card card-dashboard">
-
-<div class="card-header">
-Indicadores Financeiros
-</div>
-
-<div class="card-body">
-
-<canvas id="graficoBarra"></canvas>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<hr>
-
-<section id="apostas">
-
-<div class="card card-dashboard mt-4">
-
-<div class="card-header">
-🎯 Jogos Realizados
-</div>
-
-<div class="card-body">
-
-<table class="table table-hover">
-
-<thead>
-
-<tr>
-<th>Jogo</th>
-<th>Dezenas</th>
-<th>Valor</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-<td>1</td>
-<td>04 05 13 20 27 31 53 65 74 80</td>
-<td>R$ 756,00</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>02 15 31 32 47 49 68 70</td>
-<td>R$ 168,00</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>25 37 38 48 62 67</td>
-<td>R$ 18,00</td>
-</tr>
-
-<tr>
-<td>4</td>
-<td>01 04 07 19 21 59</td>
-<td>R$ 18,00</td>
-</tr>
-
-<tr>
-<td>5</td>
-<td>01 15 18 19 40 73 80</td>
-<td>R$ 63,00</td>
-</tr>
-
-</tbody>
-
-</table>
+  <!-- CRÉDITOS: lista detalhada -->
+  <div class="section-title">
+    <h2>Investidores com crédito acumulado</h2>
+    <div class="desc">pagamentos excedentes à cota padrão · reservados para próximos concursos</div>
+  </div>
+  <div class="panel" style="margin-bottom:28px;">
+    <div class="panel-head">
+      <h3>Créditos disponíveis</h3>
+      <span class="tag">9 investidores · R$ 260,00 total</span>
+    </div>
+    <div class="credito-list">
+      <div class="credito-item">
+        <div><div class="credito-nome">Carlos Alberto</div><div class="credito-setor">SEAPE</div></div>
+        <div class="credito-cotas">4 Cotas futuras</div>
+        <div class="credito-valor">R$ 80,00</div>
+      </div>
+      <div class="credito-item">
+        <div><div class="credito-nome">Sueli Thodorof</div><div class="credito-setor">ESE</div></div>
+        <div class="credito-cotas">2 Cotas futuras</div>
+        <div class="credito-valor">R$ 40,00</div>
+      </div>
+      <div class="credito-item">
+        <div><div class="credito-nome">Van</div><div class="credito-setor">Prime</div></div>
+        <div class="credito-cotas">2 Cotas futuras</div>
+        <div class="credito-valor">R$ 40,00</div>
+      </div>
+      <div class="credito-item">
+        <div><div class="credito-nome">Ana Paula Boteon</div><div class="credito-setor">ESE</div></div>
+        <div class="credito-cotas">1 Cota futura</div>
+        <div class="credito-valor">R$ 20,00</div>
+      </div>
+      <div class="credito-item">
+        <div><div class="credito-nome">Dulciene Varela</div><div class="credito-setor">ESE</div></div>
+        <div class="credito-cotas">1 Cota futura</div>
+        <div class="credito-valor">R$ 20,00</div>
+      </div>
+      <div class="credito-item">
+        <div><div class="credito-nome">Lúcia de Novaes</div><div class="credito-setor">SEPES</div></div>
+        <div class="credito-cotas">1 Cota futura</div>
+        <div class="credito-valor">R$ 20,00</div>
+      </div>
+      <div class="credito-item">
+        <div><div class="credito-nome">Rita Micheletti</div><div class="credito-setor">ESE</div></div>
+        <div class="credito-cotas">1 Cota futura</div>
+        <div class="credito-valor">R$ 20,00</div>
+      </div>
+      <div class="credito-item">
+        <div><div class="credito-nome">Vitor H Pissaia</div><div class="credito-setor">ESE</div></div>
+        <div class="credito-cotas">1 Cota futura</div>
+        <div class="credito-valor">R$ 20,00</div>
+      </div>
+      <div class="credito-item" style="border-color:var(--blue-soft)">
+        <div><div class="credito-nome">Dulciene Varela (Dup.)</div><div class="credito-setor">ESE · pagamento em duplicidade</div></div>
+        <div class="credito-cotas">—</div>
+        <div class="credito-valor">R$ 20,00</div>
+      </div>
+    </div>
+  </div>
 
 </div>
-
 </div>
 
-</section>
+<!-- ===== TAB: INVESTIDORES ===== -->
+<div class="tab-panel" id="tab-investidores">
+<div class="container">
 
-<hr>
+  <div class="section-title">
+    <h2>Lista de investidores</h2>
+    <div class="desc">51 investidores ativos · Concurso 7.051</div>
+  </div>
 
-<section id="transparencia">
-
-<div class="card card-dashboard">
-
-<div class="card-header">
-
-📋 Resumo Financeiro
-
-</div>
-
-<div class="card-body">
-
-<table class="table">
-
-<tr>
-<td>Receita Recebida</td>
-<td>R$ 1.280,00</td>
-</tr>
-
-<tr>
-<td>Valor Aplicado nas Apostas</td>
-<td>R$ 1.023,00</td>
-</tr>
-
-<tr>
-<td>Aportes Estratégicos</td>
-<td>R$ 3,00</td>
-</tr>
-
-<tr>
-<td>Créditos Acumulados</td>
-<td>R$ 260,00</td>
-</tr>
-
-<tr>
-<td>Investidores</td>
-<td>51</td>
-</tr>
-
-</table>
+  <div class="panel" style="margin-bottom:36px;">
+    <div class="panel-head">
+      <h3>Cadastro completo</h3>
+      <span class="tag" id="totalInvTag">51 investidores · R$ 1.280,00 arrecadados</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Investidor</th>
+            <th>Setor</th>
+            <th>Perfil</th>
+            <th class="num">Receita (R$)</th>
+            <th class="num">Utilizado (R$)</th>
+            <th class="num">Crédito (R$)</th>
+            <th>Cotas Futuras</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaInvestidores"></tbody>
+      </table>
+    </div>
+  </div>
 
 </div>
-
 </div>
 
-</section>
-
-</div>
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 Bolão Federal · URE São Bernardo do Campo · Painel interno · Concurso 7.051</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">Quina de São João · 28/06/2026</div>
+</footer>
 
 <script>
+// ===== DADOS =====
+const INVESTIDORES = [{"id":1,"nome":"Adriana Guerrieri","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":2,"nome":"Adriana Milan","setor":"SEFREP","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":3,"nome":"Adriano Vinco","setor":"SEFIN","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":4,"nome":"Ana Carolina Tavares","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":5,"nome":"Ana Maria Cordon","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":6,"nome":"Ana Maria Magalhães","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":7,"nome":"Ana Paula Boteon","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":8,"nome":"Carlos Alberto","setor":"SEAPE","receita":100,"utilizado":20,"credito":80,"cotas_futuras":"4 Cotas"},{"id":9,"nome":"Carlos Renato","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":"","aporte":3},{"id":10,"nome":"Cleise","setor":"SEFREP","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":11,"nome":"Cláudia Rosana","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":12,"nome":"Célia Regina Tossato","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":13,"nome":"Denise Couto","setor":"SEFISC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":14,"nome":"Dulciene Varela","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":15,"nome":"Débora Stábile","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":16,"nome":"Elena Zanetti","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":17,"nome":"Elizabete Moreira","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":18,"nome":"Erlim Andrade","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":19,"nome":"Ester Caetano","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":20,"nome":"Fran Santiago","setor":"SEFISC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":21,"nome":"Inês Helena","setor":"SEFIN","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":22,"nome":"Ionara","setor":"SEGRE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":23,"nome":"Jackson","setor":"SEMAT","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":24,"nome":"Juliana Ferreira Sousa","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":25,"nome":"Lia","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":26,"nome":"Lilian Tunes","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":27,"nome":"Lúcia de Novaes","setor":"SEPES","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":28,"nome":"Marina Caetano","setor":"SEAPE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":29,"nome":"Marta Carlos","setor":"SEMAT","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":30,"nome":"Maurício Leite","setor":"SEFIN","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":31,"nome":"Meliane Salmaso","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":32,"nome":"Mirian V Souza","setor":"SEFISC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":33,"nome":"Márcia Rocha","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":34,"nome":"Renata Fenelon","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":35,"nome":"Rita Micheletti","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":36,"nome":"Robson Zanetti","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":37,"nome":"Rosana Mota","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":38,"nome":"Rosana Nobre","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":39,"nome":"Rosangêla Marotti","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":40,"nome":"Simone Nogueira","setor":"SEOM","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":41,"nome":"Sueli Thodorof","setor":"ESE","receita":60,"utilizado":20,"credito":40,"cotas_futuras":"2 Cotas"},{"id":42,"nome":"Sílvia Cristina","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":43,"nome":"Tânia L Demenis","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":44,"nome":"Tânia Murias","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":45,"nome":"Valéria Albuquerque","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":46,"nome":"Van","setor":"Prime","receita":60,"utilizado":20,"credito":40,"cotas_futuras":"2 Cotas"},{"id":47,"nome":"Vani Gomes","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":48,"nome":"Vera Rosseto","setor":"SEFREP","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":49,"nome":"Vitor H Pissaia","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":50,"nome":"Viviane Carlos","setor":"SEOM","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":51,"nome":"Érica Marson","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""}];
 
-new Chart(
-document.getElementById('graficoPizza'),
-{
-type:'pie',
+// ===== NAV TABS =====
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    if(tab.dataset.tab === 'financeiro') renderChartFinanceiro();
+    if(tab.dataset.tab === 'apostas') renderChartApostas();
+  });
+});
 
-data:{
-labels:[
-'Aplicado',
-'Créditos',
-'Aportes'
-],
-
-datasets:[{
-data:[
-1023,
-260,
-3
-]
-}]
+// ===== UTILS =====
+const fmt = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+function perfil(r){
+  if(r<=20) return {nome:'Conservador',classe:'conservador'};
+  if(r<=40) return {nome:'Moderado',classe:'moderado'};
+  return {nome:'Arrojado',classe:'arrojado'};
 }
+
+// ===== COUNTDOWN =====
+function atualizarCountdown(){
+  const sorteio = new Date('2026-06-28T14:00:00-03:00');
+  const agora = new Date();
+  const diff = sorteio - agora;
+  const el = document.getElementById('countdown');
+  if(diff <= 0){ el.textContent = 'Encerrado'; el.style.color='var(--text-dim)'; return; }
+  const h = Math.floor(diff/(1000*60*60));
+  const m = Math.floor((diff%(1000*60*60))/(1000*60));
+  const s = Math.floor((diff%(1000*60))/1000);
+  if(h < 24) el.textContent = `${h}h ${m}m ${s}s`;
+  else { const d = Math.floor(diff/(1000*60*60*24)); el.textContent = `${d}d ${h%24}h ${m}m`; }
 }
-);
+atualizarCountdown();
+setInterval(atualizarCountdown,1000);
 
-new Chart(
-document.getElementById('graficoBarra'),
-{
-type:'bar',
+// ===== CHART SETORES =====
+Chart.defaults.font.family = "'Inter',sans-serif";
+Chart.defaults.color = '#8fa097';
+Chart.defaults.borderColor = '#263128';
 
-data:{
-labels:[
-'Receita',
-'Aplicado',
-'Créditos'
-],
+const setoresTop = [
+  {s:'ESE',v:460},{s:'EEC',v:120},{s:'SEAPE',v:120},{s:'SECOMSE',v:100},
+  {s:'ASURE',v:100},{s:'SEFREP',v:60},{s:'SEFIN',v:60}
+];
+new Chart(document.getElementById('chartSetores'),{
+  type:'bar',
+  data:{
+    labels:setoresTop.map(x=>x.s),
+    datasets:[{label:'Receita (R$)',data:setoresTop.map(x=>x.v),
+      backgroundColor:['#2bb673','#2bb673','#2bb673','#1d6b46','#1d6b46','#5e6e64','#5e6e64'],
+      borderRadius:8,maxBarThickness:28}]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#0e1410',borderColor:'#263128',borderWidth:1,padding:12,
+      callbacks:{label:ctx=>` ${fmt(ctx.parsed.x)}`}}},
+    scales:{
+      x:{grid:{color:'#263128'},ticks:{callback:v=>'R$ '+v,color:'#8fa097'}},
+      y:{grid:{display:false},ticks:{color:'#eef3ee',font:{size:12}}}
+    }
+  }
+});
 
-datasets:[{
-label:'Valores em R$',
-data:[
-1280,
-1023,
-260
-],
-backgroundColor:[
-'#198754',
-'#0d6efd',
-'#ffc107'
-]
-}]
+// ===== CHART APOSTAS (doughnut) =====
+function renderChartApostas(){
+  if(window._chartApostasInst) window._chartApostasInst.destroy();
+  window._chartApostasInst = new Chart(document.getElementById('chartApostas'),{
+    type:'doughnut',
+    data:{
+      labels:['Jogo 1 (10dez)','Jogo 2 (8dez)','Jogo 5 (7dez)','Jogo 3 (6dez)','Jogo 4 (6dez)'],
+      datasets:[{data:[756,168,63,18,18],
+        backgroundColor:['#2bb673','#e8b94f','#4f9fd9','#d9694f','#8fa097'],
+        borderColor:'#182019',borderWidth:2}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{
+        legend:{position:'bottom',labels:{padding:14,font:{size:12}}},
+        tooltip:{backgroundColor:'#0e1410',borderColor:'#263128',borderWidth:1,
+          callbacks:{label:ctx=>` ${ctx.label}: ${fmt(ctx.parsed)}`}}
+      }
+    }
+  });
 }
-}
-);
 
+// ===== CHART FINANCEIRO =====
+function renderChartFinanceiro(){
+  if(window._chartFinInst) window._chartFinInst.destroy();
+  window._chartDistInst && window._chartDistInst.destroy();
+
+  window._chartFinInst = new Chart(document.getElementById('chartFinanceiro'),{
+    type:'bar',
+    data:{
+      labels:['Receita Arrecadada','Aplicado em Apostas','Créditos Acumulados','Aportes Estratégicos'],
+      datasets:[{
+        data:[1280,1023,260,3],
+        backgroundColor:['#2bb673','#e8b94f','#4f9fd9','#d9694f'],
+        borderRadius:8,maxBarThickness:48
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#0e1410',borderColor:'#263128',borderWidth:1,
+        callbacks:{label:ctx=>` ${fmt(ctx.parsed.y)}`}}},
+      scales:{
+        y:{grid:{color:'#263128'},ticks:{callback:v=>'R$ '+v,color:'#8fa097'}},
+        x:{grid:{display:false},ticks:{color:'#8fa097'}}
+      }
+    }
+  });
+
+  window._chartDistInst = new Chart(document.getElementById('chartDistribuicao'),{
+    type:'doughnut',
+    data:{
+      labels:['Utilizado em Cotas (R$1.020)','Crédito Acumulado (R$260)'],
+      datasets:[{data:[1020,260],
+        backgroundColor:['#2bb673','#4f9fd9'],
+        borderColor:'#182019',borderWidth:2}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'65%',
+      plugins:{
+        legend:{position:'bottom',labels:{padding:14,font:{size:12}}},
+        tooltip:{backgroundColor:'#0e1410',borderColor:'#263128',borderWidth:1,
+          callbacks:{label:ctx=>` ${ctx.label}: ${fmt(ctx.parsed)}`}}
+      }
+    }
+  });
+}
+
+// ===== TABELA INVESTIDORES =====
+function renderTabela(){
+  const tbody = document.getElementById('tabelaInvestidores');
+  tbody.innerHTML = INVESTIDORES.map((inv,idx) => {
+    const p = perfil(inv.receita);
+    const aporteTag = inv.aporte ? `<span class="aporte-badge">⭐ R$ ${inv.aporte}</span>` : '';
+    const creditoStr = inv.credito > 0 ? `<span style="color:var(--blue);font-family:var(--font-mono)">${fmt(inv.credito)}</span>` : '<span style="color:var(--text-faint)">—</span>';
+    const cotasStr = inv.cotas_futuras ? `<span class="tag-bet tag-gold">${inv.cotas_futuras}</span>` : '—';
+    return `<tr>
+      <td class="num" style="color:var(--text-faint)">${idx+1}</td>
+      <td>${inv.nome} ${aporteTag}</td>
+      <td><span class="tag-bet">${inv.setor}</span></td>
+      <td><span class="profile-chip ${p.classe}">${p.nome}</span></td>
+      <td class="num" style="color:var(--green);font-family:var(--font-mono)">${fmt(inv.receita)}</td>
+      <td class="num" style="font-family:var(--font-mono)">${fmt(inv.utilizado)}</td>
+      <td class="num">${creditoStr}</td>
+      <td>${cotasStr}</td>
+    </tr>`;
+  }).join('');
+}
+renderTabela();
 </script>
-
 </body>
 </html>
