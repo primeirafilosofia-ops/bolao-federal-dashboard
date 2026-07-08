@@ -1,10 +1,11 @@
 
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolão Federal — Painel de Investidores · URE SBC</title>
+<title>Invest Federal — Painel de Investidores · URE SBC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -74,6 +75,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .hero-prize .label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
 .hero-prize .value{font-family:var(--font-display);font-size:clamp(36px,6vw,58px);font-weight:700;color:var(--green);line-height:1;letter-spacing:-1px;}
 .hero-prize .value sup{font-size:.45em;color:var(--text-dim);font-weight:500;margin-left:6px;}
+.hero-dezenas{display:flex;gap:10px;margin-top:18px;position:relative;z-index:1;flex-wrap:wrap;}
+.dezena-token{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:16px;background:var(--bg-card);
+  border:1px solid var(--gold-soft);color:var(--gold);}
 .hero-grid-mini{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
 .mini-card{background:var(--bg-card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;justify-content:space-between;}
 .mini-card .icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:14px;}
@@ -147,6 +152,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
   font-family:var(--font-mono);font-size:13px;font-weight:700;
   background:linear-gradient(135deg,var(--green-soft),#0f3d26);
   color:var(--green);border:1px solid var(--green-soft);}
+.dezena.hit{background:linear-gradient(135deg,var(--gold-soft),#6b5421);color:var(--gold);border-color:var(--gold);}
 .aposta-valor{font-family:var(--font-mono);font-size:13px;color:var(--gold);font-weight:700;white-space:nowrap;}
 .aposta-tipo{font-size:11px;color:var(--text-faint);font-family:var(--font-mono);}
 
@@ -158,6 +164,30 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 .credito-setor{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
 .credito-cotas{font-size:12px;color:var(--text-dim);}
 .credito-valor{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold);}
+
+/* DEZENAS FAVORITAS */
+.form-grid-df{display:grid;grid-template-columns:1.8fr 2fr auto;gap:14px;align-items:end;}
+@media(max-width:640px){.form-grid-df{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);font-family:var(--font-mono);}
+.field input{background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;
+  padding:11px 12px;color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color .15s;}
+.field input:focus{border-color:var(--green);}
+.field input::placeholder{color:var(--text-faint);}
+.btn-primary{background:linear-gradient(135deg,var(--green),var(--green-soft));color:#0e1410;border:none;
+  border-radius:10px;padding:12px 22px;font-family:var(--font-display);font-weight:700;font-size:14px;
+  cursor:pointer;transition:filter .15s,transform .05s;white-space:nowrap;}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-primary:active{transform:translateY(1px);}
+.form-msg{font-family:var(--font-mono);font-size:12px;margin-top:12px;color:var(--green);min-height:16px;}
+.form-msg.error{color:var(--red);}
+.dezena-mini{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:12px;font-weight:700;background:var(--bg-elev);
+  border:1px solid var(--line);color:var(--text-dim);}
+.dezena-mini.hit{border-color:var(--gold);color:var(--gold);background:rgba(232,185,79,.10);}
+.btn-remove{background:transparent;border:1px solid var(--line);color:var(--text-faint);border-radius:8px;
+  width:30px;height:30px;cursor:pointer;font-size:14px;transition:border-color .15s,color .15s;}
+.btn-remove:hover{border-color:var(--red);color:var(--red);}
 
 /* TABLE */
 .table-wrap{overflow-x:auto;}
@@ -192,16 +222,16 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="brand">
-    <div class="brand-mark">BF</div>
+    <div class="brand-mark">IF</div>
     <div class="brand-text">
-      <h1>Bolão Federal</h1>
+      <h1>Invest Federal</h1>
       <span>Painel de Investidores · URE São Bernardo do Campo</span>
     </div>
   </div>
   <div class="topbar-meta">
-    <div class="meta-item">Atualizado em <b>28/06/2026</b></div>
+    <div class="meta-item">Atualizado em <b>07/07/2026</b></div>
     <div class="meta-item">Concurso <b>7.051</b></div>
-    <div class="pill sorteio" id="pillStatus">⏳ HOJE — 14h00</div>
+    <div class="pill" id="pillStatus">✅ RESULTADO OFICIAL</div>
   </div>
 </div>
 
@@ -228,14 +258,15 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
             <div class="hero-concurso">Concurso <b>7.051</b> · Sorteio em 28/06/2026 · 14h00</div>
           </div>
           <div class="hero-countdown">
-            <div class="label">Countdown</div>
-            <div class="value" id="countdown">--</div>
+            <div class="label">Status</div>
+            <div class="value" id="countdown">Resultado</div>
           </div>
         </div>
         <div class="hero-prize">
-          <div class="label">Prêmio estimado</div>
-          <div class="value">R$ 260.000.000<sup>,00</sup></div>
+          <div class="label">Prêmio conquistado</div>
+          <div class="value">R$ 53<sup>,30</sup></div>
         </div>
+        <div class="hero-dezenas" id="dezenasSorteadas"></div>
       </div>
     </div>
 
@@ -252,9 +283,9 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
         <div class="icon icon-gold">📋</div>
         <div>
           <div class="label">Valor aplicado em apostas</div>
-          <div class="value">R$ 1.020,00</div>
+          <div class="value">R$ 1.023,00</div>
         </div>
-        <div class="sub">5 jogos registrados</div>
+        <div class="sub">5 jogos · inclui R$ 3,00 de aporte estratégico</div>
       </div>
       <div class="mini-card">
         <div class="icon icon-blue">🔁</div>
@@ -358,7 +389,7 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
 
   <div class="section-title">
     <h2>Apostas realizadas — Concurso 7.051</h2>
-    <div class="desc">Quina de São João · 5 jogos · R$ 1.020,00 aplicados</div>
+    <div class="desc">Quina de São João · 5 jogos · R$ 1.023,00 aplicados</div>
   </div>
 
   <!-- RESUMO APOSTAS -->
@@ -388,7 +419,7 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
           <div class="aposta-num">Jogo 2</div>
           <div class="dezenas">
             <div class="dezena">02</div><div class="dezena">15</div><div class="dezena">31</div>
-            <div class="dezena">32</div><div class="dezena">47</div><div class="dezena">49</div>
+            <div class="dezena hit">32</div><div class="dezena">47</div><div class="dezena">49</div>
             <div class="dezena">68</div><div class="dezena">70</div>
           </div>
           <div style="text-align:right">
@@ -413,7 +444,7 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
           <div class="aposta-num">Jogo 4</div>
           <div class="dezenas">
             <div class="dezena">01</div><div class="dezena">04</div><div class="dezena">07</div>
-            <div class="dezena">19</div><div class="dezena">21</div><div class="dezena">59</div>
+            <div class="dezena hit">19</div><div class="dezena">21</div><div class="dezena">59</div>
           </div>
           <div style="text-align:right">
             <div class="aposta-valor">R$ 18,00</div>
@@ -421,16 +452,16 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
           </div>
         </div>
         <!-- Jogo 5: 7 dezenas = R$63 -->
-        <div class="aposta-card">
+        <div class="aposta-card" style="border-color:var(--gold-soft)">
           <div class="aposta-num">Jogo 5</div>
           <div class="dezenas">
             <div class="dezena">01</div><div class="dezena">15</div><div class="dezena">18</div>
-            <div class="dezena">19</div><div class="dezena">40</div><div class="dezena">73</div>
+            <div class="dezena hit">19</div><div class="dezena">40</div><div class="dezena hit">73</div>
             <div class="dezena">80</div>
           </div>
           <div style="text-align:right">
             <div class="aposta-valor">R$ 63,00</div>
-            <div class="aposta-tipo">7 dezenas</div>
+            <div class="aposta-tipo">7 dezenas · 🏆 premiado (2 acertos)</div>
           </div>
         </div>
       </div>
@@ -461,20 +492,56 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
   <!-- RESULTADO (placeholder) -->
   <div class="section-title">
     <h2>Resultado do concurso</h2>
-    <div class="desc">números sorteados · a preencher após o sorteio</div>
+    <div class="desc">números sorteados · resultado oficial</div>
   </div>
   <div class="panel" style="margin-bottom:28px;">
     <div class="panel-head">
       <h3>Números sorteados · 28/06/2026</h3>
-      <span class="tag">aguardando sorteio</span>
+      <span class="tag tag-gold" style="padding:3px 9px;border-radius:99px;border:1px solid var(--gold-soft)">prêmio: R$ 53,30</span>
     </div>
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:16px 0;">
-      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
-      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
-      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
-      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
-      <div class="dezena" style="opacity:.3;width:48px;height:48px;font-size:18px;">?</div>
-      <span style="color:var(--text-faint);font-family:var(--font-mono);font-size:12px;margin-left:8px;">Sorteio: 28/06/2026 às 14h00</span>
+      <div class="dezena-token">19</div>
+      <div class="dezena-token">32</div>
+      <div class="dezena-token">50</div>
+      <div class="dezena-token">73</div>
+      <div class="dezena-token">75</div>
+      <span style="color:var(--text-faint);font-family:var(--font-mono);font-size:12px;margin-left:8px;">Sorteio: 28/06/2026 às 14h00 · Jogo 5 acertou 2 dezenas (19, 73)</span>
+    </div>
+  </div>
+
+  <!-- DEZENAS FAVORITAS -->
+  <div class="section-title">
+    <h2>Dezenas favoritas</h2>
+    <div class="desc">inteligência de apostas · dezenas mais escolhidas por investidor</div>
+  </div>
+  <div class="panel" style="margin-bottom:28px;">
+    <div class="panel-head">
+      <h3>Cadastrar dezenas</h3>
+      <span class="tag">use para orientar as próximas apostas do grupo</span>
+    </div>
+    <div class="form-grid-df">
+      <div class="field">
+        <label for="dfNome">Investidor</label>
+        <input type="text" id="dfNome" placeholder="Nome do investidor">
+      </div>
+      <div class="field">
+        <label for="dfDezenas">Dezenas favoritas</label>
+        <input type="text" id="dfDezenas" placeholder="Ex: 01-15-18-19-40-73-80">
+      </div>
+      <button class="btn-primary" onclick="adicionarDezenas()">Adicionar</button>
+    </div>
+    <div class="form-msg" id="dfMsg"></div>
+  </div>
+  <div class="panel" style="margin-bottom:28px;">
+    <div class="panel-head">
+      <h3>Dezenas por investidor</h3>
+      <span class="tag" id="totalDezenasTag">0 registros</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Investidor</th><th>Dezenas favoritas</th><th class="num"></th></tr></thead>
+        <tbody id="tabelaDezenas"></tbody>
+      </table>
     </div>
   </div>
 
@@ -632,12 +699,16 @@ footer{border-top:1px solid var(--line);padding:24px 32px;display:flex;justify-c
 
 <!-- FOOTER -->
 <footer>
-  <div>© 2026 Bolão Federal · URE São Bernardo do Campo · Painel interno · Concurso 7.051</div>
+  <div>© 2026 Invest Federal · URE São Bernardo do Campo · Painel interno · Concurso 7.051</div>
   <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-faint)">Quina de São João · 28/06/2026</div>
 </footer>
 
 <script>
 // ===== DADOS =====
+const DEZENAS_SORTEADAS_7051 = ['19','32','50','73','75'];
+let dezenasFavoritas = [
+  {nome:'Carlos Renato',dezenas:['01','15','18','19','37','40','73','80']}
+];
 const INVESTIDORES = [{"id":1,"nome":"Adriana Guerrieri","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":2,"nome":"Adriana Milan","setor":"SEFREP","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":3,"nome":"Adriano Vinco","setor":"SEFIN","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":4,"nome":"Ana Carolina Tavares","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":5,"nome":"Ana Maria Cordon","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":6,"nome":"Ana Maria Magalhães","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":7,"nome":"Ana Paula Boteon","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":8,"nome":"Carlos Alberto","setor":"SEAPE","receita":100,"utilizado":20,"credito":80,"cotas_futuras":"4 Cotas"},{"id":9,"nome":"Carlos Renato","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":"","aporte":3},{"id":10,"nome":"Cleise","setor":"SEFREP","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":11,"nome":"Cláudia Rosana","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":12,"nome":"Célia Regina Tossato","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":13,"nome":"Denise Couto","setor":"SEFISC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":14,"nome":"Dulciene Varela","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":15,"nome":"Débora Stábile","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":16,"nome":"Elena Zanetti","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":17,"nome":"Elizabete Moreira","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":18,"nome":"Erlim Andrade","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":19,"nome":"Ester Caetano","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":20,"nome":"Fran Santiago","setor":"SEFISC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":21,"nome":"Inês Helena","setor":"SEFIN","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":22,"nome":"Ionara","setor":"SEGRE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":23,"nome":"Jackson","setor":"SEMAT","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":24,"nome":"Juliana Ferreira Sousa","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":25,"nome":"Lia","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":26,"nome":"Lilian Tunes","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":27,"nome":"Lúcia de Novaes","setor":"SEPES","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":28,"nome":"Marina Caetano","setor":"SEAPE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":29,"nome":"Marta Carlos","setor":"SEMAT","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":30,"nome":"Maurício Leite","setor":"SEFIN","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":31,"nome":"Meliane Salmaso","setor":"SECOMSE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":32,"nome":"Mirian V Souza","setor":"SEFISC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":33,"nome":"Márcia Rocha","setor":"ASURE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":34,"nome":"Renata Fenelon","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":35,"nome":"Rita Micheletti","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":36,"nome":"Robson Zanetti","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":37,"nome":"Rosana Mota","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":38,"nome":"Rosana Nobre","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":39,"nome":"Rosangêla Marotti","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":40,"nome":"Simone Nogueira","setor":"SEOM","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":41,"nome":"Sueli Thodorof","setor":"ESE","receita":60,"utilizado":20,"credito":40,"cotas_futuras":"2 Cotas"},{"id":42,"nome":"Sílvia Cristina","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":43,"nome":"Tânia L Demenis","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":44,"nome":"Tânia Murias","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":45,"nome":"Valéria Albuquerque","setor":"EEC","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":46,"nome":"Van","setor":"Prime","receita":60,"utilizado":20,"credito":40,"cotas_futuras":"2 Cotas"},{"id":47,"nome":"Vani Gomes","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":48,"nome":"Vera Rosseto","setor":"SEFREP","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":49,"nome":"Vitor H Pissaia","setor":"ESE","receita":40,"utilizado":20,"credito":20,"cotas_futuras":"1 Cota"},{"id":50,"nome":"Viviane Carlos","setor":"SEOM","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""},{"id":51,"nome":"Érica Marson","setor":"ESE","receita":20,"utilizado":20,"credito":0,"cotas_futuras":""}];
 
 // ===== NAV TABS =====
@@ -660,21 +731,13 @@ function perfil(r){
   return {nome:'Arrojado',classe:'arrojado'};
 }
 
-// ===== COUNTDOWN =====
+// ===== STATUS DO CONCURSO (encerrado) =====
 function atualizarCountdown(){
-  const sorteio = new Date('2026-06-28T14:00:00-03:00');
-  const agora = new Date();
-  const diff = sorteio - agora;
   const el = document.getElementById('countdown');
-  if(diff <= 0){ el.textContent = 'Encerrado'; el.style.color='var(--text-dim)'; return; }
-  const h = Math.floor(diff/(1000*60*60));
-  const m = Math.floor((diff%(1000*60*60))/(1000*60));
-  const s = Math.floor((diff%(1000*60))/1000);
-  if(h < 24) el.textContent = `${h}h ${m}m ${s}s`;
-  else { const d = Math.floor(diff/(1000*60*60*24)); el.textContent = `${d}d ${h%24}h ${m}m`; }
+  el.textContent = 'Encerrado';
+  el.style.color = 'var(--text-dim)';
 }
 atualizarCountdown();
-setInterval(atualizarCountdown,1000);
 
 // ===== CHART SETORES =====
 Chart.defaults.font.family = "'Inter',sans-serif";
@@ -791,6 +854,57 @@ function renderTabela(){
     </tr>`;
   }).join('');
 }
+// ===== DEZENAS SORTEADAS (hero) =====
+function renderDezenasSorteadas(){
+  document.getElementById('dezenasSorteadas').innerHTML = DEZENAS_SORTEADAS_7051
+    .map(d => `<div class="dezena-token">${d}</div>`).join('');
+}
+renderDezenasSorteadas();
+
+// ===== DEZENAS FAVORITAS =====
+function renderDezenas(){
+  const tbody = document.getElementById('tabelaDezenas');
+  if(!dezenasFavoritas.length){
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="3">Nenhuma dezena favorita cadastrada ainda. Use o formulário acima para começar.</td></tr>`;
+  } else {
+    tbody.innerHTML = dezenasFavoritas.map((d,idx)=>{
+      const tokens = d.dezenas.map(n => {
+        const hit = DEZENAS_SORTEADAS_7051.includes(n.padStart(2,'0'));
+        return `<div class="dezena-mini${hit?' hit':''}">${n}</div>`;
+      }).join('');
+      return `<tr>
+        <td>${d.nome}</td>
+        <td><div style="display:flex;gap:6px;flex-wrap:wrap;">${tokens}</div></td>
+        <td><button class="btn-remove" onclick="removerDezenas(${idx})" title="Remover">✕</button></td>
+      </tr>`;
+    }).join('');
+  }
+  document.getElementById('totalDezenasTag').textContent = `${dezenasFavoritas.length} registro(s)`;
+}
+renderDezenas();
+
+function adicionarDezenas(){
+  const nome = document.getElementById('dfNome').value.trim();
+  const dezenasRaw = document.getElementById('dfDezenas').value.trim();
+  const msg = document.getElementById('dfMsg');
+  if(!nome || !dezenasRaw){
+    msg.textContent = 'Preencha o nome do investidor e as dezenas favoritas.';
+    msg.classList.add('error'); return;
+  }
+  const dezenas = dezenasRaw.split(/[-,\s]+/).filter(Boolean).map(n=>n.padStart(2,'0'));
+  dezenasFavoritas.push({nome, dezenas});
+  renderDezenas();
+  msg.textContent = `${nome} cadastrado(a) com ${dezenas.length} dezena(s).`;
+  msg.classList.remove('error');
+  document.getElementById('dfNome').value = '';
+  document.getElementById('dfDezenas').value = '';
+}
+
+function removerDezenas(idx){
+  dezenasFavoritas.splice(idx,1);
+  renderDezenas();
+}
+
 renderTabela();
 </script>
 </body>
