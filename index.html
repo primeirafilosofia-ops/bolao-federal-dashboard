@@ -26,7 +26,7 @@ footer{padding:24px 28px;border-top:1px solid var(--line);color:var(--muted);fon
 @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.games{grid-template-columns:1fr}}@media(max-width:560px){main{padding:18px 12px}.grid{grid-template-columns:1fr}header{padding:16px}nav{padding:0 8px}}
 </style></head>
 <body>
-<header><div><div class="brand">IF · Invest Federal</div><div class="sub">Painel de Investidores · URE São Bernardo do Campo</div></div><div><span class="badge">Mega-Sena 3.042 · fechado</span><div class="sub" style="margin-top:7px;text-align:right">Atualização financeira: 08/08/2026</div></div></header>
+<header><div><div class="brand">IF · Invest Federal</div><div class="sub">Painel de Investidores</div></div><div><span class="badge">Mega-Sena 3.042 · fechado</span><div class="sub" style="margin-top:7px;text-align:right">Atualização financeira: 08/08/2026</div></div></header>
 <nav><button class="active" data-tab="geral">📊 Visão Geral</button><button data-tab="concursos">🎯 Concursos e Apostas</button><button data-tab="financeiro">💰 Financeiro</button><button data-tab="investidores">👥 Investidores</button></nav>
 <main>
 <section id="geral" class="tab active">
@@ -86,7 +86,7 @@ footer{padding:24px 28px;border-top:1px solid var(--line);color:var(--muted);fon
 <p class="sub" style="margin-top:12px">Crédito atual é patrimônio individual do investidor e não integra o saldo financeiro do concurso.</p>
 </section>
 </main>
-<footer>© 2026 Invest Federal · URE São Bernardo do Campo · Painel interno · Dados financeiros separados por natureza</footer>
+<footer>© 2026 Invest Federal · Painel interno · Dados financeiros separados por natureza</footer>
 <script>
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')});
 document.getElementById('sel').onchange=e=>{document.getElementById('games3042').style.display=e.target.value==='3042'?'block':'none';document.getElementById('games3043').style.display=e.target.value==='3043'?'block':'none';document.getElementById('games7051').style.display=e.target.value==='7051'?'block':'none'};
