@@ -1,6 +1,11 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Invest Federal — Painel de Investidores · URE SBC</title><style>
-    :root{--bg:#0c1210;--card:#151d18;--card2:#101713;--line:#29352e;--green:#31c47c;--gold:#efc35b;--blue:#64a8e4;--text:#f1f5f2;--muted:#9aaba1;--danger:#e17b64}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Invest Federal — Painel de Investidores · URE SBC</title>
+<style>
+:root{--bg:#0c1210;--card:#151d18;--card2:#101713;--line:#29352e;--green:#31c47c;--gold:#efc35b;--blue:#64a8e4;--text:#f1f5f2;--muted:#9aaba1;--danger:#e17b64}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
     header{padding:20px 28px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;position:sticky;top:0;background:rgba(12,18,16,.96);z-index:5}
     .brand{font-weight:800;font-size:22px}.sub{color:var(--muted);font-size:12px}
@@ -30,112 +35,193 @@
     .gamehead{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px;font-size:12px}
     footer{padding:24px 28px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
     @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.games{grid-template-columns:1fr}}@media(max-width:560px){main{padding:18px 12px}.grid{grid-template-columns:1fr}}
-    </style></head><body>
-    <header><div><div class="brand">IF · Invest Federal</div><div class="sub">Painel de Investidores</div></div>
+</style>
+</head>
+<body>
+<header><div><div class="brand">IF &middot; Invest Federal</div><div class="sub">Painel de Investidores</div></div>
     <div><span class="badge" id="badgeConcursos"></span><div class="sub" style="margin-top:7px;text-align:right" id="dataAtual"></div></div></header>
-    <nav><button class="tb act" data-t="geral">📊 Visão Geral</button><button class="tb" data-t="concursos">🎯 Concursos e Apostas</button><button class="tb" data-t="invest">👥 Investidores por Modalidade</button><button class="tb" data-t="financeiro">💰 Financeiro</button><button class="tb" data-t="transp">🔍 Transparência</button></nav>
+    <nav id="nav"><button class="tb act" data-t="geral">&#128202; Vis&atilde;o Geral</button><button class="tb" data-t="concursos">&#127919; Concursos e Apostas</button><button class="tb" data-t="invest">&#128101; Investidores por Modalidade</button><button class="tb" data-t="financeiro">&#128176; Financeiro</button><button class="tb" data-t="transp">&#128269; Transpar&ecirc;ncia</button></nav>
     <main>
     <section id="geral" class="tab active">
-    <div class="hero"><div class="eyebrow">Apuração dos concursos</div><h1 id="tituloHero">Investimentos aplicados</h1>
-    <div class="sub" id="subHero"></div></div>
+    <div class="hero"><div class="eyebrow">Apura&ccedil;&atilde;o dos concursos</div><h1 id="tituloHero">Investimentos aplicados</h1><div class="sub" id="subHero"></div></div>
     <div class="grid" id="cardsConcursos"></div>
     <div class="notice" id="notaTotal" style="margin-top:16px"></div>
     <div class="notice nok" id="notaResultado"></div>
-    <div class="section"><h2>Créditos individuais preservados</h2><span class="sub">cada investidor com crédito aplicou 1 cota de R$ 20,00</span></div>
-    <div class="card"><div class="label">Investidores com crédito disponível</div><table><thead><tr><th>Investidor</th><th class="num">Crédito atual</th></tr></thead><tbody id="tbCred"></tbody><tfoot><tr><th>Total</th><th class="num gold" id="tbCredTotal"></th></tr></tfoot></table></div>
-    <div class="notice thanks"><b>Nota aos investidores.</b> Seu crédito é seu patrimônio: preservado integralmente entre concursos, nunca diluído no caixa coletivo.
-    Quer reaver seu investimento? É só me procurar. <i><b>Carlos Renato</b></i></div>
+    <div class="section"><h2>Cr&eacute;ditos individuais preservados</h2><span class="sub">cada investidor com cr&eacute;dito aplicou 1 cota de R$ 20,00</span></div>
+    <div class="card"><div class="label">Investidores com cr&eacute;dito dispon&iacute;vel</div><table><thead><tr><th>Investidor</th><th class="num">Cr&eacute;dito atual</th></tr></thead><tbody id="tbCred"></tbody><tfoot><tr><th>Total</th><th class="num gold" id="tbCredTotal"></th></tr></tfoot></table></div>
+    <div class="notice thanks"><b>Nota aos investidores.</b> Seu cr&eacute;dito &eacute; seu patrim&ocirc;nio: preservado integralmente entre concursos, nunca dilu&iacute;do no caixa coletivo. Quer reaver seu investimento? &Eacute; s&oacute; me procurar. <i><b>Carlos Renato</b></i></div>
     </section>
-
-    <section id="concursos" class="tab">
-    <div class="section"><h2>Concursos e apostas</h2><span class="sub" id="subTotalCompra"></span></div>
-    <div id="blocosConcursos"></div>
-    </section>
-
-    <section id="invest" class="tab">
-    <div class="section"><h2>Investidores por modalidade</h2><span class="sub">quem investiu, quanto, em qual concurso</span></div>
-    <div class="panel"><table><thead><tr><th>Investidor</th><th class="num">Aporte na rodada</th><th class="num">→ Mega-Sena 3067</th><th class="num">→ +Milionária 396</th></tr></thead>
-    <tbody id="tbAloc"></tbody><tfoot><tr><th>Total</th><th class="num" id="alocTot"></th><th class="num gold" id="alocMega"></th><th class="num gold" id="alocMil"></th></tr></tfoot></table></div>
-    <div class="notice"><b>Como ler:</b> a arrecadação da rodada 3067 foi alocada entre as duas modalidades, na proporção do custo de cada uma.</div>
-    </section>
-
-    <section id="financeiro" class="tab">
-    <div class="section"><h2>Carteiras individuais</h2><span class="sub">crédito preservado</span></div>
-    <div class="panel"><table><thead><tr><th>Investidor</th><th>Setor</th><th class="num">Créd. anterior</th><th class="num">Aporte novo</th><th class="num">Cota usada</th><th class="num">Crédito atual</th><th class="num">Cotas fut.</th></tr></thead>
-    <tbody id="tbCart"></tbody></table></div>
-    <div class="section"><h2>Arrecadação e aplicação</h2></div>
-    <div class="grid" id="cardsFin"></div>
-    </section>
-
-    <section id="transp" class="tab">
-    <div class="section"><h2>Transparência · apuração</h2><span class="sub">nosso jogo × dezenas sorteadas</span></div>
+    <section id="concursos" class="tab"><div class="section"><h2>Concursos e apostas</h2><span class="sub" id="subTotalCompra"></span></div><div id="blocosConcursos"></div></section>
+    <section id="invest" class="tab"><div class="section"><h2>Investidores por modalidade</h2><span class="sub">quem investiu, quanto, em qual concurso</span></div>
+    <div class="panel"><table><thead><tr><th>Investidor</th><th class="num">Aporte na rodada</th><th class="num">&rarr; Mega-Sena 3067</th><th class="num">&rarr; +Milion&aacute;ria 396</th></tr></thead><tbody id="tbAloc"></tbody><tfoot><tr><th>Total</th><th class="num" id="alocTot"></th><th class="num gold" id="alocMega"></th><th class="num gold" id="alocMil"></th></tr></tfoot></table></div>
+    <div class="notice"><b>Como ler:</b> a arrecada&ccedil;&atilde;o da rodada 3067 foi alocada entre as duas modalidades, na propor&ccedil;&atilde;o do custo de cada uma.</div></section>
+    <section id="financeiro" class="tab"><div class="section"><h2>Carteiras individuais</h2><span class="sub">cr&eacute;dito preservado</span></div>
+    <div class="panel"><table><thead><tr><th>Investidor</th><th>Setor</th><th class="num">Cr&eacute;d. anterior</th><th class="num">Aporte novo</th><th class="num">Cota usada</th><th class="num">Cr&eacute;dito atual</th><th class="num">Cotas fut.</th></tr></thead><tbody id="tbCart"></tbody></table></div>
+    <div class="section"><h2>Arrecada&ccedil;&atilde;o e aplica&ccedil;&atilde;o</h2></div><div class="grid" id="cardsFin"></div></section>
+    <section id="transp" class="tab"><div class="section"><h2>Transpar&ecirc;ncia &middot; apura&ccedil;&atilde;o</h2><span class="sub">nosso jogo &times; dezenas sorteadas</span></div>
     <div class="panel"><table><thead><tr><th>Conc.</th><th>Modalidade</th><th>Jogo</th><th>Nosso jogo</th><th>Sorteadas</th><th class="num">Acertos</th></tr></thead><tbody id="tbTransp"></tbody></table></div>
-    <div class="notice"><b>Faixas:</b> Mega-Sena — quadra (4), quina (5), sena (6). +Milionária — mínimo de 2 dezenas + 1 trevo. Nenhuma aposta atingiu o piso. <b>Resultado: R$ 0,00 em premiações.</b></div>
-    </section>
+    <div class="notice"><b>Faixas:</b> Mega-Sena &mdash; quadra (4), quina (5), sena (6). +Milion&aacute;ria &mdash; m&iacute;nimo de 2 dezenas + 1 trevo. Nenhuma aposta atingiu o piso. <b>Resultado: R$ 0,00 em premia&ccedil;&otilde;es.</b></div></section>
     </main>
-    <footer>© 2026 Invest Federal · Painel interno · URE SBC</footer>
-    <script>
+    <footer>&copy; 2026 Invest Federal &middot; Painel interno &middot; URE SBC</footer>
+<script>
+
     var SORTEADAS={"3067":"01-04-17-33-41-52","396":"06-15-28-30-42-50"};
     var TREVOS={"396":["3","6"]};
-    var EMBUTIDO={"meta": {"titulo": "Invest Federal - Painel de Investidores", "atualizado": "11/10/2026", "rodada": "3067"}, "creditos": [{"investidor": "Carlos Alberto", "valor": 120}, {"investidor": "Sueli Thodorof", "valor": 40}, {"investidor": "Meliane Salmaso", "valor": 20}, {"investidor": "Simone Nogueira", "valor": 20}, {"investidor": "Van", "valor": 20}], "concursos": [{"modalidade": "Mega-Sena", "concurso": "3067", "custo": 504, "premio": 0, "jogos": 6, "status": "Apurado · não premiada"}, {"modalidade": "+Milionária", "concurso": "396", "custo": 258, "premio": 0, "jogos": 4, "status": "Apurado · não premiada"}], "total_custo": {"ref": "3067+396", "valor": 762, "obs": "10 jogos · 72 dezenas"}, "captacao": {"rodada": "Rodada 3067", "valor": 700, "obs": "34 cotas"}, "aporte_arredondamento": {"autor": "Carlos Renato", "concurso": "3067/396", "valor": 2.0, "obs": "APORTE INDIVIDUAL — arredondamento"}, "apostas_historicas": [], "carteira": [{"investidor": "Carlos Alberto", "setor": "SEAPE", "cred_anterior": 140, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 120, "cotas": 6}, {"investidor": "Sueli Thodorof", "setor": "ESE", "cred_anterior": 60, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 40, "cotas": 2}, {"investidor": "Meliane Salmaso", "setor": "SECOMSE", "cred_anterior": 0, "aporte_novo": 40, "cota_usada": 20, "credito_atual": 20, "cotas": 1}, {"investidor": "Dulciene Varela", "setor": "ESE", "cred_anterior": 20, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 0, "cotas": 0}, {"investidor": "Lúcia de Novaes", "setor": "SEPES", "cred_anterior": 20, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 0, "cotas": 0}, {"investidor": "Simone Nogueira", "setor": "SEOM", "cred_anterior": 20, "aporte_novo": 20, "cota_usada": 20, "credito_atual": 20, "cotas": 1}, {"investidor": "Van", "setor": "Prime", "cred_anterior": 40, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 20, "cotas": 1}], "alocacao": {"itens": [{"investidor": "Carlos Alberto", "modalidade": "Mega-Sena", "valor": 14.82}], "totais": {"aporte": 700, "mega": 504, "milionaria": 258}}, "apostas": [{"id": 1, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 1, "dezenas": "01-10-15-18-19-37-40", "trevos": "", "qtd": 7, "valor": 42}, {"id": 2, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 2, "dezenas": "01-15-18-31-37-40-53", "trevos": "", "qtd": 7, "valor": 42}, {"id": 3, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 3, "dezenas": "07-08-21-22-29-53-60", "trevos": "", "qtd": 7, "valor": 42}, {"id": 4, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 4, "dezenas": "06-21-35-38-41-42-43", "trevos": "", "qtd": 7, "valor": 42}, {"id": 5, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 5, "dezenas": "05-08-14-22-33-34-41-51", "trevos": "", "qtd": 8, "valor": 168}, {"id": 6, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 6, "dezenas": "05-10-27-31-33-37-38-53", "trevos": "", "qtd": 8, "valor": 168}, {"id": 7, "modalidade": "+Milionária", "concurso": 396, "jogo": 1, "dezenas": "11-14-16-30-44-45-48", "trevos": "3-4", "qtd": 7, "valor": 42}, {"id": 8, "modalidade": "+Milionária", "concurso": 396, "jogo": 2, "dezenas": "05-10-27-30-33-35-37-38", "trevos": "1-3", "qtd": 8, "valor": 168}, {"id": 9, "modalidade": "+Milionária", "concurso": 396, "jogo": 3, "dezenas": "01-15-18-19-37-40", "trevos": "1-3", "qtd": 6, "valor": 6}, {"id": 10, "modalidade": "+Milionária", "concurso": 396, "jogo": 4, "dezenas": "10-13-17-27-35-37-42", "trevos": "1-3", "qtd": 7, "valor": 42}], "total_creditos": 220, "total_aplicado": 762};
-    function brl(v){if(v==null||v===""||isNaN(Number(v)))return "—";var n=Number(v);var p=n.toFixed(2).split(".");return "R$ "+p[0].replace(/\B(?=(\d{3})+(?!\d))/g,".")+","+p[1];}
-    function num(v){return (v&&typeof v==="object")?(v.valor||0):(Number(v)||0);}
-    function agora(){var d=new Date();var p=function(x){return String(x).padStart(2,"0");};return p(d.getDate())+"/"+p(d.getMonth()+1)+"/"+d.getFullYear()+" às "+p(d.getHours())+"h"+p(d.getMinutes());}
-    function lista(v){if(!v)return [];if(Object.prototype.toString.call(v)==="[object Array]")return v;return v.itens||[];}
-    function render(S){
-     document.getElementById("dataAtual").textContent="Atualização: "+(S.meta&&S.meta.atualizado||"")+" · "+agora();
-     var conc=S.concursos||[];
-     document.getElementById("badgeConcursos").textContent=conc.map(function(c){return c.modalidade+" "+c.concurso;}).join(" · ");
-     var zerados=conc.every(function(c){return !c.premio;});
-     document.getElementById("tituloHero").textContent=zerados?"Investimentos aplicados · sem premiação":"Investimentos aplicados";
-     document.getElementById("subHero").textContent=conc.map(function(c){return c.modalidade+" "+c.concurso;}).join(" e ")+" · apurados em 06 e 07/10/2026";
-     document.getElementById("notaResultado").innerHTML=zerados?"<b>Resultado:</b> nenhuma aposta atingiu faixa de premiação. Mega-Sena — máximo de 2 acertos. +Milionária — 1 dezena + 1 trevo. <b>Nenhum valor a resgatar.</b>":"";
-     var apostas=S.apostas||[];
-     document.getElementById("cardsConcursos").innerHTML=conc.map(function(c){
-       var dez=apostas.filter(function(a){return String(a.concurso)===String(c.concurso);}).reduce(function(s,a){return s+(Number(a.qtd)||0);},0);
-       var txt=(c.dezenas?c.dezenas:(dez||"—"));
-       return '<div class="card"><div class="label">'+c.modalidade+' · Concurso '+c.concurso+'</div>'+
-       '<div class="value '+(c.premio>0?"green":"red")+'">'+(c.premio>0?"Premiada":"Não premiada")+'</div>'+
-       '<div class="sub" style="margin-top:10px">Sorteio: <b>'+(SORTEADAS[c.concurso]||"—")+'</b><br><b>'+c.jogos+' jogos · '+txt+' dezenas · '+brl(c.custo)+'</b></div></div>';}).join("")
-      +'<div class="highlight"><div class="label">Aporte de arredondamento</div><div class="value gold" style="font-size:29px">'+brl(num(S.aporte_arredondamento))+'</div>'+
-       '<div class="sub" style="margin-top:12px;color:#c9ead8"><b>Aporte individual de Carlos Renato</b><br>para viabilizar o jogo</div></div>';
-     var totDez=apostas.reduce(function(a,b){return a+(Number(b.qtd)||0);},0);
-     document.getElementById("notaTotal").innerHTML="<b>Total da compra: "+brl(S.total_aplicado)+"</b> — "+apostas.length+" jogos, "+totDez+" dezenas apostadas, distribuídas entre "+
-       conc.map(function(c){return c.modalidade+" ("+brl(c.custo)+")";}).join(" e ")+".";
-     document.getElementById("tbCred").innerHTML=(S.creditos||[]).map(function(c){return "<tr><td>"+c.investidor+"</td><td class=\"num gold bold\">"+brl(c.valor)+"</td></tr>";}).join("");
-     document.getElementById("tbCredTotal").textContent=brl(S.total_creditos);
-     document.getElementById("tbCart").innerHTML=(S.carteira||[]).map(function(c){return "<tr><td>"+c.investidor+"</td><td>"+c.setor+"</td>"+
-      '<td class="num">'+(c.cred_anterior?brl(c.cred_anterior):"—")+'</td><td class="num">'+(c.aporte_novo?brl(c.aporte_novo):"—")+'</td>'+
-      '<td class="num red">− '+brl(c.cota_usada)+'</td><td class="num gold bold">'+brl(c.credito_atual)+'</td><td class="num">'+c.cotas+'</td></tr>';}).join("");
-     var al=list(S.alocacao), at=(S.alocacao&&S.alocacao.totais)||{};
-     document.getElementById("tbAloc").innerHTML=al.map(function(a){return "<tr><td>"+a.investidor+"</td><td class=\"num\">"+brl(a.valor)+"</td><td class=\"num blue\">"+brl(a.mega)+"</td><td class=\"num blue\">"+brl(a.milionaria)+"</td></tr>";}).join("");
-     document.getElementById("alocTot").textContent=brl(at.aporte||al.reduce(function(s,a){return s+(a.valor||0);},0));
-     document.getElementById("alocMega").textContent=brl(at.mega||(conc[0]&&conc[0].custo));
-     document.getElementById("alocMil").textContent=brl(at.milionaria||(conc[1]&&conc[1].custo));
-     document.getElementById("subTotalCompra").textContent="Total da compra: "+brl(S.total_aplicado);
-     var mods=[];apostas.forEach(function(a){if(mods.indexOf(a.modalidade)<0)mods.push(a.modalidade);});
-     document.getElementById("blocosConcursos").innerHTML=mods.map(function(m){
-       var l=apostas.filter(function(a){return a.modalidade===m;});
-       var c=conc.filter(function(x){return x.modalidade===m;})[0]||{};
-       var dez=l.reduce(function(s,a){return s+(Number(a.qtd)||0);},0);
-       return '<div class="section"><h2 style="font-size:16px">▸ '+m+' · Concurso '+c.concurso+'</h2><span class="sub">'+l.length+' jogos · '+dez+' dezenas · '+brl(c.custo)+'</span></div><div class="games">'+
-         l.map(function(a){return '<div class="game"><div class="gamehead"><b>Jogo '+a.jogo+' · '+a.qtd+' dezenas</b><span class="gold">'+brl(a.valor)+'</span></div><div class="balls">'+
-           String(a.dezenas).split("-").map(function(d){return '<span class="ball">'+d+'</span>';}).join("")+
-           (a.trevos?String(a.trevos).split("-").map(function(t){return '<span class="ball trev">'+t+'</span>';}).join(""):"")+'</div></div>';}).join("")+'</div>';}).join("");
-     document.getElementById("cardsFin").innerHTML=
-      '<div class="card"><div class="label">Arrecadação</div><div class="value green">'+brl(num(S.captacao))+'</div><div class="sub">34 cotas de R$ 20,00</div></div>'+
-      '<div class="card"><div class="label">Aplicado em jogos</div><div class="value">'+brl(S.total_aplicado)+'</div><div class="sub">'+conc.map(function(c){return c.modalidade+" "+brl(c.custo);}).join(" + ")+'</div></div>'+
-      '<div class="highlight"><div class="label">Aporte de arredondamento</div><div class="value gold">'+brl(num(S.aporte_arredondamento))+'</div><div class="sub" style="color:#efe3c2;margin-top:8px"><b>Carlos Renato</b> · aporte individual</div></div>';
-     document.getElementById("tbTransp").innerHTML=apostas.map(function(a){
-       var s=SORTEADAS[a.concurso]||"";var ac=s?String(a.dezenas).split("-").filter(function(d){return s.split("-").indexOf(d)>=0;}).length:"";
-       var tr="";if(a.trevos&&TREVOS[a.concurso]){tr=String(a.trevos).split("-").filter(function(t){return TREVOS[a.concurso].indexOf(t)>=0;}).length;}
-       return "<tr><td>"+a.concurso+"</td><td>"+a.modalidade+"</td><td>"+a.jogo+"</td><td>"+a.dezenas+(a.trevos?" · T"+String(a.trevos).replace("-"," T"):"")+"</td>"+
-         "<td>"+s+(String(a.concurso)==="396"?" · T3 T6":"")+"</td><td class=\"num\">"+ac+(tr?" dz + "+tr+" tr":"")+"</td></tr>";}).join("");
+    var EMBUTIDO={"meta": {"titulo": "Invest Federal - Painel de Investidores", "atualizado": "11/10/2026", "rodada": "3067"}, "creditos": [{"investidor": "Carlos Alberto", "valor": 120}, {"investidor": "Sueli Thodorof", "valor": 40}, {"investidor": "Meliane Salmaso", "valor": 20}, {"investidor": "Simone Nogueira", "valor": 20}, {"investidor": "Van", "valor": 20}], "concursos": [{"modalidade": "Mega-Sena", "concurso": "3067", "custo": 504, "premio": 0, "jogos": 6, "status": "Apurado · não premiada"}, {"modalidade": "+Milionária", "concurso": "396", "custo": 258, "premio": 0, "jogos": 4, "status": "Apurado · não premiada"}], "captacao": {"rodada": "Rodada 3067", "valor": 700, "obs": "34 cotas"}, "aporte_arredondamento": {"autor": "Carlos Renato", "concurso": "3067/396", "valor": 2.0, "obs": "APORTE INDIVIDUAL"}, "carteira": [{"investidor": "Carlos Alberto", "setor": "SEAPE", "cred_anterior": 140, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 120, "cotas": 6}, {"investidor": "Sueli Thodorof", "setor": "ESE", "cred_anterior": 60, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 40, "cotas": 2}, {"investidor": "Meliane Salmaso", "setor": "SECOMSE", "cred_anterior": 0, "aporte_novo": 40, "cota_usada": 20, "credito_atual": 20, "cotas": 1}, {"investidor": "Dulciene Varela", "setor": "ESE", "cred_anterior": 20, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 0, "cotas": 0}, {"investidor": "Lúcia de Novaes", "setor": "SEPES", "cred_anterior": 20, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 0, "cotas": 0}, {"investidor": "Simone Nogueira", "setor": "SEOM", "cred_anterior": 20, "aporte_novo": 20, "cota_usada": 20, "credito_atual": 20, "cotas": 1}, {"investidor": "Van", "setor": "Prime", "cred_anterior": 40, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 20, "cotas": 1}], "alocacao": {"itens": [{"investidor": "Adriana Guerrieri", "valor": 20, "mega": 14.82, "milionaria": 7.59}, {"investidor": "Carlos Alberto", "valor": 20, "mega": 14.82, "milionaria": 7.59}, {"investidor": "Meliane Salmaso", "valor": 40, "mega": 29.65, "milionaria": 15.18}, {"investidor": "Simone Nogueira", "valor": 20, "mega": 14.82, "milionaria": 7.59}, {"investidor": "Van", "valor": 20, "mega": 14.82, "milionaria": 7.59}], "totais": {"aporte": 700, "mega": 504, "milionaria": 258}}, "apostas": [{"id": 1, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 1, "dezenas": "01-10-15-18-19-37-40", "trevos": "", "qtd": 7, "valor": 42}, {"id": 2, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 2, "dezenas": "01-15-18-31-37-40-53", "trevos": "", "qtd": 7, "valor": 42}, {"id": 3, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 3, "dezenas": "07-08-21-22-29-53-60", "trevos": "", "qtd": 7, "valor": 42}, {"id": 4, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 4, "dezenas": "06-21-35-38-41-42-43", "trevos": "", "qtd": 7, "valor": 42}, {"id": 5, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 5, "dezenas": "05-08-14-22-33-34-41-51", "trevos": "", "qtd": 8, "valor": 168}, {"id": 6, "modalidade": "Mega-Sena", "concurso": 3067, "jogo": 6, "dezenas": "05-10-27-31-33-37-38-53", "trevos": "", "qtd": 8, "valor": 168}, {"id": 7, "modalidade": "+Milionária", "concurso": 396, "jogo": 1, "dezenas": "11-14-16-30-44-45-48", "trevos": "3-4", "qtd": 7, "valor": 42}, {"id": 8, "modalidade": "+Milionária", "concurso": 396, "jogo": 2, "dezenas": "05-10-27-30-33-35-37-38", "trevos": "1-3", "qtd": 8, "valor": 168}, {"id": 9, "modalidade": "+Milionária", "concurso": 396, "jogo": 3, "dezenas": "01-15-18-19-37-40", "trevos": "1-3", "qtd": 6, "valor": 6}, {"id": 10, "modalidade": "+Milionária", "concurso": 396, "jogo": 4, "dezenas": "10-13-17-27-35-37-42", "trevos": "1-3", "qtd": 7, "valor": 42}], "total_creditos": 220, "total_aplicado": 762};
+
+    function brl(v){
+      if(v===null||v===undefined||v==='')return '—';
+      var n=Number(v);
+      if(isNaN(n))return '—';
+      var p=n.toFixed(2).split('.');
+      return 'R$ '+p[0].replace(/\B(?=(\d{3})+(?!\d))/g,'.')+','+p[1];
     }
+    function val(v){ return (v && typeof v==='object') ? (v.valor||0) : (Number(v)||0); }
+    function hora(){
+      var d=new Date(), p=function(x){return (x<10?'0':'')+x;};
+      return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' às '+p(d.getHours())+'h'+p(d.getMinutes());
+    }
+    function lista(v){
+      if(!v) return [];
+      if(Object.prototype.toString.call(v)==='[object Array]') return v;
+      return v.itens||[];
+    }
+    function seg(id,fn){ try{ fn(); }catch(e){ if(window.console)console.warn('secao '+id+': '+e.message); } }
+
+    function renderAbas(){
+      var botoes=document.querySelectorAll('#nav .tb');
+      for(var i=0;i<botoes.length;i++){
+        botoes[i].onclick=(function(btn){
+          return function(){
+            var todos=document.querySelectorAll('#nav .tb');
+            for(var j=0;j<todos.length;j++)todos[j].classList.remove('active');
+            var tabs=document.querySelectorAll('.tab');
+            for(var k=0;k<tabs.length;k++)tabs[k].classList.remove('active');
+            btn.classList.add('active');
+            var alvo=document.getElementById(btn.getAttribute('data-t'));
+            if(alvo)alvo.classList.add('active');
+          };
+        })(botoes[i]);
+      }
+    }
+
+    function render(S){
+      if(!S) return;
+      var conc=S.concursos||[];
+      var apostas=S.apostas||[];
+
+      seg('cabecalho',function(){
+        var d=(S.meta&&S.meta.atualizado)||'—';
+        document.getElementById('dataAtual').innerHTML='Dados de <b>'+d+'</b> · consultado em '+hora();
+        document.getElementById('badgeConcursos').textContent=conc.map(function(c){return c.modalidade+' '+c.concurso;}).join(' · ');
+        document.getElementById('tituloHero').textContent=conc.every(function(c){return !c.premio;})?'Investimentos aplicados · sem premiação':'Investimentos aplicados';
+        document.getElementById('subHero').textContent=conc.map(function(c){return c.modalidade+' '+c.concurso;}).join(' e ')+' · apurados em 06 e 07/10/2026';
+        document.getElementById('notaResultado').innerHTML=conc.every(function(c){return !c.premio;})
+          ?'<b>Resultado:</b> nenhuma aposta atingiu faixa de premiação. Mega-Sena — máximo de 2 acertos. +Milionária — 1 dezena + 1 trevo. <b>Nenhum valor a resgatar.</b>':'';
+      });
+
+      seg('cards',function(){
+        var h=conc.map(function(c){
+          var dez=apostas.filter(function(a){return String(a.concurso)===String(c.concurso);})
+                         .reduce(function(s,a){return s+(Number(a.qtd)||0);},0);
+          return '<div class="card"><div class="label">'+c.modalidade+' · Concurso '+c.concurso+'</div>'
+            +'<div class="value '+(c.premio>0?'green':'red')+'">'+(c.premio>0?'Premiada':'Não premiada')+'</div>'
+            +'<div class="sub" style="margin-top:10px">Sorteio: <b>'+(SORTEADAS[c.concurso]||'—')+'</b><br><b>'
+            +c.jogos+' jogos · '+(dez||c.dezenas||'—')+' dezenas · '+brl(c.custo)+'</b></div></div>';
+        }).join('');
+        h+='<div class="highlight"><div class="label">Aporte de arredondamento</div>'
+          +'<div class="value gold" style="font-size:29px">'+brl(val(S.aporte_arredondamento))+'</div>'
+          +'<div class="sub" style="margin-top:12px;color:#c9ead8"><b>Aporte individual de Carlos Renato</b><br>para viabilizar o jogo</div></div>';
+        document.getElementById('cardsConcursos').innerHTML=h;
+        var totDez=apostas.reduce(function(a,b){return a+(Number(b.qtd)||0);},0);
+        document.getElementById('notaTotal').innerHTML='<b>Total da compra: '+brl(S.total_aplicado)+'</b> — '
+          +apostas.length+' jogos, '+totDez+' dezenas apostadas, distribuídas entre '
+          +conc.map(function(c){return c.modalidade+' ('+brl(c.custo)+')';}).join(' e ')+'.';
+      });
+
+      seg('creditos',function(){
+        document.getElementById('tbCred').innerHTML=(S.creditos||[]).map(function(c){
+          return '<tr><td>'+c.investidor+'</td><td class="num gold bold">'+brl(c.valor)+'</td></tr>';
+        }).join('');
+        document.getElementById('tbCredTotal').textContent=brl(S.total_creditos);
+      });
+
+      seg('carteira',function(){
+        document.getElementById('tbCart').innerHTML=(S.carteira||[]).map(function(c){
+          return '<tr><td>'+c.investidor+'</td><td>'+(c.setor||'')+'</td>'
+            +'<td class="num">'+(c.cred_anterior?brl(c.cred_anterior):'—')+'</td>'
+            +'<td class="num">'+(c.aporte_novo?brl(c.aporte_novo):'—')+'</td>'
+            +'<td class="num red">− '+brl(c.cota_usada)+'</td>'
+            +'<td class="num gold bold">'+brl(c.credito_atual)+'</td>'
+            +'<td class="num">'+(c.cotas||0)+'</td></tr>';
+        }).join('');
+      });
+
+      seg('alocacao',function(){
+        var al=lista(S.alocacao);
+        var at=(S.alocacao&&S.alocacao.totais)||{};
+        document.getElementById('tbAloc').innerHTML=al.map(function(a){
+          return '<tr><td>'+a.investidor+'</td><td class="num">'+brl(a.valor)+'</td>'
+            +'<td class="num blue">'+brl(a.mega!==undefined?a.mega:(a.modalidade&&a.modalidade.indexOf('Mega')===0?a.valor:''))+'</td>'
+            +'<td class="num blue">'+brl(a.milionaria!==undefined?a.milionaria:(a.modalidade&&a.modalidade.indexOf('Mega')!==0?a.valor:''))+'</td></tr>';
+        }).join('');
+        document.getElementById('alocTot').textContent=brl(at.aporte||al.reduce(function(s,a){return s+(a.valor||0);},0));
+        document.getElementById('alocMega').textContent=brl(at.mega||(conc[0]&&conc[0].custo));
+        document.getElementById('alocMil').textContent=brl(at.milionaria||(conc[1]&&conc[1].custo));
+      });
+
+      seg('blocos',function(){
+        document.getElementById('subTotalCompra').textContent='Total da compra: '+brl(S.total_aplicado);
+        var mods=[];
+        apostas.forEach(function(a){ if(mods.indexOf(a.modalidade)<0)mods.push(a.modalidade); });
+        document.getElementById('blocosConcursos').innerHTML=mods.map(function(m){
+          var l=apostas.filter(function(a){return a.modalidade===m;});
+          var c=conc.filter(function(x){return x.modalidade===m;})[0]||{};
+          var dez=l.reduce(function(s,a){return s+(Number(a.qtd)||0);},0);
+          return '<div class="section"><h2 style="font-size:16px">&#9656; '+m+' · Concurso '+c.concurso+'</h2>'
+            +'<span class="sub">'+l.length+' jogos · '+dez+' dezenas · '+brl(c.custo)+'</span></div><div class="games">'
+            +l.map(function(a){
+              return '<div class="game"><div class="gamehead"><b>Jogo '+a.jogo+' · '+a.qtd+' dezenas</b>'
+                +'<span class="gold">'+brl(a.valor)+'</span></div><div class="balls">'
+                +String(a.dezenas).split('-').map(function(d){return '<span class="ball">'+d+'</span>';}).join('')
+                +(a.trevos?String(a.trevos).split('-').map(function(t){return '<span class="ball trev">'+t+'</span>';}).join(''):'')
+                +'</div></div>';
+            }).join('')+'</div>';
+        }).join('');
+      });
+
+      seg('financeiro',function(){
+        document.getElementById('cardsFin').innerHTML=
+          '<div class="card"><div class="label">Arrecadação</div><div class="value green">'+brl(val(S.captacao))+'</div><div class="sub">34 cotas de R$ 20,00</div></div>'
+          +'<div class="card"><div class="label">Aplicado em jogos</div><div class="value">'+brl(S.total_aplicado)+'</div><div class="sub">'
+          +conc.map(function(c){return c.modalidade+' '+brl(c.custo);}).join(' + ')+'</div></div>'
+          +'<div class="highlight"><div class="label">Aporte de arredondamento</div><div class="value gold">'+brl(val(S.aporte_arredondamento))+'</div>'
+          +'<div class="sub" style="color:#efe3c2;margin-top:8px"><b>Carlos Renato</b> · aporte individual</div></div>';
+      });
+
+      seg('transparencia',function(){
+        document.getElementById('tbTransp').innerHTML=apostas.map(function(a){
+          var s=SORTEADAS[a.concurso]||'';
+          var ac=s?String(a.dezenas).split('-').filter(function(d){return s.split('-').indexOf(d)>=0;}).length:'';
+          var tr='';
+          if(a.trevos&&TREVOS[a.concurso])tr=String(a.trevos).split('-').filter(function(t){return TREVOS[a.concurso].indexOf(t)>=0;}).length;
+          return '<tr><td>'+a.concurso+'</td><td>'+a.modalidade+'</td><td>'+a.jogo+'</td>'
+            +'<td>'+a.dezenas+(a.trevos?' · T'+String(a.trevos).replace('-',' T'):'')+'</td>'
+            +'<td>'+s+(String(a.concurso)==='396'?' · T3 T6':'')+'</td>'
+            +'<td class="num">'+ac+(tr?' dz + '+tr+' tr':'')+'</td></tr>';
+        }).join('');
+      });
+    }
+
+    renderAbas();
     render(EMBUTIDO);
-    fetch("site_dados.json",{cache:"no-store"}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.creditos)render(d);}).catch(function(){});
-    document.querySelectorAll(".tb").forEach(function(b){b.onclick=function(){
-     document.querySelectorAll(".tb").forEach(function(x){x.classList.remove("act");});
-     document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
-     b.classList.add("act");document.getElementById(b.dataset.t).classList.add("active");};});
-    </script></body></html>
+    try{
+      fetch('site_dados.json',{cache:'no-store'})
+        .then(function(r){return r.ok?r.json():null;})
+        .then(function(d){ if(d&&d.creditos) render(d); })
+        .catch(function(){});
+    }catch(e){}
+    
+</script>
+</body>
+</html>
