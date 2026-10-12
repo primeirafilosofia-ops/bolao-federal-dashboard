@@ -24,110 +24,109 @@
     th{font-size:10px;color:var(--muted);text-transform:uppercase}
     .highlight{background:linear-gradient(135deg,#2d1f0a,#1f1810);border:2px solid #efc35b;border-radius:14px;padding:19px}
     .balls{display:flex;flex-wrap:wrap;gap:6px}.ball{width:34px;height:34px;border-radius:50%;border:1px solid #715b29;display:grid;place-items:center;color:var(--gold);font-weight:700;font-size:12px}
-    .ball.hit{background:#26492f;border-color:#31c47c;color:#aef0cd}
-    .games{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .ball.trev{border-radius:8px;border-color:#7a7a7a;color:#cfcfcf;font-size:11px}
+    .games{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
     .game{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px}
-    .gamehead{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .gamehead{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px;font-size:12px}
     footer{padding:24px 28px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
     @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.games{grid-template-columns:1fr}}@media(max-width:560px){main{padding:18px 12px}.grid{grid-template-columns:1fr}}
     </style></head><body>
     <header><div><div class="brand">IF · Invest Federal</div><div class="sub">Painel de Investidores</div></div>
-    <div><span class="badge">Concursos 3067 e 396 · Apurados</span><div class="sub" style="margin-top:7px;text-align:right">Atualização: 11/10/2026</div></div></header>
-    <nav><button class="tb act" data-t="geral">📊 Visão Geral</button><button class="tb" data-t="concursos">🎯 Concursos e Apostas</button><button class="tb" data-t="financeiro">💰 Financeiro</button><button class="tb" data-t="transp">🔍 Transparência</button></nav>
+    <div><span class="badge">Mega-Sena 3067 · +Milionária 396</span><div class="sub" style="margin-top:7px;text-align:right" id="dataAtual"></div></div></header>
+    <nav><button class="tb act" data-t="geral">📊 Visão Geral</button><button class="tb" data-t="concursos">🎯 Concursos e Apostas</button><button class="tb" data-t="invest">👥 Investidores por Modalidade</button><button class="tb" data-t="financeiro">💰 Financeiro</button><button class="tb" data-t="transp">🔍 Transparência</button></nav>
     <main>
     <section id="geral" class="tab active">
-    <div class="hero"><div class="eyebrow">Apuração dos concursos</div><h1>Investimentos realizados · sem premiação</h1>
+    <div class="hero"><div class="eyebrow">Apuração dos concursos</div><h1>Investimentos aplicados · sem premiação</h1>
     <div class="sub">Mega-Sena 3067 e +Milionária 396 · apurados em 06 e 07/10/2026</div></div>
-    <div class="grid">
-    <div class="card"><div class="label">Mega-Sena · Concurso 3067</div><div class="value red">Não premiada</div>
-    <div class="sub" style="margin-top:10px">Sorteio: <b>01-04-17-33-41-52</b><br>5 jogos · <b>R$ 210,00</b></div></div>
-    <div class="card"><div class="label">+Milionária · Concurso 396</div><div class="value red">Não premiada</div>
-    <div class="sub" style="margin-top:10px">Sorteio: <b>06-15-28-30-42-50</b><br>Trevos <b>3 e 6</b> · 4 jogos · <b>R$ 258,00</b></div></div>
-    <div class="highlight"><div class="label">Aporte de arredondamento</div><div class="value gold" style="font-size:29px">R$ 2,00</div>
-    <div class="sub" style="margin-top:12px;color:#c9ead8"><b>Aporte individual de Carlos Renato</b><br>para viabilizar o jogo (3067 + 396)</div></div>
-    </div>
-    <div class="notice nok" style="margin-top:16px"><b>Resultado:</b> nenhuma aposta do grupo atingiu faixa de premiação.
-    Mega-Sena — máximo de 2 acertos (a quadra exige 4). +Milionária — 1 dezena + 1 trevo (a faixa mínima exige 2 dezenas + 1 trevo). <b>Nenhum valor a resgatar.</b></div>
-    <div class="section"><h2>Créditos individuais preservados</h2><span class="sub">patrimônio dos investidores · não diluído</span></div>
-    <div class="card"><div class="label">Investidores com crédito disponível</div>
-    <table style="font-size:12px"><thead><tr><th>Investidor</th><th class="num">Crédito atual</th></tr></thead>
-    <tbody><tr><td>Carlos Alberto</td><td class="num gold bold">R$ 120,00</td></tr>
-<tr><td>Sueli Thodorof</td><td class="num gold bold">R$ 40,00</td></tr>
-<tr><td>Meliane Salmaso</td><td class="num gold bold">R$ 20,00</td></tr>
-<tr><td>Simone Nogueira</td><td class="num gold bold">R$ 20,00</td></tr>
-<tr><td>Van</td><td class="num gold bold">R$ 20,00</td></tr></tbody>
-    <tfoot><tr><th>Total</th><th class="num gold">R$ 220,00</th></tr></tfoot></table></div>
+    <div class="grid" id="cardsConcursos"></div>
+    <div class="notice" id="notaTotal" style="margin-top:16px"></div>
+    <div class="notice nok"><b>Resultado:</b> nenhuma aposta atingiu faixa de premiação. Mega-Sena — máximo de 2 acertos. +Milionária — 1 dezena + 1 trevo (mínimo exige 2 dezenas + 1 trevo). <b>Nenhum valor a resgatar.</b></div>
+    <div class="section"><h2>Créditos individuais preservados</h2><span class="sub">cada investidor com crédito aplicou 1 cota de R$ 20,00</span></div>
+    <div class="card"><div class="label">Investidores com crédito disponível</div><table><thead><tr><th>Investidor</th><th class="num">Crédito atual</th></tr></thead><tbody id="tbCred"></tbody><tfoot><tr><th>Total</th><th class="num gold" id="tbCredTotal"></th></tr></tfoot></table></div>
     <div class="notice thanks"><b>Nota aos investidores.</b> Seu crédito é seu patrimônio: preservado integralmente entre concursos, nunca diluído no caixa coletivo.
-    Os concursos 3067 e 396 foram apurados sem premiação. Quer reaver seu investimento? É só me procurar. <i><b>Carlos Renato</b></i></div>
+    Quer reaver seu investimento? É só me procurar. <i><b>Carlos Renato</b></i></div>
     </section>
 
     <section id="concursos" class="tab">
-    <div class="section"><h2>Concursos e apostas · 3067 e 396</h2><span class="sub">histórico preservado</span></div>
-    <div class="section"><h2 style="font-size:16px">Mega-Sena 3.067</h2><span class="sub">5 jogos · R$ 210,00 · sorteio 01-04-17-33-41-52</span></div>
-    <div class="games">
-    <div class="game"><div class="gamehead"><b>Jogo 1 · 7 dezenas</b><span class="gold">R$ 42,00</span></div><div class="balls">
-    <span class="ball hit">01</span><span class="ball">10</span><span class="ball">15</span><span class="ball">18</span><span class="ball">19</span><span class="ball">37</span><span class="ball">40</span></div><div class="sub" style="margin-top:8px">1 acerto</div></div>
-    <div class="game"><div class="gamehead"><b>Jogo 2 · 7 dezenas</b><span class="gold">R$ 42,00</span></div><div class="balls">
-    <span class="ball hit">01</span><span class="ball">15</span><span class="ball">18</span><span class="ball">31</span><span class="ball">37</span><span class="ball">40</span><span class="ball">53</span></div><div class="sub" style="margin-top:8px">1 acerto</div></div>
-    <div class="game"><div class="gamehead"><b>Jogo 3 · 7 dezenas</b><span class="gold">R$ 42,00</span></div><div class="balls">
-    <span class="ball">07</span><span class="ball">08</span><span class="ball">21</span><span class="ball">22</span><span class="ball">29</span><span class="ball">53</span><span class="ball">60</span></div><div class="sub" style="margin-top:8px">0 acerto</div></div>
-    <div class="game"><div class="gamehead"><b>Jogo 4 · 8 dezenas</b><span class="gold">R$ 42,00</span></div><div class="balls">
-    <span class="ball">05</span><span class="ball">08</span><span class="ball">14</span><span class="ball">22</span><span class="ball hit">33</span><span class="ball">34</span><span class="ball hit">41</span><span class="ball">51</span></div><div class="sub" style="margin-top:8px">2 acertos</div></div>
-    <div class="game"><div class="gamehead"><b>Jogo 5 · 8 dezenas</b><span class="gold">R$ 42,00</span></div><div class="balls">
-    <span class="ball">05</span><span class="ball">10</span><span class="ball">27</span><span class="ball">31</span><span class="ball hit">33</span><span class="ball">37</span><span class="ball">38</span><span class="ball">53</span></div><div class="sub" style="margin-top:8px">1 acerto</div></div>
-    </div>
-    <div class="section"><h2 style="font-size:16px">+Milionária 396</h2><span class="sub">4 jogos · R$ 258,00 · sorteio 06-15-28-30-42-50 · trevos 3 e 6</span></div>
-    <div class="games">
-    <div class="game"><div class="gamehead"><b>Jogo 1 · 7 dezenas · T3 T4</b><span class="gold">R$ 42,00</span></div><div class="balls">
-    <span class="ball">11</span><span class="ball">14</span><span class="ball">16</span><span class="ball hit">30</span><span class="ball">44</span><span class="ball">45</span><span class="ball">48</span><span class="ball hit">T3</span></div><div class="sub" style="margin-top:8px">1 dezena + 1 trevo</div></div>
-    <div class="game"><div class="gamehead"><b>Jogo 2 · 8 dezenas · T1 T3</b><span class="gold">R$ 168,00</span></div><div class="balls">
-    <span class="ball">05</span><span class="ball">10</span><span class="ball">27</span><span class="ball hit">30</span><span class="ball">33</span><span class="ball">35</span><span class="ball">37</span><span class="ball">38</span><span class="ball hit">T3</span></div><div class="sub" style="margin-top:8px">1 dezena + 1 trevo</div></div>
-    <div class="game"><div class="gamehead"><b>Jogo 3 · 6 dezenas · T1 T3</b><span class="gold">R$ 6,00</span></div><div class="balls">
-    <span class="ball">01</span><span class="ball hit">15</span><span class="ball">18</span><span class="ball">19</span><span class="ball">37</span><span class="ball">40</span><span class="ball hit">T3</span></div><div class="sub" style="margin-top:8px">1 dezena + 1 trevo</div></div>
-    <div class="game"><div class="gamehead"><b>Jogo 4 · 7 dezenas · T1 T3</b><span class="gold">R$ 42,00</span></div><div class="balls">
-    <span class="ball">10</span><span class="ball">13</span><span class="ball">17</span><span class="ball">27</span><span class="ball">35</span><span class="ball">37</span><span class="ball hit">42</span><span class="ball hit">T3</span></div><div class="sub" style="margin-top:8px">1 dezena + 1 trevo</div></div>
-    </div></section>
+    <div class="section"><h2>Concursos e apostas</h2><span class="sub" id="subTotalCompra"></span></div>
+    <div id="blocosConcursos"></div>
+    </section>
+
+    <section id="invest" class="tab">
+    <div class="section"><h2>Investidores por modalidade</h2><span class="sub">quem investiu, quanto, em qual concurso</span></div>
+    <div class="panel"><table><thead><tr><th>Investidor</th><th class="num">Aporte na rodada</th><th class="num">→ Mega-Sena 3067</th><th class="num">→ +Milionária 396</th></tr></thead>
+    <tbody id="tbAloc"></tbody><tfoot><tr><th>Total (34 cotistas)</th><th class="num" id="alocTot"></th><th class="num gold" id="alocMega"></th><th class="num gold" id="alocMil"></th></tr></tfoot></table></div>
+    <div class="notice"><b>Como ler:</b> a arrecadação da rodada 3067 foi alocada entre as duas modalidades, na proporção do custo de cada uma.</div>
+    </section>
 
     <section id="financeiro" class="tab">
     <div class="section"><h2>Carteiras individuais</h2><span class="sub">crédito preservado após 3067/396</span></div>
-    <div class="panel"><table><thead><tr><th>Investidor</th><th>Setor</th><th class="num">Créd. anterior</th><th class="num">Aporte novo</th><th class="num">Débito 3067/396</th><th class="num">Crédito atual</th><th class="num">Cotas</th></tr></thead>
-    <tbody>
-    <tr><td>Carlos Alberto</td><td>SEAPE</td><td class="num">R$ 140,00</td><td class="num">—</td><td class="num">R$ 20,00</td><td class="num gold bold">R$ 120,00</td><td class="num">6</td></tr>
-    <tr><td>Sueli Thodorof</td><td>ESE</td><td class="num">R$ 60,00</td><td class="num">—</td><td class="num">R$ 20,00</td><td class="num gold bold">R$ 40,00</td><td class="num">2</td></tr>
-    <tr><td>Meliane Salmaso</td><td>SECOMSE</td><td class="num">—</td><td class="num">R$ 40,00</td><td class="num">R$ 20,00</td><td class="num gold bold">R$ 20,00</td><td class="num">1</td></tr>
-    <tr><td>Simone Nogueira</td><td>SEOM</td><td class="num">R$ 20,00</td><td class="num">R$ 20,00</td><td class="num">R$ 20,00</td><td class="num gold bold">R$ 20,00</td><td class="num">1</td></tr>
-    <tr><td>Van</td><td>Prime</td><td class="num">R$ 40,00</td><td class="num">—</td><td class="num">R$ 20,00</td><td class="num gold bold">R$ 20,00</td><td class="num">1</td></tr>
-    </tbody></table></div>
-    <div class="section"><h2>Arrecadação e aplicação</h2><span class="sub">rodada 3067</span></div>
-    <div class="grid">
-    <div class="card"><div class="label">Arrecadação da rodada 3067</div><div class="value green">R$ 700,00</div><div class="sub">34 cotas de R$ 20,00</div></div>
-    <div class="card"><div class="label">Aplicado em jogos</div><div class="value">R$ 468,00</div><div class="sub">Mega 3067 R$ 210,00 + +Milionária 396 R$ 258,00</div></div>
-    <div class="highlight"><div class="label">Aporte de arredondamento</div><div class="value gold">R$ 2,00</div>
-    <div class="sub" style="color:#efe3c2;margin-top:8px"><b>Carlos Renato</b><br>aporte individual para viabilizar o jogo</div></div>
-    </div>
-    <div class="notice"><b>Critério de rateio:</b> os recursos arrecadados foram aplicados conforme a arrecadação da rodada e os créditos individuais,
-    preservando o saldo remanescente de cada investidor. O excedente de arrecadação permanece como crédito, não como caixa coletivo.</div>
+    <div class="panel"><table><thead><tr><th>Investidor</th><th>Setor</th><th class="num">Créd. anterior</th><th class="num">Aporte novo</th><th class="num">Cota usada</th><th class="num">Crédito atual</th><th class="num">Cotas fut.</th></tr></thead>
+    <tbody id="tbCart"></tbody></table></div>
+    <div class="section"><h2>Arrecadação e aplicação · Rodada 3067</h2></div>
+    <div class="grid" id="cardsFin"></div>
     </section>
 
     <section id="transp" class="tab">
     <div class="section"><h2>Transparência · apuração</h2><span class="sub">nosso jogo × dezenas sorteadas</span></div>
-    <div class="panel"><table><thead><tr><th>Concurso</th><th>Modalidade</th><th>Nosso jogo</th><th>Sorteadas</th><th class="num">Acertos</th></tr></thead><tbody>
-    <tr><td>3067</td><td>Mega-Sena</td><td>01-10-15-18-19-37-40</td><td>01-04-17-33-41-52</td><td class="num">1</td></tr>
-    <tr><td>3067</td><td>Mega-Sena</td><td>01-15-18-31-37-40-53</td><td>01-04-17-33-41-52</td><td class="num">1</td></tr>
-    <tr><td>3067</td><td>Mega-Sena</td><td>07-08-21-22-29-53-60</td><td>01-04-17-33-41-52</td><td class="num">0</td></tr>
-    <tr><td>3067</td><td>Mega-Sena</td><td>05-08-14-22-33-34-41-51</td><td>01-04-17-33-41-52</td><td class="num">2</td></tr>
-    <tr><td>3067</td><td>Mega-Sena</td><td>05-10-27-31-33-37-38-53</td><td>01-04-17-33-41-52</td><td class="num">1</td></tr>
-    <tr><td>396</td><td>+Milionária</td><td>11-14-16-30-44-45-48 · T3 T4</td><td>06-15-28-30-42-50 · T3 T6</td><td class="num">1 dz + 1 tr</td></tr>
-    <tr><td>396</td><td>+Milionária</td><td>05-10-27-30-33-35-37-38 · T1 T3</td><td>06-15-28-30-42-50 · T3 T6</td><td class="num">1 dz + 1 tr</td></tr>
-    <tr><td>396</td><td>+Milionária</td><td>01-15-18-19-37-40 · T1 T3</td><td>06-15-28-30-42-50 · T3 T6</td><td class="num">1 dz + 1 tr</td></tr>
-    <tr><td>396</td><td>+Milionária</td><td>10-13-17-27-35-37-42 · T1 T3</td><td>06-15-28-30-42-50 · T3 T6</td><td class="num">1 dz + 1 tr</td></tr>
-    </tbody></table></div>
-    <div class="notice"><b>Faixas de premiação:</b> Mega-Sena — quadra (4), quina (5), sena (6). +Milionária — faixa mínima exige 2 dezenas + 1 trevo.
-    Nenhuma aposta do grupo atingiu o piso. <b>Resultado: R$ 0,00 em premiações.</b></div>
+    <div class="panel"><table><thead><tr><th>Conc.</th><th>Modalidade</th><th>Jogo</th><th>Nosso jogo</th><th>Sorteadas</th><th class="num">Acertos</th></tr></thead><tbody id="tbTransp"></tbody></table></div>
+    <div class="notice"><b>Faixas:</b> Mega-Sena — quadra (4), quina (5), sena (6). +Milionária — mínimo de 2 dezenas + 1 trevo. Nenhuma aposta atingiu o piso. <b>Resultado: R$ 0,00 em premiações.</b></div>
     </section>
     </main>
-    <footer>© 2026 Invest Federal · Painel interno · URE SBC — dados gerados a partir da planilha mestra</footer>
+    <footer>© 2026 Invest Federal · Painel interno · URE SBC</footer>
     <script>
+    const EMBUTIDO={"meta": {"titulo": "Invest Federal — Painel de Investidores", "atualizado": "11/10/2026", "rodada": "3067"}, "creditos": [{"investidor": "Carlos Alberto", "setor": "SEAPE", "valor": 120}, {"investidor": "Sueli Thodorof", "setor": "ESE", "valor": 40}, {"investidor": "Meliane Salmaso", "setor": "SECOMSE", "valor": 20}, {"investidor": "Simone Nogueira", "setor": "SEOM", "valor": 20}, {"investidor": "Van", "setor": "Prime", "valor": 20}], "total_creditos": 220, "concursos": [{"modalidade": "Mega-Sena", "concurso": "3067", "jogos": 6, "dezenas": 44, "custo": 504.0, "premio": 0.0, "status": "Apurado · não premiada"}, {"modalidade": "+Milionária", "concurso": "396", "jogos": 4, "dezenas": 28, "custo": 258.0, "premio": 0.0, "status": "Apurado · não premiada"}], "total_aplicado": 762.0, "captacao": 700.0, "aporte_arredondamento": 2.0, "carteira": [{"investidor": "Carlos Alberto", "setor": "SEAPE", "cred_anterior": 140, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 120, "cotas": 6}, {"investidor": "Sueli Thodorof", "setor": "ESE", "cred_anterior": 60, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 40, "cotas": 2}, {"investidor": "Meliane Salmaso", "setor": "SECOMSE", "cred_anterior": 0, "aporte_novo": 40, "cota_usada": 20, "credito_atual": 20, "cotas": 1}, {"investidor": "Dulciene Varela", "setor": "ESE", "cred_anterior": 20, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 0, "cotas": 0}, {"investidor": "Lúcia de Novaes", "setor": "SEPES", "cred_anterior": 20, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 0, "cotas": 0}, {"investidor": "Simone Nogueira", "setor": "SEOM", "cred_anterior": 20, "aporte_novo": 20, "cota_usada": 20, "credito_atual": 20, "cotas": 1}, {"investidor": "Van", "setor": "Prime", "cred_anterior": 40, "aporte_novo": 0, "cota_usada": 20, "credito_atual": 20, "cotas": 1}], "apostas": [{"id": 1, "jogo": 1, "modalidade": "Mega-Sena", "concurso": 3067, "dezenas": "01-10-15-18-19-37-40", "trevos": "", "qtd": 7, "valor": 42.0}, {"id": 2, "jogo": 2, "modalidade": "Mega-Sena", "concurso": 3067, "dezenas": "01-15-18-31-37-40-53", "trevos": "", "qtd": 7, "valor": 42.0}, {"id": 3, "jogo": 3, "modalidade": "Mega-Sena", "concurso": 3067, "dezenas": "07-08-21-22-29-53-60", "trevos": "", "qtd": 7, "valor": 42.0}, {"id": 4, "jogo": 4, "modalidade": "Mega-Sena", "concurso": 3067, "dezenas": "06-21-35-38-41-42-43", "trevos": "", "qtd": 7, "valor": 42.0}, {"id": 5, "jogo": 5, "modalidade": "Mega-Sena", "concurso": 3067, "dezenas": "05-08-14-22-33-34-41-51", "trevos": "", "qtd": 8, "valor": 168.0}, {"id": 6, "jogo": 6, "modalidade": "Mega-Sena", "concurso": 3067, "dezenas": "05-10-27-31-33-37-38-53", "trevos": "", "qtd": 8, "valor": 168.0}, {"id": 7, "jogo": 1, "modalidade": "+Milionária", "concurso": 396, "dezenas": "11-14-16-30-44-45-48", "trevos": "3-4", "qtd": 7, "valor": 42.0}, {"id": 8, "jogo": 2, "modalidade": "+Milionária", "concurso": 396, "dezenas": "05-10-27-30-33-35-37-38", "trevos": "1-3", "qtd": 8, "valor": 168.0}, {"id": 9, "jogo": 3, "modalidade": "+Milionária", "concurso": 396, "dezenas": "01-15-18-19-37-40", "trevos": "1-3", "qtd": 6, "valor": 6.0}, {"id": 10, "jogo": 4, "modalidade": "+Milionária", "concurso": 396, "dezenas": "10-13-17-27-35-37-42", "trevos": "1-3", "qtd": 7, "valor": 42.0}], "alocacao": [{"investidor": "Adriana Guerrieri", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Adriana Milan", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Ana Maria Cordon", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Ana Maria Magalhães", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Ana Paula Boteon", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Carlos Renato", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Cleise", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Cláudia Rosana", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Célia Regina Tossato", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Débora Stábile", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Elena Zanetti", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Ester Caetano", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Fran Santiago", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Inês Helena", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Ionara", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Lia", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Marina Caetano", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Marta Carlos", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Meliane Salmaso", "valor": 40.0, "mega": 28.8, "milionaria": 14.74}, {"investidor": "Márcia Rocha", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Raquel", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Renata Fenelon", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Rita Micheletti", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Rosana Nobre", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Rosangêla Marotti", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Simone Nogueira", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Sílvia Cristina", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Tânia L Demenis", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Tânia Murias", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Valéria Albuquerque", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Vani Gomes", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Vera Rosseto", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Viviane Carlos", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}, {"investidor": "Érica Marson", "valor": 20.0, "mega": 14.4, "milionaria": 7.37}], "alocacao_total": {"aporte": 700.0, "mega": 504.0, "milionaria": 258.0}};
+    const SORTEADAS={3067:'01-04-17-33-41-52',396:'06-15-28-30-42-50'};
+    const TREVOS={396:['3','6']};
+    function brl(v){if(v==null||v==='')return '—';return 'R$ '+Number(v).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+    function render(S){
+     document.getElementById('dataAtual').textContent='Atualização: '+S.meta.atualizado;
+     // cards concursos
+     document.getElementById('cardsConcursos').innerHTML=
+      S.concursos.map(c=>`<div class="card"><div class="label">${c.modalidade} · Concurso ${c.concurso}</div>
+       <div class="value red">${c.premio>0?'Premiada':'Não premiada'}</div>
+       <div class="sub" style="margin-top:10px">Sorteio: <b>${SORTEADAS[c.concurso]||'—'}</b><br><b>${c.jogos} jogos · ${c.dezenas} dezenas · ${brl(c.custo)}</b></div></div>`).join('')
+      +`<div class="highlight"><div class="label">Aporte de arredondamento</div><div class="value gold" style="font-size:29px">${brl(S.aporte_arredondamento)}</div>
+        <div class="sub" style="margin-top:12px;color:#c9ead8"><b>Aporte individual de Carlos Renato</b><br>para viabilizar o jogo</div></div>`;
+     document.getElementById('notaTotal').innerHTML=`<b>Total da compra: ${brl(S.total_aplicado)}</b> — ${S.apostas.length} jogos, ${S.apostas.reduce((a,b)=>a+b.qtd,0)} dezenas apostadas, distribuídas entre Mega-Sena (${brl(504)}) e +Milionária (${brl(258)}).`;
+     // creditos
+     document.getElementById('tbCred').innerHTML=S.creditos.map(c=>`<tr><td>${c.investidor}</td><td class="num gold bold">${brl(c.valor)}</td></tr>`).join('');
+     document.getElementById('tbCredTotal').textContent=brl(S.total_creditos);
+     // carteira
+     document.getElementById('tbCart').innerHTML=S.carteira.map(c=>`<tr><td>${c.investidor}</td><td>${c.setor}</td>
+      <td class="num">${c.cred_anterior?brl(c.cred_anterior):'—'}</td><td class="num">${c.aporte_novo?brl(c.aporte_novo):'—'}</td>
+      <td class="num red">− ${brl(c.cota_usada)}</td><td class="num gold bold">${brl(c.credito_atual)}</td><td class="num">${c.cotas}</td></tr>`).join('');
+     // alocacao
+     document.getElementById('tbAloc').innerHTML=S.alocacao.map(a=>`<tr><td>${a.investidor}</td><td class="num">${brl(a.valor)}</td><td class="num blue">${brl(a.mega)}</td><td class="num blue">${brl(a.milionaria)}</td></tr>`).join('');
+     document.getElementById('alocTot').textContent=brl(S.alocacao_total.aporte);
+     document.getElementById('alocMega').textContent=brl(S.alocacao_total.mega);
+     document.getElementById('alocMil').textContent=brl(S.alocacao_total.milionaria);
+     // concursos e apostas
+     document.getElementById('subTotalCompra').textContent='Total da compra: '+brl(S.total_aplicado);
+     const mods=[...new Set(S.apostas.map(a=>a.modalidade))];
+     document.getElementById('blocosConcursos').innerHTML=mods.map(m=>{
+       const l=S.apostas.filter(a=>a.modalidade===m);const c=S.concursos.find(x=>x.modalidade===m);
+       return `<div class="section"><h2 style="font-size:16px">▸ ${m} · Concurso ${c.concurso}</h2>
+         <span class="sub">${c.jogos} jogos · ${c.dezenas} dezenas · ${brl(c.custo)}</span></div><div class="games">`+
+         l.map(a=>`<div class="game"><div class="gamehead"><b>Jogo ${a.jogo} · ${a.qtd} dezenas</b><span class="gold">${brl(a.valor)}</span></div>
+           <div class="balls">${a.dezenas.split('-').map(d=>`<span class="ball">${d}</span>`).join('')}
+           ${a.trevos?a.trevos.split('-').map(t=>`<span class="ball trev">${t}</span>`).join(''):''}</div></div>`).join('')+`</div>`;}).join('');
+     // financeiro cards
+     document.getElementById('cardsFin').innerHTML=
+      `<div class="card"><div class="label">Arrecadação</div><div class="value green">${brl(S.captacao)}</div><div class="sub">34 cotas de R$ 20,00</div></div>
+       <div class="card"><div class="label">Aplicado em jogos</div><div class="value">${brl(S.total_aplicado)}</div><div class="sub">Mega ${brl(504)} + +Milionária ${brl(258)}</div></div>
+       <div class="highlight"><div class="label">Aporte de arredondamento</div><div class="value gold">${brl(S.aporte_arredondamento)}</div><div class="sub" style="color:#efe3c2;margin-top:8px"><b>Carlos Renato</b> · aporte individual</div></div>`;
+     // transparencia
+     document.getElementById('tbTransp').innerHTML=S.apostas.map(a=>{
+       const s=SORTEADAS[a.concurso]||'';const dz=a.dezenas.split('-');
+       const ac=s?dz.filter(d=>s.split('-').includes(d)).length:'';
+       let tr=''; if(a.trevos&&TREVOS[a.concurso]){tr=a.trevos.split('-').filter(t=>TREVOS[a.concurso].includes(t)).length;}
+       return `<tr><td>${a.concurso}</td><td>${a.modalidade}</td><td>${a.jogo}</td><td>${a.dezenas}${a.trevos?' · T'+a.trevos.replace('-',' T'):''}</td>
+         <td>${s}${a.concurso==396?' · T3 T6':''}</td><td class="num">${ac}${tr?' dz + '+tr+' tr':''}</td></tr>`;}).join('');
+    }
+    render(EMBUTIDO);
+    // tenta buscar versao externa (funciona quando servido por HTTP)
+    fetch('site_dados.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.creditos)render(d);}).catch(()=>{});
     document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>{
      document.querySelectorAll('.tb').forEach(x=>x.classList.remove('act'));
      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
