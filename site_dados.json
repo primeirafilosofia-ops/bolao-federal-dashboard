@@ -1,0 +1,601 @@
+{
+ "meta": {
+  "titulo": "Invest Federal - Painel de Investidores",
+  "atualizado": "11/10/2026",
+  "rodada": "Atualizacao"
+ },
+ "creditos": [
+  {
+   "investidor": "Carlos Alberto",
+   "valor": 120
+  },
+  {
+   "investidor": "Sueli Thodorof",
+   "valor": 40
+  },
+  {
+   "investidor": "Simone Nogueira",
+   "valor": 20
+  },
+  {
+   "investidor": "Van",
+   "valor": 20
+  }
+ ],
+ "concursos": [
+  {
+   "modalidade": "Mega-Sena",
+   "concurso": "3067",
+   "custo": 504,
+   "premio": 0,
+   "jogos": 6,
+   "status": "Apurado · não premiada"
+  },
+  {
+   "modalidade": "+Milionária",
+   "concurso": "396",
+   "custo": 258,
+   "premio": 0,
+   "jogos": 4,
+   "status": "Apurado · não premiada"
+  }
+ ],
+ "total_custo": {
+  "ref": "3067+396",
+  "valor": 762,
+  "obs": "10 jogos · 72 dezenas"
+ },
+ "captacao": {
+  "rodada": "Rodada 3067",
+  "valor": 700,
+  "obs": "34 cotas"
+ },
+ "saldo_rodada": null,
+ "aporte_arredondamento": {
+  "autor": "Carlos Renato",
+  "concurso": "3067/396",
+  "valor": 2,
+  "obs": "APORTE INDIVIDUAL — arredondamento"
+ },
+ "apostas_historicas": [
+  {
+   "concurso": "7051",
+   "modalidade": "Quina",
+   "custo": 1023,
+   "premio": 53.3,
+   "status": "Prêmio coletivo"
+  },
+  {
+   "concurso": "3042",
+   "modalidade": "Mega-Sena",
+   "custo": 720,
+   "premio": 0,
+   "status": "Encerrado"
+  },
+  {
+   "concurso": "3043",
+   "modalidade": "Mega-Sena",
+   "custo": 6,
+   "premio": 0,
+   "status": "Encerrado"
+  }
+ ],
+ "carteira": [
+  {
+   "investidor": "Carlos Alberto",
+   "setor": "SEAPE",
+   "cred_anterior": 140,
+   "aporte_novo": 0,
+   "cota_usada": 20,
+   "credito_atual": 120,
+   "cotas": 6
+  },
+  {
+   "investidor": "Sueli Thodorof",
+   "setor": "ESE",
+   "cred_anterior": 60,
+   "aporte_novo": 0,
+   "cota_usada": 20,
+   "credito_atual": 40,
+   "cotas": 2
+  },
+  {
+   "investidor": "Dulciene Varela",
+   "setor": "ESE",
+   "cred_anterior": 20,
+   "aporte_novo": 0,
+   "cota_usada": 20,
+   "credito_atual": 0,
+   "cotas": 0
+  },
+  {
+   "investidor": "Lúcia de Novaes",
+   "setor": "SEPES",
+   "cred_anterior": 20,
+   "aporte_novo": 0,
+   "cota_usada": 20,
+   "credito_atual": 0,
+   "cotas": 0
+  },
+  {
+   "investidor": "Simone Nogueira",
+   "setor": "SEOM",
+   "cred_anterior": 20,
+   "aporte_novo": 20,
+   "cota_usada": 20,
+   "credito_atual": 20,
+   "cotas": 1
+  },
+  {
+   "investidor": "Van",
+   "setor": "Prime",
+   "cred_anterior": 40,
+   "aporte_novo": 0,
+   "cota_usada": 20,
+   "credito_atual": 20,
+   "cotas": 1
+  },
+  {
+   "investidor": "Carlos Renato",
+   "setor": "ASURE",
+   "cred_anterior": 0,
+   "aporte_novo": 0,
+   "cota_usada": 0,
+   "credito_atual": 0,
+   "cotas": 0
+  }
+ ],
+ "alocacao": {
+  "itens": [
+   {
+    "investidor": "Adriana Guerrieri",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Adriana Guerrieri",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Adriana Milan",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Adriana Milan",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Ana Maria Cordon",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Ana Maria Cordon",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Ana Maria Magalhães",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Ana Maria Magalhães",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Ana Paula Boteon",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Ana Paula Boteon",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Carlos Renato",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Carlos Renato",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Cleise",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Cleise",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Cláudia Rosana",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Cláudia Rosana",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Célia Regina Tossato",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Célia Regina Tossato",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Débora Stábile",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Débora Stábile",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Elena Zanetti",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Elena Zanetti",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Ester Caetano",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Ester Caetano",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Fran Santiago",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Fran Santiago",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Inês Helena",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Inês Helena",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Ionara",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Ionara",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Lia",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Lia",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Marina Caetano",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Marina Caetano",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Marta Carlos",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Marta Carlos",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Meliane Salmaso",
+    "modalidade": "Mega-Sena",
+    "valor": 28.8
+   },
+   {
+    "investidor": "Meliane Salmaso",
+    "modalidade": "+Milionária",
+    "valor": 14.74
+   },
+   {
+    "investidor": "Márcia Rocha",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Márcia Rocha",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Raquel",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Raquel",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Renata Fenelon",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Renata Fenelon",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Rita Micheletti",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Rita Micheletti",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Rosana Nobre",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Rosana Nobre",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Rosangêla Marotti",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Rosangêla Marotti",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Simone Nogueira",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Simone Nogueira",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Sílvia Cristina",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Sílvia Cristina",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Tânia L Demenis",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Tânia L Demenis",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Tânia Murias",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Tânia Murias",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Valéria Albuquerque",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Valéria Albuquerque",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Vani Gomes",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Vani Gomes",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Vera Rosseto",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Vera Rosseto",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Viviane Carlos",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Viviane Carlos",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   },
+   {
+    "investidor": "Érica Marson",
+    "modalidade": "Mega-Sena",
+    "valor": 14.4
+   },
+   {
+    "investidor": "Érica Marson",
+    "modalidade": "+Milionária",
+    "valor": 7.37
+   }
+  ],
+  "totais": {
+   "aporte": 761.9499999999997,
+   "mega": 503.9999999999997,
+   "milionaria": 257.9500000000001
+  }
+ },
+ "apostas": [
+  {
+   "id": 1,
+   "modalidade": "Mega-Sena",
+   "concurso": 3067,
+   "jogo": 1,
+   "dezenas": "01-10-15-18-19-37-40",
+   "trevos": "",
+   "qtd": 7,
+   "valor": 42
+  },
+  {
+   "id": 2,
+   "modalidade": "Mega-Sena",
+   "concurso": 3067,
+   "jogo": 2,
+   "dezenas": "01-15-18-31-37-40-53",
+   "trevos": "",
+   "qtd": 7,
+   "valor": 42
+  },
+  {
+   "id": 3,
+   "modalidade": "Mega-Sena",
+   "concurso": 3067,
+   "jogo": 3,
+   "dezenas": "07-08-21-22-29-53-60",
+   "trevos": "",
+   "qtd": 7,
+   "valor": 42
+  },
+  {
+   "id": 4,
+   "modalidade": "Mega-Sena",
+   "concurso": 3067,
+   "jogo": 4,
+   "dezenas": "06-21-35-38-41-42-43",
+   "trevos": "",
+   "qtd": 7,
+   "valor": 42
+  },
+  {
+   "id": 5,
+   "modalidade": "Mega-Sena",
+   "concurso": 3067,
+   "jogo": 5,
+   "dezenas": "05-08-14-22-33-34-41-51",
+   "trevos": "",
+   "qtd": 8,
+   "valor": 168
+  },
+  {
+   "id": 6,
+   "modalidade": "Mega-Sena",
+   "concurso": 3067,
+   "jogo": 6,
+   "dezenas": "05-10-27-31-33-37-38-53",
+   "trevos": "",
+   "qtd": 8,
+   "valor": 168
+  },
+  {
+   "id": 7,
+   "modalidade": "+Milionária",
+   "concurso": 396,
+   "jogo": 1,
+   "dezenas": "11-14-16-30-44-45-48",
+   "trevos": "3-4",
+   "qtd": 7,
+   "valor": 42
+  },
+  {
+   "id": 8,
+   "modalidade": "+Milionária",
+   "concurso": 396,
+   "jogo": 2,
+   "dezenas": "05-10-27-30-33-35-37-38",
+   "trevos": "1-3",
+   "qtd": 8,
+   "valor": 168
+  },
+  {
+   "id": 9,
+   "modalidade": "+Milionária",
+   "concurso": 396,
+   "jogo": 3,
+   "dezenas": "01-15-18-19-37-40",
+   "trevos": "1-3",
+   "qtd": 6,
+   "valor": 6
+  },
+  {
+   "id": 10,
+   "modalidade": "+Milionária",
+   "concurso": 396,
+   "jogo": 4,
+   "dezenas": "10-13-17-27-35-37-42",
+   "trevos": "1-3",
+   "qtd": 7,
+   "valor": 42
+  }
+ ],
+ "total_creditos": 200,
+ "total_aplicado": 762
+}
